@@ -68,3 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# ENV File
+
+```
+CHROMATIC_PROJECT_TOKEN=
+```
+
+# Github Secret
+
+If you want to use github actions you need to setup a secret env war in github repo.
+SEttings--> Secrets: CHROMATIC_PROJECT_TOKEN with the project token from chromatic
