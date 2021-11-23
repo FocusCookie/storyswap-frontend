@@ -3,10 +3,17 @@ import ReactDOM from "react-dom";
 import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider
+      domain="storyswap.eu.auth0.com"
+      clientId="NQlPOqwgKF0MYycRgZ2k3SMcUPTpMgiQ"
+      redirectUri={window.location.origin}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

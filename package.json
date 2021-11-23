@@ -6,6 +6,7 @@
     "babel-loader": "8.1.0"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.8.0",
     "@craco/craco": "^6.4.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -16,7 +17,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "HTTPS=true craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
