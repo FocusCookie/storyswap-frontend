@@ -9,8 +9,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
       domain="storyswap.eu.auth0.com"
-      clientId="NQlPOqwgKF0MYycRgZ2k3SMcUPTpMgiQ"
+      clientId="K02ZmIC9PSnGHfX3uG165VenI5OBOOQI"
       redirectUri={window.location.origin}
+      audience="https://api.storyswap.app"
+      scope="openid profile email roles"
     >
       <App />
     </Auth0Provider>

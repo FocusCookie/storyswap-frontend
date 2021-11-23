@@ -1,9 +1,25 @@
-import logo from "./logo.svg";
-import "./styles/App.css";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./styles/App.css";
+import logo from "./logo.svg";
 
 function App() {
-  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    getAccessTokenSilently,
+
+    logout,
+    user,
+  } = useAuth0();
+  const [userMetadata, setUserMetadata] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log(user);
+      getAccessTokenSilently().then((res) => console.log(res));
+    }
+  }, [isAuthenticated]);
   return (
     <div className="App">
       <header className="App-header">
@@ -19,15 +35,12 @@ function App() {
         >
           Learn React
         </a>
-
         <button onClick={() => loginWithRedirect()}>Login</button>
-
         {isAuthenticated && (
           <button onClick={() => logout({ returnTo: window.location.origin })}>
             Log Out
           </button>
         )}
-
         {isAuthenticated && (
           <div>
             <img src={user.picture} alt={user.name} />
