@@ -1,0 +1,141 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs";
+
+import { Button } from "./Button";
+
+<Meta
+  title="Example/Button"
+  component={Button}
+  argTypes={{
+    loading: {
+      control: "boolean",
+      description:
+        "Use the loading state to indicate that the data Button needs is still loading.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: false },
+      },
+    },
+    username: {
+      description:
+        "Button falls back to the user’s initial when no image is provided. Supply a `username` and omit `src` to see what this looks like.",
+      table: {
+        defaultValue: {
+          summary: "loading",
+        },
+      },
+    },
+    src: {
+      description: "The URL of the Button's image.",
+      table: {
+        defaultValue: {
+          summary: null,
+        },
+      },
+    },
+    size: {
+      description:
+        "Button comes in four sizes. In most cases, you’ll be fine with `medium`.",
+      table: {
+        defaultValue: {
+          summary: "medium",
+        },
+      },
+    },
+  }}
+/>
+
+# Button
+
+## Displays an image that represents a user or organization
+
+Use an avatar for attributing actions or content to specific users.
+
+The user's name should _always_ be present when using Button – either printed beside the avatar or in a tooltip.
+
+export const Template = (args) => <Button {...args} />;
+
+<Story
+  name="standard"
+  args={{
+    size: "large",
+    username: "Tom Coleman",
+    src: "https://avatars2.githubusercontent.com/u/132554",
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+### Sizes
+
+4 sizes are supported.
+
+<Story name="sizes">
+  <div>
+    <Button
+      size="large"
+      username="Tom Coleman"
+      src="https://avatars2.githubusercontent.com/u/132554"
+    />
+    <Button
+      size="medium"
+      username="Tom Coleman"
+      src="https://avatars2.githubusercontent.com/u/132554"
+    />
+    <Button
+      size="small"
+      username="Tom Coleman"
+      src="https://avatars2.githubusercontent.com/u/132554"
+    />
+    <Button
+      size="tiny"
+      username="Tom Coleman"
+      src="https://avatars2.githubusercontent.com/u/132554"
+    />
+  </div>
+</Story>
+
+### Default Values
+
+When no image is supplied to the `src` prop, Button displays initials.
+
+Button should be used sparingly in situations without access to images.
+
+<Story name="initials">
+  <div>
+    <Button username="Tom Coleman" />
+    <Button username="Dominic Nguyen" />
+    <Button username="Kyle Suss" />
+    <Button username="Michael Shilman" />
+  </div>
+</Story>
+
+### Loading
+
+The loading state is used when the image or username is, well, loading.
+
+<Story name="loading">
+  <div>
+    <Button size="large" loading />
+    <Button size="medium" loading />
+    <Button size="small" loading />
+    <Button size="tiny" loading />
+  </div>
+</Story>
+
+### Playground
+
+Experiment with this story with the Controls addon in the Canvas tab.
+
+<Canvas>
+  <Story
+    name="controls"
+    args={{
+      loading: false,
+      size: "tiny",
+      username: "Dominic Nguyen",
+      src: "https://avatars2.githubusercontent.com/u/263385",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

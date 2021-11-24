@@ -8,4 +8,10 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  a11y: {
+    // the target DOM element in index.js
+    element: "#root",
+    // sets the execution mode for the addon
+    manual: false,
+  },
 };
