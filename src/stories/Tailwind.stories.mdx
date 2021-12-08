@@ -1,0 +1,68 @@
+import {
+  Meta,
+  ColorPalette,
+  ColorItem,
+  Typeset,
+} from "@storybook/addon-docs/blocks";
+
+import {
+  accent,
+  dark,
+  medium,
+  neutral,
+  primary,
+} from "../utils/colors.tailwind.js";
+
+<Meta title="DesignSystem/Colors" />
+
+# Colors
+
+This project uses Tailwindcss so a lot of colour props are passed in as CSS classes that
+Tailwind applies styling to i.e. `text-blue-500` to use the primary blue. You can find the
+full colour palette [here](https://tailwindcss.com/docs/customizing-colors/#default-color-palette). The custom colors below can be applied in the same way as the standard tailwind colors i.e. `bg-primary-500`.
+
+## StorySwap Colors
+
+StorySwap uses the following custom colors in the tailwind config.
+
+### Accent
+
+<ColorPalette>
+  <ColorItem
+    title="Accent Color"
+    subtitle="For less important interactions and elements"
+    colors={accent}
+  />
+</ColorPalette>
+
+### Dark
+
+<ColorPalette>
+  <ColorItem title="Dark Color" subtitle="A utility color" colors={dark} />
+</ColorPalette>
+
+### Medium
+
+<ColorPalette>
+  <ColorItem title="Medium Color" subtitle="A utility color" colors={medium} />
+</ColorPalette>
+
+### Neutral
+
+<ColorPalette>
+  <ColorItem
+    title="Neutral Color"
+    subtitle="A utility color"
+    colors={neutral}
+  />
+</ColorPalette>
+
+### Primary
+
+<ColorPalette>
+  <ColorItem
+    title="Primary Color"
+    subtitle="For important interactions and elements"
+    colors={primary}
+  />
+</ColorPalette>

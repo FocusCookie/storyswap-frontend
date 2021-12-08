@@ -48,22 +48,22 @@ import { Button } from "./Button";
 
 ## Displays an image that represents a user or organization
 
-Use an avatar for attributing actions or content to specific users.
+<bg-red-500>Use an avatar for attributing actions or content to specific users. HIER</bg-red-500>
 
 The user's name should _always_ be present when using Button – either printed beside the avatar or in a tooltip.
 
 export const Template = (args) => <Button {...args} />;
 
 <Story
-  name="standard"
-  args={{
+name="standard"
+args={{
     size: "large",
     username: "Tom Coleman",
     src: "https://avatars2.githubusercontent.com/u/132554",
   }}
->
-  {Template.bind({})}
-</Story>
+
+> {Template.bind({})}
+> </Story>
 
 ### Sizes
 
