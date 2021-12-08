@@ -11,6 +11,14 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/preset-create-react-app",
     "@storybook/addon-a11y",
+    {
+      name: "@storybook/addon-postcss",
+      options: {
+        postcssLoaderOptions: {
+          implementation: require("postcss"),
+        },
+      },
+    },
   ],
   staticDirs: ["../public"],
   webpackFinal: async (config) => {
