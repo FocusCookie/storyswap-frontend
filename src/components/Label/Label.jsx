@@ -15,7 +15,7 @@ export const Label = ({
   return (
     <div
       className={[
-        `${className}`,
+        `${className ? className : ""}`,
         "label",
         variant ? `label--variant-${variant}` : "",
         size ? `label--size-${size}` : "",
