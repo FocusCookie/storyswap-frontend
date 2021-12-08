@@ -12,6 +12,7 @@ module.exports = {
     "@storybook/preset-create-react-app",
     "@storybook/addon-a11y",
   ],
+  staticDirs: ["../public"],
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.css$/,
