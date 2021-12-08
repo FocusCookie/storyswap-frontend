@@ -25,7 +25,7 @@ module.exports = {
           },
         },
       ],
-      include: path.resolve(__dirname, "../src"),
+      include: path.resolve(__dirname, "../"),
     });
     return config;
   },
