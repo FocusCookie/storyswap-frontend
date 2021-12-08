@@ -9,17 +9,18 @@ export const Label = ({
   size,
   uppercase,
   align,
+  className,
   ...props
 }) => {
   return (
     <div
       className={[
+        `${className}`,
         "label",
-        color ? `text-${color}` : "",
-        variant ? `font-${variant}` : "",
-        size ? `text-${size}` : "",
-        uppercase ? `uppercase` : "",
-        align ? `text-${align}` : "",
+        variant ? `label--variant-${variant}` : "",
+        size ? `label--size-${size}` : "",
+        uppercase ? `label--uppercase` : "",
+        align ? `label--align-${align}` : "",
       ].join(" ")}
       {...props}
     >
@@ -38,10 +39,6 @@ Label.propTypes = {
    */
   variant: PropTypes.oneOf(["base", "highlight"]),
   /**
-   * the color will be applied as text-color. The color needs to be a valid tailwind color class
-   */
-  color: PropTypes.string,
-  /**
    * the style of the label
    */
   size: PropTypes.oneOf(["xs", "sm", "base", "lg", "xl"]),
@@ -58,7 +55,6 @@ Label.propTypes = {
 Label.defaultProps = {
   value: "label",
   variant: "highlight",
-  color: "medium-900",
   size: "medium",
   uppercase: true,
   align: "left",

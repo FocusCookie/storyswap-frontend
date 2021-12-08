@@ -1,3 +1,40 @@
 .label {
   @apply w-full font-bold;
 }
+
+.label--variant-base  {
+  @apply font-base;
+}
+.label--variant-highlight {
+  @apply font-highlight;
+}
+
+.label--size-xs {
+  @apply text-xs;
+}
+.label--size-sm {
+  @apply text-sm;
+}
+.label--size-base {
+  @apply text-base;
+}
+.label--size-lg {
+  @apply text-lg;
+}
+.label--size-xl {
+  @apply text-xl;
+}
+
+.label--uppercase {
+  @apply uppercase;
+}
+
+.label--align-left {
+  @apply text-left;
+}
+.label--align-center {
+  @apply text-center;
+}
+.label--align-right {
+  @apply text-right;
+}
