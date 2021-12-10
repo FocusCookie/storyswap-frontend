@@ -6,7 +6,7 @@ export default {
   component: Icon,
 };
 
-const Template = (args) => <Icon {...args}>🥳</Icon>;
+const Template = (args) => <Icon {...args}>😀</Icon>;
 
 export const Default = Template.bind({});
 
