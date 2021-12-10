@@ -14,6 +14,9 @@ export const Default = Template.bind({});
 export const Disabled = Template.bind({});
 Disabled.args = { disabled: true };
 
+export const Loading = Template.bind({});
+Loading.args = { loading: true };
+
 export const EmojiAsIcon = Template.bind({});
 EmojiAsIcon.args = { icon: "😀" };
 

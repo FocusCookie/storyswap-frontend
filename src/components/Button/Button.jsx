@@ -12,17 +12,18 @@ export const Button = ({
   variant,
   disabled,
   onClick,
+  loading,
   ...props
 }) => {
   function handleClick() {
-    if (!disabled) onClick();
+    if (!disabled && !loading) onClick();
   }
 
   return (
     <button
       className={`button ${variant ? `button--variant-${variant}` : ""} ${
         size ? `button--${size}` : ""
-      }`}
+      } ${loading ? "button--loading" : ""}`}
       disabled={disabled}
       onClick={() => handleClick()}
       {...props}
@@ -58,6 +59,10 @@ Button.propTypes = {
    */
   disabled: PropTypes.bool,
   /**
+   *  disables the onClick event and let the button pulse
+   */
+  loading: PropTypes.bool,
+  /**
    * click handler
    */
   onClick: PropTypes.func,
@@ -67,6 +72,7 @@ Button.defaultProps = {
   size: "base",
   icon: null,
   reverse: false,
+  loading: false,
   variant: "primary",
   onClick: undefined,
 };
