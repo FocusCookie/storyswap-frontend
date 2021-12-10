@@ -52,7 +52,7 @@ Button.propTypes = {
   /**
    * The look of the button
    */
-  variant: PropTypes.oneOf(["primary", "secondary", "white", "text"]),
+  variant: PropTypes.oneOf(["primary", "accent", "secondary", "white", "text"]),
   /**
    * disabled the button
    */
