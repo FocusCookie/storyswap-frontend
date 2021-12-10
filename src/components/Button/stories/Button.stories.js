@@ -15,10 +15,10 @@ export const Disabled = Template.bind({});
 Disabled.args = { disabled: true };
 
 export const EmojiAsIcon = Template.bind({});
-EmojiAsIcon.args = { icon: "🥳" };
+EmojiAsIcon.args = { icon: "😀" };
 
 export const ReactIcon = Template.bind({});
 ReactIcon.args = { icon: <HiCheckCircle /> };
 
 export const WithIconReversedOrder = Template.bind({});
-WithIconReversedOrder.args = { icon: "🥳", reverse: true };
+WithIconReversedOrder.args = { icon: "😀", reverse: true };
