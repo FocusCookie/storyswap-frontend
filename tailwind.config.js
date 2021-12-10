@@ -46,6 +46,7 @@ module.exports = {
           "serif",
         ],
       },
+      opacity: ["disabled"],
     },
   },
   variants: {

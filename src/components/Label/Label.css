@@ -1,5 +1,5 @@
 .label {
-  @apply w-full font-bold;
+  @apply font-bold;
 }
 
 .label--variant-base  {

@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import "./Label.css";
 
 export const Label = ({
-  value,
+  children,
   variant,
-  color,
   size,
   uppercase,
   align,
@@ -15,25 +14,21 @@ export const Label = ({
   return (
     <div
       className={[
-        `${className ? className : ""}`,
         "label",
         variant ? `label--variant-${variant}` : "",
         size ? `label--size-${size}` : "",
         uppercase ? `label--uppercase` : "",
         align ? `label--align-${align}` : "",
+        `${className ? className : ""}`,
       ].join(" ")}
       {...props}
     >
-      {value}
+      {children ? children : "label"}
     </div>
   );
 };
 
 Label.propTypes = {
-  /**
-   * The value which will be displayed in the label
-   */
-  value: PropTypes.string,
   /**
    * the style of the label
    */
@@ -50,12 +45,16 @@ Label.propTypes = {
    * aligns the label value horizontally
    */
   align: PropTypes.oneOf(["left", "center", "right"]),
+  /**
+   * add classes to the Label
+   */
+  className: PropTypes.string,
 };
 
 Label.defaultProps = {
-  value: "label",
   variant: "highlight",
-  size: "medium",
+  size: "base",
   uppercase: true,
   align: "left",
+  className: "",
 };

@@ -1,22 +1,22 @@
 .icon {
-  @apply p-2 w-min;
+  @apply p-2 w-min p-0.5;
 }
 
 .icon--xs {
-  @apply text-xs p-0.5;
+  @apply text-xs;
   line-height: 0.78rem;
 }
 .icon--sm {
-  @apply text-sm p-0.5;
+  @apply text-sm;
   line-height: 0.86rem;
 }
 .icon--base {
-  @apply text-base leading-4 p-1;
+  @apply text-base leading-4;
 }
 .icon--lg {
-  @apply text-lg p-1.5;
+  @apply text-lg;
   line-height: 1.125rem;
 }
 .icon--xl {
-  @apply text-xl leading-5 p-2;
+  @apply text-xl leading-5;
 }
