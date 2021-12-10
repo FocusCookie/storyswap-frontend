@@ -35,5 +35,5 @@
 }
 
 .button--variant-text {
-  @apply hover:bg-white border border-white hover:border-neutral-200 text-medium-900 focus:outline-none focus:ring-4 focus:ring-accent-200;
+  @apply hover:bg-white border border-transparent hover:border-neutral-200 text-medium-900 focus:outline-none focus:ring-4 focus:ring-accent-200;
 }
