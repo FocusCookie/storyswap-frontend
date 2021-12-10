@@ -5,22 +5,29 @@
   @apply text-accent-500;
 }
 
+.input:hover > .input__label {
+  @apply text-medium-700;
+}
+
 .input__label {
   @apply text-medium-600;
 }
 
 .input__input {
   text-indent: 0.75rem;
-  @apply w-full rounded-md border-2 border-medium-600 placeholder-medium-600 text-base h-12 text-medium-800 focus:text-dark-500 focus:border-accent-700 focus:outline-none focus:ring-4 focus:ring-accent-200;
+  @apply w-full rounded-md border-2 border-medium-600 placeholder-medium-600 text-base h-12 text-medium-800 hover:border-medium-700 focus:text-dark-500 focus:border-accent-700 focus:outline-none focus:ring-4 focus:ring-accent-200;
 }
 
 .input__error {
   @apply text-red-800 text-sm;
+}
+.input--error:hover > .input__label {
+  @apply text-red-700;
 }
 .input--error:focus-within > .input__label,
 .input--error > .input__label {
   @apply text-red-500;
 }
 .input--error > .input__input {
-  @apply border-red-600 text-medium-800 focus:text-dark-500 focus:border-red-700 focus:outline-none focus:ring-4 focus:ring-red-200;
+  @apply border-red-600 hover:border-red-700 text-medium-800 focus:text-dark-500 focus:border-red-700 focus:outline-none focus:ring-4 focus:ring-red-200;
 }
