@@ -20,3 +20,16 @@
 .icon--xl {
   @apply text-xl leading-5;
 }
+
+.icon--primary {
+  @apply text-primary-500 hover:text-primary-700;
+}
+.icon--accent {
+  @apply text-accent-500 hover:text-accent-700;
+}
+.icon--medium {
+  @apply text-medium-800 hover:text-dark-500;
+}
+.icon--white {
+  @apply text-white hover:text-neutral-500;
+}
