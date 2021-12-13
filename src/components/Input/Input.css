@@ -8,11 +8,13 @@
 .input:hover > .input__label {
   @apply text-medium-700;
 }
+.input:focus-within > .input__label {
+  @apply text-accent-600;
+}
 
 .input__label {
   @apply text-medium-600;
 }
-
 .input__input {
   text-indent: 0.75rem;
   @apply w-full rounded-md border-2 border-medium-600 placeholder-medium-600 text-base h-12 text-medium-800 hover:border-medium-700 focus:text-dark-500 focus:border-accent-700 focus:outline-none focus:ring-4 focus:ring-accent-200;
