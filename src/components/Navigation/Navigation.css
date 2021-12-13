@@ -1,3 +1,5 @@
 .navigation {
-  @apply flex flex-row gap-4 justify-between;
+  box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12),
+    0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+  @apply flex flex-row gap-4 justify-around bg-white rounded-lg border border-neutral-100 pb-2 px-4;
 }
