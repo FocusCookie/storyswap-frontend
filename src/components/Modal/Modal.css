@@ -1,0 +1,10 @@
+.modal {
+  background-color: hsla(100, 1%, 46%, 0.3);
+  -webkit-backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(0.5rem);
+  @apply fixed flex items-center justify-center top-0 right-0 bottom-0 left-0;
+}
+
+.modal__card {
+  @apply w-max z-30;
+}
