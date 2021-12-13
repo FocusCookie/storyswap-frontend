@@ -1,5 +1,5 @@
 .label {
-  @apply font-bold;
+  @apply font-bold w-full;
 }
 
 .label--variant-base  {
@@ -27,14 +27,4 @@
 
 .label--uppercase {
   @apply uppercase;
-}
-
-.label--align-left {
-  @apply text-left;
-}
-.label--align-center {
-  @apply text-center;
-}
-.label--align-right {
-  @apply text-right;
 }
