@@ -9,3 +9,6 @@ export default {
 const Template = (args) => <Navigation {...args} />;
 
 export const Default = Template.bind({});
+
+export const MessagesSelected = Template.bind({});
+MessagesSelected.args = { select: "messages" };

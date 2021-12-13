@@ -3,27 +3,27 @@ import PropTypes from "prop-types";
 import "./Navigation.css";
 import { NavSlot } from "../NavSlot/NavSlot";
 
-export const Navigation = ({ onSelect, selected, ...props }) => {
+export const Navigation = ({ onSelect, select, ...props }) => {
   return (
     <div className="navigation" {...props}>
       <NavSlot
         onClick={onSelect}
-        selected={selected === "home" ? true : false}
+        selected={select === "home" ? true : false}
         variant="home"
       />
       <NavSlot
         onClick={onSelect}
-        selected={selected === "library" ? true : false}
+        selected={select === "library" ? true : false}
         variant="library"
       />
       <NavSlot
         onClick={onSelect}
-        selected={selected === "messages" ? true : false}
+        selected={select === "messages" ? true : false}
         variant="messages"
       />
       <NavSlot
         onClick={onSelect}
-        selected={selected === "settings" ? true : false}
+        selected={select === "settings" ? true : false}
         variant="settings"
       />
     </div>
@@ -34,7 +34,7 @@ Navigation.propTypes = {
   /**
    * which item should be selected
    */
-  selected: PropTypes.oneOf(["home", "library", "messages", "settings"]),
+  select: PropTypes.oneOf(["home", "library", "messages", "settings"]),
   /**
    * onSelect click handler
    */
@@ -42,6 +42,6 @@ Navigation.propTypes = {
 };
 
 Navigation.defaultProps = {
-  selected: "home",
+  select: "home",
   onSelect: undefined,
 };
