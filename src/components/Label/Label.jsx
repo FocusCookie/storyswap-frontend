@@ -4,27 +4,27 @@ import "./Label.css";
 
 export const Label = ({
   children,
+  htmlFor,
   variant,
   size,
   uppercase,
-  align,
   className,
   ...props
 }) => {
   return (
-    <div
+    <label
+      htmlFor={htmlFor}
       className={[
         "label",
         variant ? `label--variant-${variant}` : "",
         size ? `label--size-${size}` : "",
         uppercase ? `label--uppercase` : "",
-        align ? `label--align-${align}` : "",
         `${className ? className : ""}`,
       ].join(" ")}
       {...props}
     >
       {children ? children : "label"}
-    </div>
+    </label>
   );
 };
 
@@ -42,19 +42,19 @@ Label.propTypes = {
    */
   uppercase: PropTypes.bool,
   /**
-   * aligns the label value horizontally
-   */
-  align: PropTypes.oneOf(["left", "center", "right"]),
-  /**
    * add classes to the Label
    */
   className: PropTypes.string,
+  /**
+   * For which html elemt is the label (id of the element)
+   */
+  htmlFor: PropTypes.string,
 };
 
 Label.defaultProps = {
   variant: "highlight",
   size: "base",
   uppercase: true,
-  align: "left",
   className: "",
+  htmlFor: "",
 };
