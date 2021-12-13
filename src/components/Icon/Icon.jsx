@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Icon.css";
 
-export const Icon = ({ children, variant, size, className, ...props }) => {
+export const Icon = ({ children, size, className, ...props }) => {
   return (
     <div
-      className={`icon icon--${size} icon--${variant} ${className}`}
+      className={`icon icon--${size} ${className}`}
       style={{ fontSize: size }}
       {...props}
     >
@@ -23,13 +23,8 @@ Icon.propTypes = {
    * add classes to the icon element
    */
   className: PropTypes.string,
-  /**
-   * change the variant of the icon works with font based icons
-   */
-  variant: PropTypes.oneOf(["primary", "accent", "white", "medium"]),
 };
 
 Icon.defaultProps = {
   size: "base",
-  variant: "medium",
 };

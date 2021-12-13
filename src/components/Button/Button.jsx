@@ -29,7 +29,7 @@ export const Button = ({
       {...props}
     >
       {icon && !reverse ? <Icon size={size}>{icon}</Icon> : null}
-      <Label size={size} variant="highlight" align="center">
+      <Label size={size} variant="highlight">
         {children}
       </Label>
       {icon && reverse ? <Icon size={size}>{icon}</Icon> : null}

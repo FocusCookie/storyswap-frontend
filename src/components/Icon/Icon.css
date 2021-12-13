@@ -28,7 +28,7 @@
   @apply text-accent-500 hover:text-accent-700;
 }
 .icon--medium {
-  @apply text-medium-800 hover:text-dark-500;
+  @apply text-medium-900 hover:text-dark-500;
 }
 .icon--white {
   @apply text-white hover:text-neutral-500;
