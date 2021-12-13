@@ -1,0 +1,40 @@
+.navSlot {
+  @apply flex flex-col items-center w-min px-2 pb-2 overflow-hidden;
+}
+
+.navSlot:hover > .navSlot__flag--not-selected {
+  @apply animate-bounce translate-y-0;
+}
+.navSlot:hover > .navSlot__flag--not-selected > path {
+  @apply text-neutral-100;
+}
+.navSlot:hover > .navSlot__icon {
+  @apply text-dark-500;
+}
+.navSlot:hover > .navSlot__icon--selected {
+  @apply text-accent-500;
+}
+
+.navSlot__flag {
+  @apply transition-all ease-out;
+}
+.navSlot__flag--not-selected {
+  @apply transform -translate-y-3.5;
+}
+.navSlot__flag--selected {
+  @apply transform translate-y-0;
+}
+
+.navSlot__flag > path {
+  @apply fill-current text-neutral-200;
+}
+.navSlot__flag--selected > path {
+  @apply fill-current text-primary-500;
+}
+
+.navSlot__icon {
+  @apply transition-colors text-2xl text-medium-900;
+}
+.navSlot__icon--selected {
+  @apply text-accent-500;
+}
