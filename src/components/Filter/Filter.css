@@ -1,0 +1,15 @@
+.filter {
+  @apply flex flex-col gap-4;
+}
+
+.filter__open__btn {
+  @apply w-full flex flex-col items-stretch;
+}
+
+.filter__content {
+  @apply flex flex-col gap-4;
+}
+
+.filter__content__card {
+  @apply flex flex-col gap-4 items-stretch;
+}

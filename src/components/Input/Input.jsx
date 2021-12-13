@@ -19,13 +19,13 @@ export const Input = ({
           size="xs"
           variant="base"
           className="input__label"
-          htmlFor={label}
+          htmlFor={label ? label : "input-id"}
         >
           {label}
         </Label>
       )}
       <input
-        id={label}
+        id={label ? label : "input-id"}
         className="input__input"
         type={type}
         placeholder={placeholder}
