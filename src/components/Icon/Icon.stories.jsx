@@ -1,5 +1,6 @@
 import React from "react";
 import { Icon } from "./Icon";
+import { HiBadgeCheck } from "react-icons/hi";
 
 export default {
   title: "Components/Icon",
@@ -7,20 +8,11 @@ export default {
 };
 
 const Template = (args) => <Icon {...args}>😀</Icon>;
+const TemplateReactIcon = (args) => (
+  <Icon {...args}>
+    <HiBadgeCheck />
+  </Icon>
+);
 
-export const Default = Template.bind({});
-
-export const XSmall = Template.bind({});
-XSmall.args = { size: "xs" };
-
-export const Small = Template.bind({});
-Small.args = { size: "sm" };
-
-export const Base = Template.bind({});
-Base.args = { size: "base" };
-
-export const Large = Template.bind({});
-Large.args = { size: "lg" };
-
-export const XLarge = Template.bind({});
-XLarge.args = { size: "xl" };
+export const WhithEmoji = Template.bind({});
+export const WithReactIcon = TemplateReactIcon.bind({});
