@@ -33,6 +33,7 @@ export const NavSlot = ({ onClick, variant, selected, ...props }) => {
   function clickHandler() {
     if (!selected) onClick(variant);
   }
+
   return (
     <div
       className={`navSlot ${props.className ? props.className : ""}`}
