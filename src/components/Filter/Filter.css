@@ -1,0 +1,22 @@
+.filter {
+  @apply flex flex-col gap-4;
+}
+
+.filter__open__btn {
+  @apply w-full flex flex-col items-stretch;
+}
+
+.filter__open__btn__content  {
+  @apply flex flex-row gap-2 justify-center items-center;
+}
+.filter__badge {
+  @apply flex justify-center items-center h-4 w-4 bg-accent-300 text-accent-800 text-xs font-bold rounded-full font-base;
+}
+
+.filter__content {
+  @apply flex flex-col gap-4;
+}
+
+.filter__content__card {
+  @apply flex flex-col gap-4 items-stretch;
+}

@@ -1,5 +1,5 @@
 .icon {
-  @apply p-2 w-min p-0.5;
+  @apply w-min p-0.5;
 }
 
 .icon--xs {

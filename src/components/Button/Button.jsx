@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Button.css";
 import { Icon } from "../Icon/Icon";
-import { Label } from "../Label/Label";
 
 export const Button = ({
   children,
@@ -29,9 +28,7 @@ export const Button = ({
       {...props}
     >
       {icon && !reverse ? <Icon size={size}>{icon}</Icon> : null}
-      <Label size={size} variant="highlight">
-        {children}
-      </Label>
+      <span className="button__text">{children}</span>
       {icon && reverse ? <Icon size={size}>{icon}</Icon> : null}
     </button>
   );

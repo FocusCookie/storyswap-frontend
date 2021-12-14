@@ -5,7 +5,10 @@ import { Card } from "../Card/Card";
 
 export const Modal = ({ paddingoff, ...props }) => {
   return (
-    <div className={`modal ${props.className}`} {...props}>
+    <div
+      className={`modal ${props.className ? props.className : ""}`}
+      {...props}
+    >
       <Card paddingoff={paddingoff} className="modal__card">
         {props.children}
       </Card>
