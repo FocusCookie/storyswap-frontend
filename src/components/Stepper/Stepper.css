@@ -1,0 +1,11 @@
+.stepper {
+  @apply flex flex-row gap-4 justify-between items-center;
+}
+
+.stepper__control {
+  @apply flex justify-center items-center p-2 rounded-full h-12 w-12 text-2xl text-medium-900 shadow bg-white hover:bg-primary-500 hover:text-white  focus:outline-none focus:ring-4 focus:ring-accent-200;
+}
+
+.stepper__value {
+  @apply text-2xl font-bold font-base;
+}
