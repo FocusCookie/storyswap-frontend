@@ -4,10 +4,12 @@ import "./Filter.css";
 import { Card } from "../Card/Card";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
+import { isValideIsbnOrIsbn13, isValidZip } from "../../utils/utils";
 
 export const Filter = ({ onFilter, initFilters, ...props }) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState(initFilters || {});
+  const [filterErrors, setFilterErrors] = useState({});
 
   function handleOpen() {
     setOpen((open) => !open);
@@ -38,11 +40,30 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
   }
 
   function handleFilter() {
-    onFilter(filters);
-    setOpen(false);
-  }
+    setFilterErrors({});
 
-  //TODO: Eigene badge componente bauen
+    const isbnError = filters.isbn && !isValideIsbnOrIsbn13(filters.isbn);
+    const zipError = filters.zip && !isValidZip(filters.zip);
+
+    if (isbnError) {
+      setFilterErrors((currentErrors) => {
+        return { ...currentErrors, ...{ isbn: "Ungültige ISBN" } };
+      });
+    }
+    if (zipError) {
+      setFilterErrors((currentErrors) => {
+        return {
+          ...currentErrors,
+          ...{ zip: "Ungültige Postleitzahl - 5 Zahlen erfordert" },
+        };
+      });
+    }
+
+    if (!isbnError && !zipError) {
+      onFilter(filters);
+      setOpen(false);
+    }
+  }
 
   return (
     <div className="filter" {...props}>
@@ -67,6 +88,7 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
             onChange={(v) => handleNewFilter({ isbn: v.toLowerCase() })}
             label="ISBN"
             value={filters.isbn ? filters.isbn : ""}
+            error={filterErrors.isbn ? filterErrors.isbn : ""}
           />
           <Input
             onChange={(v) => handleNewFilter({ author: v.toLowerCase() })}
@@ -77,6 +99,7 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
             onChange={(v) => handleNewFilter({ zip: v.toLowerCase() })}
             label="Postleitzahl"
             value={filters.zip ? filters.zip : ""}
+            error={filterErrors.zip ? filterErrors.zip : ""}
           />
           <Input
             onChange={(v) => handleNewFilter({ city: v.toLowerCase() })}
