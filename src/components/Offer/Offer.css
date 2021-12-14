@@ -58,3 +58,13 @@
   width: calc(100vw - 5rem);
   @apply flex flex-col gap-4;
 }
+
+.offer__map {
+  height: 28rem;
+  width: calc(100vw - 5rem);
+  @apply rounded overflow-hidden;
+}
+
+.mapboxgl-ctrl-attrib-inner {
+  @apply text-sm;
+}
