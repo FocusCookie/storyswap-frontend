@@ -5,9 +5,9 @@ import { Card } from "../Card/Card";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 
-export const Filter = ({ onFilter, ...props }) => {
+export const Filter = ({ onFilter, initFilters, ...props }) => {
   const [open, setOpen] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(initFilters || {});
 
   function handleOpen() {
     setOpen((open) => !open);
@@ -19,6 +19,7 @@ export const Filter = ({ onFilter, ...props }) => {
 
   function handleResetFilter() {
     setFilters({});
+    onFilter({});
   }
 
   function handleNewFilter(filter) {
@@ -38,34 +39,51 @@ export const Filter = ({ onFilter, ...props }) => {
 
   function handleFilter() {
     onFilter(filters);
+    setOpen(false);
   }
 
-  //TODO: Uncontrolled inputs gerade, values müssen gegeben werden. also doch isbn etc als eigene states und mit use effect zusammenbauen als gesamt filter
-
-  //TODO: wenn filter active diese mittels badge icon (zahl in kreis ) im filter öffnen button einblenden
+  //TODO: Eigene badge componente bauen
 
   return (
-    <div className="filter">
+    <div className="filter" {...props}>
       {!open && (
         <div className="filter__open__btn">
           <Button variant="secondary" onClick={handleOpen}>
-            Filter
+            <div className="filter__open__btn__content">
+              {Object.keys(filters).length > 0 && (
+                <div className="filter__badge">
+                  {Object.keys(filters).length}
+                </div>
+              )}
+              Filter
+            </div>
           </Button>
         </div>
       )}
 
       {open && (
         <Card className="filter__content">
-          <Input onChange={(v) => handleNewFilter({ isbn: v })} label="ISBN" />
           <Input
-            onChange={(v) => handleNewFilter({ author: v })}
+            onChange={(v) => handleNewFilter({ isbn: v.toLowerCase() })}
+            label="ISBN"
+            value={filters.isbn ? filters.isbn : ""}
+          />
+          <Input
+            onChange={(v) => handleNewFilter({ author: v.toLowerCase() })}
             label="Author"
+            value={filters.author ? filters.author : ""}
           />
           <Input
-            onChange={(v) => handleNewFilter({ zip: v })}
+            onChange={(v) => handleNewFilter({ zip: v.toLowerCase() })}
             label="Postleitzahl"
+            value={filters.zip ? filters.zip : ""}
           />
-          <Input onChange={(v) => handleNewFilter({ city: v })} label="Stadt" />
+          <Input
+            onChange={(v) => handleNewFilter({ city: v.toLowerCase() })}
+            label="Stadt"
+            value={filters.city ? filters.city : ""}
+          />
+
           <Button onClick={handleFilter}>Filtern</Button>
           <Button size="sm" variant="text" onClick={handleResetFilter}>
             zurücksetzen
@@ -81,11 +99,21 @@ export const Filter = ({ onFilter, ...props }) => {
 
 Filter.propTypes = {
   /**
-   * executed then filter btn is clicked
+   * executed when the filter btn is clicked
    */
   onFilter: PropTypes.func,
+  /**
+   * initialize the filters
+   */
+  initFilters: PropTypes.shape({
+    isbn: PropTypes.string,
+    author: PropTypes.string,
+    zip: PropTypes.string,
+    city: PropTypes.string,
+  }),
 };
 
 Filter.defaultProps = {
   onFilter: undefined,
+  initFilters: {},
 };
