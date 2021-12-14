@@ -21,7 +21,6 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
 
   function handleResetFilter() {
     setFilters({});
-    onFilter({});
   }
 
   function handleNewFilter(filter) {
