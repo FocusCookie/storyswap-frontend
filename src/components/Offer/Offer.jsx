@@ -4,15 +4,10 @@ import "./Offer.css";
 import { Card } from "../Card/Card";
 import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
-import ReactMapboxGl from "react-mapbox-gl";
+import Map from "../Map/Map";
 
 export const Offer = ({ offer, ...props }) => {
   const [showOfferDetails, setShowOfferDetails] = useState(false);
-  const Map = ReactMapboxGl({
-    accessToken:
-      "pk.eyJ1Ijoic3Rvcnlzd2FwIiwiYSI6ImNreDY2ZDIwZzFjOG0ybnFrY3RxdnlzcXYifQ.ru0CSywnUSPkYbzvVhaykA",
-  });
-
   function formatDateString(date) {
     const GERMAN_MONTHS = [
       "Januar",
@@ -65,10 +60,9 @@ export const Offer = ({ offer, ...props }) => {
 
         {showOfferDetails && (
           <div className="offer__details">
-            <Map
-              className="map-container"
-              style="mapbox://styles/mapbox/streets-v11"
-            />
+            <div className="offer__map">
+              <Map />
+            </div>
 
             <Button size="xl" onClick={() => console.log("reserve")}>
               reservieren
