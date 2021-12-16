@@ -79,3 +79,4 @@ CHROMATIC_PROJECT_TOKEN=
 
 If you want to use github actions you need to setup a secret env war in github repo.
 SEttings--> Secrets: CHROMATIC_PROJECT_TOKEN with the project token from chromatic
+You also need to setup the REACT_APP_MAPBOX_TOKEN in the githubsecrets in order to have a working map in the online storybook
