@@ -27,7 +27,7 @@ export const Map = ({ center, marker, ...props }) => {
       const el = document.createElement("div");
       el.className = "map__marker";
 
-      const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+      new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
     }
 
     map.on("move", () => {
