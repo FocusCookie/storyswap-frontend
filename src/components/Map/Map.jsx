@@ -1,16 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import mapboxgl from "mapbox-gl";
 import "./Map.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-//TODO: Add marker as props!
-
-const Map = () => {
+export const Map = ({ center, marker, ...props }) => {
   const mapContainerRef = useRef(null);
+  const defaultCenter = [13.409642496568159, 52.52081512666537];
 
-  const [lng, setLng] = useState(13.436831);
-  const [lat, setLat] = useState(52.547466);
+  const [lng, setLng] = useState(center[0] || defaultCenter[0]);
+  const [lat, setLat] = useState(center[1] || defaultCenter[1]);
 
   // Initialize map when component mounts
   useEffect(() => {
@@ -23,12 +23,12 @@ const Map = () => {
       scrollZoom: false,
     });
 
-    const el = document.createElement("div");
-    el.className = "map__marker";
+    if (marker) {
+      const el = document.createElement("div");
+      el.className = "map__marker";
 
-    const marker = new mapboxgl.Marker(el)
-      .setLngLat([13.436831, 52.547466])
-      .addTo(map);
+      const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+    }
 
     map.on("move", () => {
       setLng(map.getCenter().lng.toFixed(4));
@@ -39,7 +39,20 @@ const Map = () => {
     return () => map.remove();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <div className="map-container" ref={mapContainerRef}></div>;
+  return <div className="map-container" ref={mapContainerRef} {...props}></div>;
 };
 
-export default Map;
+Map.propTypes = {
+  /**
+   * coordinates whith which the map is initialized and the marker is set if the marker is active (no changes will be applied while runtime)
+   */
+  center: PropTypes.arrayOf(PropTypes.number),
+  /**
+   * shows a marker/circle in the center of the map (center coordinates)
+   */
+  marker: PropTypes.bool,
+};
+Map.defaultProps = {
+  center: [],
+  marker: true,
+};

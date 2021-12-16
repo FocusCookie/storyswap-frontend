@@ -4,7 +4,7 @@ import "./Offer.css";
 import { Card } from "../Card/Card";
 import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
-import Map from "../Map/Map";
+import { Map } from "../Map/Map";
 
 export const Offer = ({ offer, ...props }) => {
   const [showOfferDetails, setShowOfferDetails] = useState(false);
@@ -61,7 +61,7 @@ export const Offer = ({ offer, ...props }) => {
         {showOfferDetails && (
           <div className="offer__details">
             <div className="offer__map">
-              <Map />
+              <Map center={[13.436831, 52.547466]} />
             </div>
 
             <Button size="xl" onClick={() => console.log("reserve")}>
