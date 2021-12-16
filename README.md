@@ -71,8 +71,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # ENV File
 
+CHROMATIC_PROJECT_TOKEN is setup in Github. Its defined in the chromatic.yml file.
+
 ```
 CHROMATIC_PROJECT_TOKEN=
+REACT_APP_MAPBOX_TOKEN=
 ```
 
 # Github Secret

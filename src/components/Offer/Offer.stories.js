@@ -13,6 +13,7 @@ const offer = {
     picture:
       "https://s.gravatar.com/avatar/f84d37ce99493155ee296c2b746191d0?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fte.png",
   },
+  coordinates: [13.436831, 52.547466],
   zip: 10409,
   city: "test",
   state: "pending",
