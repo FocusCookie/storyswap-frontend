@@ -17,3 +17,10 @@ module.exports.isValidZip = (zip) => {
 
   return true;
 };
+
+module.exports.addDaysToToday = (days) => {
+  var futureDate = new Date();
+  futureDate.setHours(23, 59, 59, 0);
+  futureDate.setDate(futureDate.getDate() + days); // +1 to include last day until 23:59:29
+  return futureDate;
+};

@@ -1,0 +1,71 @@
+.offer {
+  @apply flex flex-col gap-4;
+}
+
+.offer__header {
+  @apply flex flex-col;
+}
+
+.offer__title {
+  @apply font-highlight text-2xl font-bold uppercase text-medium-900;
+}
+.offer__author {
+  @apply font-base text-sm font-bold uppercase text-accent-500;
+}
+
+.offer__cover {
+  height: 28rem;
+  @apply bg-cover bg-center rounded;
+}
+
+.offer__divider {
+  @apply h-0.5 rounded bg-medium-500;
+}
+
+.offer__details {
+  @apply flex flex-col gap-4 w-full;
+}
+
+.offer__map {
+  @apply relative rounded overflow-hidden w-full h-96;
+}
+
+.offer__user {
+  display: grid;
+  column-gap: 0.5rem;
+  grid-template-columns: min-content 1fr min-content;
+  grid-template-rows: min-content min-content;
+  grid-template-areas:
+    "user-picture user-nickname offer-zip"
+    "user-picture offer-created-at offer-city";
+  align-items: center;
+}
+
+.offer__user__picture {
+  grid-area: user-picture;
+  @apply w-8 h-8 rounded border border-medium-900;
+}
+.offer__user__nickname {
+  grid-area: user-nickname;
+  @apply text-medium-900 font-base font-bold text-xs;
+}
+.offer__created-at {
+  grid-area: offer-created-at;
+  @apply text-medium-800 font-base text-xs font-medium;
+}
+.offer__zip {
+  grid-area: offer-zip;
+  @apply text-medium-900 font-base font-bold text-xs text-right;
+}
+.offer__city {
+  grid-area: offer-city;
+  @apply text-medium-900 font-base font-bold text-xs text-right;
+}
+
+.offer__reservation-modal {
+  width: calc(100vw - 4rem);
+  @apply flex flex-col gap-4;
+}
+.offer__reservation__title {
+  @apply text-center font-bold text-2xl font-highlight;
+}
