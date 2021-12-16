@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 import "./Offer.css";
 import { Card } from "../Card/Card";
 import { Modal } from "../Modal/Modal";
+import { Stepper } from "../Stepper/Stepper";
 import { Button } from "../Button/Button";
 import { Map } from "../Map/Map";
 
 export const Offer = ({ offer, ...props }) => {
   const [showOfferDetails, setShowOfferDetails] = useState(false);
+  const [showReservationModal, setShowReservationModal] = useState(false);
+
   function formatDateString(date) {
     const GERMAN_MONTHS = [
       "Januar",
@@ -36,8 +39,24 @@ export const Offer = ({ offer, ...props }) => {
     setShowOfferDetails((lastState) => !lastState);
   }
 
+  function toggleReservationModal() {
+    setShowReservationModal((lastState) => !lastState);
+  }
+
   return (
     <>
+      {showReservationModal && (
+        <Modal>
+          <div className="offer__reservation-modal">
+            <h1 className="offer__reservation__title">Reservierung</h1>
+            <Stepper onChange={(v) => console.log(v)} />
+            <Button onClick={() => console.log("reserve")}>reservieren</Button>
+            <Button variant="secondary" onClick={toggleReservationModal}>
+              zurück
+            </Button>
+          </div>
+        </Modal>
+      )}
       <Card
         className={`offer ${props.className ? props.className : ""}`}
         {...props}
@@ -61,10 +80,10 @@ export const Offer = ({ offer, ...props }) => {
         {showOfferDetails && (
           <div className="offer__details">
             <div className="offer__map">
-              <Map center={[13.436831, 52.547466]} />
+              <Map center={offer.coordinates} />
             </div>
 
-            <Button size="xl" onClick={() => console.log("reserve")}>
+            <Button size="xl" onClick={toggleReservationModal}>
               reservieren
             </Button>
             <Button variant="secondary" onClick={() => console.log("kontakt")}>
@@ -110,9 +129,11 @@ Offer.propTypes = {
       authors: PropTypes.arrayOf(PropTypes.string),
       image: PropTypes.string,
     }),
+    coordinates: PropTypes.arrayOf(PropTypes.number),
     zip: PropTypes.number,
     city: PropTypes.string,
     state: PropTypes.string,
+    reservation: PropTypes.string,
     _id: PropTypes.string,
     createdAt: PropTypes.string,
   }),

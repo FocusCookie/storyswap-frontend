@@ -61,3 +61,11 @@
   grid-area: offer-city;
   @apply text-medium-900 font-base font-bold text-xs text-right;
 }
+
+.offer__reservation-modal {
+  width: calc(100vw - 4rem);
+  @apply flex flex-col gap-4;
+}
+.offer__reservation__title {
+  @apply text-center font-bold text-2xl font-highlight;
+}
