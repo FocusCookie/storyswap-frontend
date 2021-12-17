@@ -1,0 +1,6 @@
+.book-card {
+  @apply flex flex-col gap-4 items-center;
+}
+.book-card__cover  {
+  @apply bg-cover bg-center h-72 w-full rounded;
+}
