@@ -11,7 +11,7 @@ jobs:
     # The list of steps that the action will go through
     steps:
       - name: "Check if REACT_APP_MAPBOX_TOKEN is set"
-        if: ${{ env.REACT_APP_MAPBOX_TOKEN !== '' }}
+        if: ${{ env.REACT_APP_MAPBOX_TOKEN != '' }}
         run: echo "MAPBOX Token set to $REACT_APP_MAPBOX_TOKEN"
         env:
           REACT_APP_MAPBOX_TOKEN: ${{ secrets.REACT_APP_MAPBOX_TOKEN }}
