@@ -56,7 +56,10 @@ export const Offer = ({
 
   function reserveHandler() {
     const until = addDaysToToday(daysToReserve);
-    onReserveUntil(until);
+    onReserveUntil({
+      id: offer._id,
+      until: until,
+    });
   }
 
   function contactProviderHandler() {

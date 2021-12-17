@@ -3,7 +3,15 @@ import PropTypes from "prop-types";
 import "./Stepper.css";
 import { RiSubtractFill, RiAddFill } from "react-icons/ri";
 
-export const Stepper = ({ unit, min, max, initValue, onChange, ...props }) => {
+export const Stepper = ({
+  unit,
+  min,
+  max,
+  initValue,
+  onChange,
+  disabled,
+  ...props
+}) => {
   const [value, setValue] = useState(min || 1);
 
   useEffect(() => {
@@ -25,8 +33,11 @@ export const Stepper = ({ unit, min, max, initValue, onChange, ...props }) => {
     <div className={`stepper ${props.className}`} {...props}>
       <button
         aria-label={`increase ${showUnit()}`}
-        className="stepper__control"
+        className={`stepper__control ${
+          disabled ? "stepper__control--disabled" : ""
+        }`}
         onClick={decrease}
+        disabled={disabled}
       >
         <RiSubtractFill />
       </button>
@@ -36,8 +47,11 @@ export const Stepper = ({ unit, min, max, initValue, onChange, ...props }) => {
       </span>
       <button
         aria-label={`decrease ${showUnit()}`}
-        className="stepper__control"
+        className={`stepper__control ${
+          disabled ? "stepper__control--disabled" : ""
+        }`}
         onClick={increase}
+        disabled={disabled}
       >
         <RiAddFill />
       </button>
@@ -46,10 +60,20 @@ export const Stepper = ({ unit, min, max, initValue, onChange, ...props }) => {
 };
 
 Stepper.propTypes = {
+  /**
+   * handler when the value changes
+   */
   onChange: PropTypes.func,
+  /**
+   * min value for the stepper
+   */
   min: PropTypes.number,
+  /** max value for the stepper */
   max: PropTypes.number,
+  /** custom unit */
   unit: PropTypes.string,
+  /** disables the stepper */
+  disabled: PropTypes.bool,
 };
 
 Stepper.defaultProps = {
@@ -57,4 +81,5 @@ Stepper.defaultProps = {
   min: 1,
   max: 3,
   unit: "",
+  disabled: false,
 };

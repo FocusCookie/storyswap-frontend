@@ -10,6 +10,9 @@ const Template = (args) => <Stepper {...args} />;
 
 export const Default = Template.bind({});
 
+export const Disabled = Template.bind({});
+Disabled.args = { disabled: true };
+
 export const MinToMinusOne = Template.bind({});
 MinToMinusOne.args = { min: -1 };
 
