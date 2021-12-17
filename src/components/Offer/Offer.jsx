@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Offer.css";
 import { Card } from "../Card/Card";
 import { Modal } from "../Modal/Modal";
 import { Stepper } from "../Stepper/Stepper";
 import { Button } from "../Button/Button";
+import { Badge } from "../Badge/Badge";
 import { Map } from "../Map/Map";
 import { addDaysToToday } from "../../utils/utils";
 
 export const Offer = ({
   offer,
   onReserveUntil,
+  onUnreserve,
   onContactProvider,
+  reserved,
   ...props
 }) => {
   const [showOfferDetails, setShowOfferDetails] = useState(false);
   const [showReservationModal, setShowReservationModal] = useState(false);
   const [daysToReserve, setDaysToReserve] = useState(1);
+  const [isReserving, setIsReserving] = useState(false);
+  const [isUnreserving, setIsUnreserving] = useState(false);
+
+  useEffect(() => {
+    if (reserved) {
+      setShowReservationModal(false);
+      setIsReserving(false);
+    } else {
+      setIsUnreserving(false);
+    }
+  }, [reserved]);
 
   function formatDateString(date) {
     const GERMAN_MONTHS = [
@@ -56,7 +70,18 @@ export const Offer = ({
 
   function reserveHandler() {
     const until = addDaysToToday(daysToReserve);
-    onReserveUntil(until);
+    onReserveUntil({
+      id: offer._id,
+      until: until,
+    });
+    setIsReserving(true);
+  }
+
+  function unreserveHandler() {
+    setIsUnreserving(true);
+    onUnreserve({
+      id: offer._id,
+    });
   }
 
   function contactProviderHandler() {
@@ -64,13 +89,19 @@ export const Offer = ({
   }
   return (
     <>
-      {showReservationModal && (
+      {showReservationModal && !reserved && (
         <Modal>
           <div className="offer__reservation-modal">
             <h1 className="offer__reservation__title">Reservierung</h1>
-            <Stepper onChange={handleStepper} />
-            <Button onClick={reserveHandler}>reservieren</Button>
-            <Button variant="secondary" onClick={toggleReservationModal}>
+            <Stepper onChange={handleStepper} disabled={isReserving} />
+            <Button onClick={reserveHandler} loading={isReserving}>
+              reservieren
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={toggleReservationModal}
+              disabled={isReserving}
+            >
               zurück
             </Button>
           </div>
@@ -102,18 +133,45 @@ export const Offer = ({
               <Map center={offer.coordinates} />
             </div>
 
-            <Button size="xl" onClick={toggleReservationModal}>
-              reservieren
-            </Button>
-            <Button variant="secondary" onClick={contactProviderHandler}>
+            {!reserved && (
+              <Button size="xl" onClick={toggleReservationModal}>
+                reservieren
+              </Button>
+            )}
+            {reserved && (
+              <Button
+                size="xl"
+                variant="secondary"
+                loading={isUnreserving}
+                onClick={unreserveHandler}
+              >
+                reservierung stornieren
+              </Button>
+            )}
+            <Button
+              variant="secondary"
+              onClick={contactProviderHandler}
+              disabled={isUnreserving}
+            >
               anbieter kontaktieren
             </Button>
-            <Button variant="secondary" onClick={toggleOfferDetails}>
+            <Button
+              variant="secondary"
+              onClick={toggleOfferDetails}
+              disabled={isUnreserving}
+            >
               zurück
             </Button>
           </div>
         )}
 
+        {reserved && !showOfferDetails && (
+          <div className="offer__reserved-badge">
+            <Badge variant="primary" fullwidth>
+              Reserviert
+            </Badge>
+          </div>
+        )}
         <div className="offer__divider"></div>
         <div className="offer__user">
           <div
@@ -167,10 +225,20 @@ Offer.propTypes = {
    * click handler when the contact provider btn is clicked
    */
   onContactProvider: PropTypes.func,
+  /**
+   * unreserve handler
+   */
+  onUnreserve: PropTypes.func,
+  /**
+   * reserved set true if the offer is reserved successfully via the api
+   */
+  reserved: PropTypes.bool,
 };
 
 Offer.defaultProps = {
   offer: {},
   onReserveUntil: undefined,
   onContactProvider: undefined,
+  reserved: false,
+  onUnreserve: undefined,
 };
