@@ -6,6 +6,7 @@ import { Badge } from "../Badge/Badge";
 import { Modal } from "../Modal/Modal";
 import { Offer } from "../Offer/Offer";
 import { Button } from "../Button/Button";
+import { BookCard } from "../BookCard/BookCard";
 
 export const ReservationCard = ({
   reservation,
@@ -20,6 +21,9 @@ export const ReservationCard = ({
   );
   const [showDetails, setShowDetails] = useState(false);
   const [isUnreserving, setIsUnreserving] = useState(false);
+  const bookCardLabel = `Noch ${daysLeftOfReservation} ${
+    daysLeftOfReservation > 1 ? "Tage" : "Tag"
+  }`;
 
   function toggleDetails() {
     setShowDetails((lastState) => !lastState);
@@ -35,28 +39,14 @@ export const ReservationCard = ({
 
   return (
     <>
-      <Card>
-        <div className="reservation-card" onClick={toggleDetails}>
-          <div
-            className="reservation-card__cover"
-            role="img"
-            style={
-              reservation?.offer?.book
-                ? { backgroundImage: `url(${reservation.offer.book.image})` }
-                : {}
-            }
-          >
-            {!reservation?.offer?.book ? "COVER IMAGE" : null}
-          </div>
-          <Badge
-            fullwidth
-            variant={daysLeftOfReservation <= 1 ? "accent" : "medium"}
-          >
-            Noch {daysLeftOfReservation}{" "}
-            {daysLeftOfReservation > 1 ? "Tage" : "Tag"}
-          </Badge>
-        </div>
-      </Card>
+      <BookCard
+        onClick={toggleDetails}
+        imageUrl={reservation.offer.book.image}
+        variant={daysLeftOfReservation <= 1 ? "accent" : "medium"}
+        alt={reservation.offer.book.title}
+        label={bookCardLabel}
+      />
+
       {showDetails && (
         <>
           <Modal paddingoff>
