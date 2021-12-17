@@ -1,0 +1,17 @@
+.badge {
+  @apply w-max border py-2 px-4 font-base text-lg font-bold uppercase rounded-full;
+}
+
+.badge--fullwidth {
+  @apply w-full text-center;
+}
+
+.badge--medium {
+  @apply bg-medium-500 border-medium-600 text-medium-900;
+}
+.badge--accent {
+  @apply bg-accent-500 border-accent-800 text-white;
+}
+.badge--primary {
+  @apply bg-primary-500 border-primary-800 text-white;
+}
