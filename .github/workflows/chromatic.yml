@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v1
       - run: yarn
         #👇 Adds Chromatic as a step in the workflow
+      - run: echo "YOUR_TOKEN=${{ secrets.SOMETOKEN }}" > .env
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         with:
