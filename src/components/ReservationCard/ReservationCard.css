@@ -1,0 +1,12 @@
+.reservation-card {
+  @apply flex flex-col gap-4 items-center;
+}
+
+.reservation-card__cover  {
+  @apply bg-cover h-72 w-full rounded;
+}
+
+.reservation-card__modal {
+  width: calc(100vw - 2rem);
+  @apply flex flex-col gap-4 px-4 pb-4;
+}

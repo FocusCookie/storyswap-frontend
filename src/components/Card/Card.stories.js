@@ -19,5 +19,8 @@ const Template = (args) => (
 
 export const Default = Template.bind({});
 
+export const Clean = Template.bind({});
+Clean.args = { clean: true };
+
 export const PaddingOff = Template.bind({});
 PaddingOff.args = { paddingoff: true };

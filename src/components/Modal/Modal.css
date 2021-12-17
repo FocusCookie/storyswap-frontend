@@ -1,6 +1,6 @@
 .modal {
-  background-color: hsla(100, 1%, 46%, 0.7);
-  @apply fixed flex items-center justify-center top-0 right-0 bottom-0 left-0 z-20;
+  background-color: rgba(117, 118, 116, 0.7);
+  @apply fixed flex items-start justify-center top-0 right-0 bottom-0 left-0 z-20 overflow-y-auto;
 }
 
 .modal__card {

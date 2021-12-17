@@ -15,6 +15,7 @@ export const Offer = ({
   onUnreserve,
   onContactProvider,
   reserved,
+  clean,
   ...props
 }) => {
   const [showOfferDetails, setShowOfferDetails] = useState(false);
@@ -108,6 +109,7 @@ export const Offer = ({
         </Modal>
       )}
       <Card
+        clean={clean}
         className={`offer ${props.className ? props.className : ""}`}
         {...props}
       >
@@ -233,6 +235,10 @@ Offer.propTypes = {
    * reserved set true if the offer is reserved successfully via the api
    */
   reserved: PropTypes.bool,
+  /**
+   * no shadow, border and background
+   */
+  clean: PropTypes.bool,
 };
 
 Offer.defaultProps = {
@@ -241,4 +247,5 @@ Offer.defaultProps = {
   onContactProvider: undefined,
   reserved: false,
   onUnreserve: undefined,
+  clean: false,
 };
