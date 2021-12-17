@@ -21,6 +21,9 @@ export const ReservationCard = ({
   );
   const [showDetails, setShowDetails] = useState(false);
   const [isUnreserving, setIsUnreserving] = useState(false);
+  const bookCardLabel = `Noch ${daysLeftOfReservation} ${
+    daysLeftOfReservation > 1 ? "Tage" : "Tag"
+  }`;
 
   function toggleDetails() {
     setShowDetails((lastState) => !lastState);
@@ -41,9 +44,7 @@ export const ReservationCard = ({
         imageUrl={reservation.offer.book.image}
         variant={daysLeftOfReservation <= 1 ? "accent" : "medium"}
         alt={reservation.offer.book.title}
-        label={`Noch ${daysLeftOfReservation} ${
-          daysLeftOfReservation > 1 ? "Tage" : "Tag"
-        }`}
+        label={bookCardLabel}
       />
 
       {showDetails && (
