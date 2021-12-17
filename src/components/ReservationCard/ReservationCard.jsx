@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./ReservationCard.css";
-import { Card } from "../Card/Card";
-import { Badge } from "../Badge/Badge";
 import { Modal } from "../Modal/Modal";
 import { Offer } from "../Offer/Offer";
 import { Button } from "../Button/Button";
@@ -12,6 +10,7 @@ export const ReservationCard = ({
   reservation,
   onContactProvider,
   onUnreserve,
+  onPickedUp,
 }) => {
   const today = new Date();
   const until = new Date(reservation.until);
@@ -21,6 +20,8 @@ export const ReservationCard = ({
   );
   const [showDetails, setShowDetails] = useState(false);
   const [isUnreserving, setIsUnreserving] = useState(false);
+  const [isPickingUp, setIsPickingUp] = useState(false);
+
   const bookCardLabel = `Noch ${daysLeftOfReservation} ${
     daysLeftOfReservation > 1 ? "Tage" : "Tag"
   }`;
@@ -35,6 +36,10 @@ export const ReservationCard = ({
   }
   function handleContactProvider() {
     onContactProvider(reservation.offer.provider);
+  }
+  function bookWasPickedupHandler() {
+    setIsPickingUp(true);
+    onPickedUp(reservation._id);
   }
 
   return (
@@ -58,7 +63,14 @@ export const ReservationCard = ({
               onContactProvider={handleContactProvider}
             />
             <div className="reservation-card__modal">
-              <Button disabled={isUnreserving} onClick={toggleDetails}>
+              <Button loading={isPickingUp} onClick={bookWasPickedupHandler}>
+                Buch wurde abgeholt
+              </Button>
+              <Button
+                variant="secondary"
+                disabled={isUnreserving || isPickingUp}
+                onClick={toggleDetails}
+              >
                 schließen
               </Button>
             </div>
@@ -114,12 +126,14 @@ ReservationCard.propTypes = {
    */
   onUnreserve: PropTypes.func,
   /**
-   * reserved set true if the offer is reserved successfully via the api
+   * click handler when the book was picked up button is clicked
    */
+  onPickedUp: PropTypes.func,
 };
 
 ReservationCard.defaultProps = {
   reservation: {},
   onContactProvider: undefined,
   onUnreserve: undefined,
+  onPickedUp: undefined,
 };
