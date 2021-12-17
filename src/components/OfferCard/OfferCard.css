@@ -1,0 +1,32 @@
+.offer-card {
+  @apply bg-red-500;
+}
+.offer-card__modal {
+  width: calc(100vw - 4rem);
+  @apply flex flex-col gap-4;
+}
+
+.offer-card__book-title {
+  @apply font-highlight text-2xl font-bold uppercase text-medium-900;
+}
+.offer-card__book-author {
+  @apply font-base text-sm font-bold uppercase text-accent-500;
+}
+
+.offer-card__reservation {
+  @apply font-base font-bold text-xs text-medium-700;
+}
+
+.offer-card__collector {
+  @apply flex flex-row gap-4 items-center;
+}
+.offer-card__collector__nickname {
+  @apply text-medium-900 font-base font-bold text-lg;
+}
+.offer-card__collector__picture {
+  @apply w-8 h-8 rounded border border-medium-900;
+}
+
+.offer-card__divider {
+  @apply h-0.5 rounded bg-medium-600;
+}
