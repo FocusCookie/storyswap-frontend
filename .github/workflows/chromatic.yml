@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     # The list of steps that the action will go through
     steps:
-      - name: "Check if REACT_APP_MAPBOX_TOKEN is set"
-        if: ${{ env.REACT_APP_MAPBOX_TOKEN != '' }}
-        run: echo "MAPBOX Token set to $REACT_APP_MAPBOX_TOKEN"
-        env:
-          REACT_APP_MAPBOX_TOKEN: ${{ secrets.REACT_APP_MAPBOX_TOKEN }}
       - uses: actions/checkout@v1
       - run: yarn
         #👇 Adds Chromatic as a step in the workflow
@@ -28,3 +23,6 @@ jobs:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/design-systems-for-developers/react/en/review/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          #👇 Sets the environment variable
+          REACT_APP_MAPBOX_TOKEN: ${{ secrets.REACT_APP_MAPBOX_TOKEN }}
