@@ -1,0 +1,11 @@
+.create {
+  @apply flex flex-row items-center justify-center;
+}
+
+.create__modal {
+  width: calc(100vw - 4rem);
+  @apply flex flex-col gap-4;
+}
+.create__modal__title  {
+  @apply font-highlight font-bold text-medium-900 text-2xl uppercase;
+}
