@@ -5,6 +5,7 @@ import { BookCard } from "../BookCard/BookCard";
 import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import { Badge } from "../Badge/Badge";
+import { User } from "../User/User";
 
 export const OfferCard = ({ offer, onContactCollector, onPickedUp }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -63,19 +64,7 @@ export const OfferCard = ({ offer, onContactCollector, onPickedUp }) => {
             {offer?.reservation && offer.state === "reserved" && (
               <>
                 <div className="offer-card__divider"></div>
-
-                <div className="offer-card__collector">
-                  <div
-                    className="offer-card__collector__picture"
-                    role="img"
-                    style={{
-                      backgroundImage: `url(${offer.reservation.collector.picture})`,
-                    }}
-                  ></div>
-                  <div className="offer-card__collector__nickname ">
-                    {offer.reservation.collector.nickname}
-                  </div>
-                </div>
+                <User user={offer.reservation.collector} />
                 <Badge fullwidth>
                   {`${daysLeftOfReservation} ${
                     daysLeftOfReservation > 1 ? "Tage" : "Tag"

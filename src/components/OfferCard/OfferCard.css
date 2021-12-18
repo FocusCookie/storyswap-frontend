@@ -17,16 +17,6 @@
   @apply font-base font-bold text-xs text-medium-700;
 }
 
-.offer-card__collector {
-  @apply flex flex-row gap-4 items-center;
-}
-.offer-card__collector__nickname {
-  @apply text-medium-900 font-base font-bold text-lg;
-}
-.offer-card__collector__picture {
-  @apply w-8 h-8 rounded border border-medium-900;
-}
-
 .offer-card__divider {
   @apply h-0.5 rounded bg-medium-600;
 }
