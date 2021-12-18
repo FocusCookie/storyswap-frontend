@@ -9,3 +9,8 @@ export default {
 const Template = (args) => <Create {...args} />;
 
 export const Default = Template.bind({});
+
+export const WithError = Template.bind({});
+WithError.args = {
+  error: "Buch mit ISBN konnte nicht gefunden werden.",
+};

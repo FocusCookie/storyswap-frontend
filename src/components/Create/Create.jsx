@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Create.css";
 import { Button } from "../Button/Button";
 import { Modal } from "../Modal/Modal";
 import { Input } from "../Input/Input";
-import { RiAddCircleFill } from "react-icons/ri";
+import { RiAddCircleFill, RiErrorWarningLine } from "react-icons/ri";
 
-export const Create = ({ onCreate, ...props }) => {
+export const Create = ({ onCreate, error, ...props }) => {
   const [creationModal, setCreationModal] = useState(false);
   const [isbnValue, setIsbnValue] = useState("");
   const [isbnError, setIsbnError] = useState("");
   const [isCreating, setisCreating] = useState(false);
+
+  useEffect(() => {
+    setisCreating(false);
+  }, [error]);
 
   function toggleCreationModal() {
     setCreationModal((lastState) => !lastState);
@@ -36,6 +40,14 @@ export const Create = ({ onCreate, ...props }) => {
         <Modal>
           <div className="create__modal">
             <span className="create__modal__title">Buch inserieren</span>
+
+            {error !== "" ? (
+              <div className="create__error">
+                <RiErrorWarningLine className="create__error__icon" />
+                <p>{error}</p>
+              </div>
+            ) : null}
+
             <Input
               label="ISBN / ISBN13"
               placeholder="ISBN oder ISBN13"
@@ -72,9 +84,14 @@ Create.propTypes = {
    * creation is done
    */
   created: PropTypes.bool,
+  /**
+   * error message to display
+   */
+  error: PropTypes.string,
 };
 
 Create.defaultProps = {
   onCreate: undefined,
   created: false,
+  error: "",
 };

@@ -9,3 +9,10 @@
 .create__modal__title  {
   @apply font-highlight font-bold text-medium-900 text-2xl uppercase;
 }
+
+.create__error {
+  @apply flex flex-row gap-2 items-start font-base font-bold text-red-600 text-base;
+}
+.create__error__icon {
+  @apply text-2xl;
+}
