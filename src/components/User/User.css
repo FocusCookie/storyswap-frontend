@@ -1,0 +1,11 @@
+.user {
+  @apply flex flex-row gap-4 items-center;
+}
+
+.user__picture {
+  @apply w-8 h-8 rounded border border-medium-900;
+}
+
+.user__nickname {
+  @apply font-bold font-highlight text-xl text-medium-900;
+}
