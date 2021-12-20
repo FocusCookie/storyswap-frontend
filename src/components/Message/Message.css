@@ -1,0 +1,22 @@
+.message {
+  @apply flex flex-row gap-4 text-medium-900;
+}
+
+.message--justify-start {
+  @apply justify-start;
+}
+.message--justify-end {
+  @apply justify-end;
+}
+
+.message__card {
+  @apply p-2 w-11/12 flex flex-col gap-4 font-semibold;
+}
+
+.message--primary {
+  @apply bg-primary-500 text-white;
+}
+
+.message__timestamp  {
+  @apply text-right font-base font-bold text-xs opacity-80;
+}
