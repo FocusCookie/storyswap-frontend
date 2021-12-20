@@ -25,3 +25,6 @@ Large.args = { size: "lg", icon: "😀" };
 
 export const XLarge = Template.bind({});
 XLarge.args = { size: "xl", icon: "😀" };
+
+export const Full = Template.bind({});
+Full.args = { size: "full", icon: "😀" };

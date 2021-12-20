@@ -4,6 +4,9 @@
 .input:focus-within > .input__label {
   @apply text-accent-500;
 }
+.input__input:disabled {
+  @apply cursor-not-allowed;
+}
 
 .input:hover > .input__label {
   @apply text-medium-700;

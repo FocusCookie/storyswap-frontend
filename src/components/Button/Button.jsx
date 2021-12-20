@@ -38,7 +38,7 @@ Button.propTypes = {
   /**
    * Size of the button
    */
-  size: PropTypes.oneOf(["xs", "sm", "base", "lg", "xl"]),
+  size: PropTypes.oneOf(["xs", "sm", "base", "lg", "xl", "full"]),
   /**
    * An element that will be placed into the Icon component
    */

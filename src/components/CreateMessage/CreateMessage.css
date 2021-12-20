@@ -1,0 +1,36 @@
+.create-message {
+  @apply flex;
+}
+
+.create-message--grid {
+  display: grid;
+  grid-template-columns: 8fr 1fr;
+  gap: 0.5rem;
+}
+
+.create-message__input {
+  @apply w-full;
+}
+
+.create-message__icon {
+  @apply text-xl;
+}
+
+.create-message__icon--sending {
+  animation-iteration-count: infinite;
+  animation-name: sending;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1000ms;
+}
+
+@keyframes sending {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

@@ -10,6 +10,9 @@ const Template = (args) => <Input {...args} />;
 
 export const Default = Template.bind({});
 
+export const Disabled = Template.bind({});
+Disabled.args = { disabled: true };
+
 export const MailExample = Template.bind({});
 MailExample.args = {
   label: "email",
