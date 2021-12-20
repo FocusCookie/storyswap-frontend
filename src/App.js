@@ -66,13 +66,16 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route path="*" element={<Login />} />
         </Routes>
       </div>
       <div className="App__navigation">
-        <Navigation
-          onSelect={handleNavigationSelect}
-          select={selectedNavItem}
-        />
+        {isAuthenticated && (
+          <Navigation
+            onSelect={handleNavigationSelect}
+            select={selectedNavItem}
+          />
+        )}
       </div>
     </div>
   );
