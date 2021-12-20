@@ -1,0 +1,3 @@
+.login-view {
+  @apply w-full flex flex-col;
+}

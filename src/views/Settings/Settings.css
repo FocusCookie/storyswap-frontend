@@ -1,0 +1,3 @@
+.settings-view {
+  @apply w-full flex flex-col;
+}
