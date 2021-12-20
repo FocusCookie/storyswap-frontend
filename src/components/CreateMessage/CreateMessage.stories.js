@@ -9,3 +9,8 @@ export default {
 const Template = (args) => <CreateMessage {...args} />;
 
 export const Default = Template.bind({});
+
+export const IsSending = Template.bind({});
+IsSending.args = {
+  sending: true,
+};
