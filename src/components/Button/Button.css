@@ -9,7 +9,7 @@
 }
 
 .button__text {
-  @apply text-center w-full;
+  @apply w-full flex flex-row justify-center;
 }
 
 .button--loading {
@@ -33,6 +33,9 @@
 }
 .button--xs {
   @apply py-0.5 px-2 rounded;
+}
+.button--full {
+  @apply h-full w-full rounded;
 }
 
 .button--variant-primary {

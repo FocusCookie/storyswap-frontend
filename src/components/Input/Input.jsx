@@ -10,6 +10,7 @@ export const Input = ({
   placeholder,
   error,
   onChange,
+  disabled,
   ...props
 }) => {
   return (
@@ -25,6 +26,7 @@ export const Input = ({
         </Label>
       )}
       <input
+        disabled={disabled}
         id={label ? label : "input-id"}
         className="input__input"
         type={type}
@@ -38,12 +40,34 @@ export const Input = ({
 };
 
 Input.propTypes = {
+  /**
+   * input label
+   */
   label: PropTypes.string,
+  /**
+   * input type
+   */
   type: PropTypes.string,
+  /**
+   * display placeholder when value is empty
+   */
   placeholder: PropTypes.string,
+  /**
+   * value of the input
+   */
   value: PropTypes.string,
+  /**
+   * error message
+   */
   error: PropTypes.string,
+  /**
+   * on value change handler
+   */
   onChange: PropTypes.func,
+  /**
+   * disable the input
+   */
+  disabled: PropTypes.bool,
 };
 
 Input.defaultProps = {
@@ -52,4 +76,5 @@ Input.defaultProps = {
   placeholder: "",
   error: "",
   onChange: undefined,
+  disabled: false,
 };
