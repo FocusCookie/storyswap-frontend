@@ -12,8 +12,9 @@ export const Settings = ({ ...props }) => {
   return (
     <div className="settings-view ">
       <img src={user.picture} alt={user.name} />
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
+      <h2>Name: {user.name}</h2>
+      <h2>nickname: {user.nickname}</h2>
+      <p>email: {user.email}</p>
 
       <Button size="lg" onClick={handleLogout}>
         ausloggen

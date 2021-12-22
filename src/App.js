@@ -9,6 +9,7 @@ import { Settings } from "./views/Settings/Settings";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { Navigation } from "./components/Navigation/Navigation";
+import jwt_decode from "jwt-decode";
 
 function App() {
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
@@ -18,7 +19,17 @@ function App() {
   useEffect(() => {
     if (isAuthenticated) {
       console.log(user);
-      getAccessTokenSilently().then((res) => console.log(res));
+      getAccessTokenSilently().then((token) => {
+        console.log("token ", token);
+
+        const decodedToken = jwt_decode(token);
+        const metadata =
+          decodedToken["https://api.storyswap.app/metadata"] || null;
+
+        localStorage.setItem("metadata", JSON.stringify(metadata));
+
+        console.log("metadata", metadata);
+      });
     }
   }, [isAuthenticated]);
 
