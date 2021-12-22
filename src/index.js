@@ -13,7 +13,7 @@ ReactDOM.render(
       clientId="K02ZmIC9PSnGHfX3uG165VenI5OBOOQI"
       redirectUri={window.location.origin}
       audience="https://api.storyswap.app"
-      scope="openid profile email user_metadata"
+      scope="openid profile email"
     >
       <BrowserRouter>
         <App />

@@ -14,7 +14,8 @@ import jwt_decode from "jwt-decode";
 function App() {
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
   const [selectedNavItem, setSelectedNavItem] = useState("home");
-  let navigate = useNavigate();
+  const [userMetadata, setUserMetadata] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -26,7 +27,9 @@ function App() {
         const metadata =
           decodedToken["https://api.storyswap.app/metadata"] || null;
 
-        localStorage.setItem("metadata", JSON.stringify(metadata));
+        setUserMetadata(metadata);
+
+        //TODO create an context for the metadata to access the metadata in the require auth to navigate to the onboarding view if the user is not onboarded (metadata.isOnboarded)
 
         console.log("metadata", metadata);
       });
@@ -80,14 +83,15 @@ function App() {
           <Route path="*" element={<Login />} />
         </Routes>
       </div>
-      <div className="App__navigation">
-        {isAuthenticated && (
+
+      {isAuthenticated && userMetadata && userMetadata.isOnboarded && (
+        <div className="App__navigation">
           <Navigation
             onSelect={handleNavigationSelect}
             select={selectedNavItem}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

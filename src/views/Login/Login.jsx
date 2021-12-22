@@ -6,14 +6,13 @@ import { Button } from "../../components/Button/Button";
 import person from "../../assets/person/happy.png";
 
 export const Login = ({ ...props }) => {
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently, user } =
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      getAccessTokenSilently().then((res) => console.log(res));
-      navigate("/home");
+      getAccessTokenSilently().then(() => navigate("/home"));
     }
   }, [isAuthenticated]);
 
