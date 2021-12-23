@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 import "./Select.css";
 import { Button } from "../Button/Button";
 
-export const Select = ({ items, variant, onChange, preselected, ...props }) => {
+export const Select = ({
+  items,
+  variant,
+  onChange,
+  preselected,
+  disabled,
+  ...props
+}) => {
   const itemsAreFilled = items.length > 0;
   const initialySelected = itemsAreFilled && preselected ? preselected : "";
   const [selected, setSelected] = useState(initialySelected);
@@ -21,6 +28,8 @@ export const Select = ({ items, variant, onChange, preselected, ...props }) => {
       <>
         {items.map((item, index) => (
           <Button
+            disabled={disabled}
+            size="full"
             key={`${item.label}-${index}`}
             variant={`${item.label}` === selected ? variant : "secondary"}
             icon={item.icon ? item.icon : null}
@@ -37,6 +46,9 @@ export const Select = ({ items, variant, onChange, preselected, ...props }) => {
 };
 
 Select.propTypes = {
+  /**
+   * items to disbplay in the select
+   */
   items: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -44,12 +56,26 @@ Select.propTypes = {
       reverse: PropTypes.bool,
     })
   ),
+  /**
+   * color appereance of the buttons
+   */
   variant: PropTypes.oneOf(["accent", "primary"]),
+  /**
+   * which item is initially selected
+   */
   preselected: PropTypes.string,
+  /**
+   * onChange handler
+   */
   onChange: PropTypes.func,
+  /**
+   * disabled input
+   */
+  disabled: PropTypes.bool,
 };
 
 Select.defaultProps = {
+  disabled: false,
   items: [],
   variant: "accent",
   preselected: "",

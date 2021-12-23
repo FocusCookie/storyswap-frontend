@@ -17,6 +17,9 @@ const TemplateWithItems = (args) => <Select {...args} items={items} />;
 
 export const Default = Template.bind({});
 
+export const Disabled = TemplateWithItems.bind({});
+Disabled.args = { disabled: true };
+
 export const WithItems = TemplateWithItems.bind({});
 
 export const PreselectedItem = TemplateWithItems.bind({});

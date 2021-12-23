@@ -4,6 +4,12 @@ import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { BrowserRouter } from "react-router-dom";
+import { MetadataProvider } from "./contexts/metadata.context";
+import { ApiTokenProvider } from "./contexts/apiToken.context";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +20,15 @@ ReactDOM.render(
       audience="https://api.storyswap.app"
       scope="openid profile email"
     >
-      <App />
+      <ApiTokenProvider>
+        <QueryClientProvider client={queryClient}>
+          <MetadataProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </MetadataProvider>
+        </QueryClientProvider>
+      </ApiTokenProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
