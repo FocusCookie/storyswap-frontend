@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from "react-router-dom";
+import { MetadataProvider } from "./contexts/metadata.context";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,9 +16,11 @@ ReactDOM.render(
       audience="https://api.storyswap.app"
       scope="openid profile email"
     >
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <MetadataProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </MetadataProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")

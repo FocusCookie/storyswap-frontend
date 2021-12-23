@@ -9,12 +9,13 @@ import { Settings } from "./views/Settings/Settings";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { Navigation } from "./components/Navigation/Navigation";
-import jwt_decode from "jwt-decode";
+import { useMetadata } from "./contexts/metadata.context";
 
 function App() {
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { metadataState, metadataDispatch } = useMetadata();
   const [selectedNavItem, setSelectedNavItem] = useState("home");
-  const [userMetadata, setUserMetadata] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,18 +24,15 @@ function App() {
       getAccessTokenSilently().then((token) => {
         console.log("token ", token);
 
-        const decodedToken = jwt_decode(token);
-        const metadata =
-          decodedToken["https://api.storyswap.app/metadata"] || null;
-
-        setUserMetadata(metadata);
-
-        //TODO create an context for the metadata to access the metadata in the require auth to navigate to the onboarding view if the user is not onboarded (metadata.isOnboarded)
-
-        console.log("metadata", metadata);
+        //TODO call user profile to check the metadata
+        metadataDispatch({ type: "setMetadata", payload: { color: "red" } });
       });
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated) console.log(" metadata ", metadataState);
+  }, [metadataState]);
 
   function handleNavigationSelect(selected) {
     setSelectedNavItem(selected);
@@ -84,7 +82,7 @@ function App() {
         </Routes>
       </div>
 
-      {isAuthenticated && userMetadata && userMetadata.isOnboarded && (
+      {isAuthenticated && (
         <div className="App__navigation">
           <Navigation
             onSelect={handleNavigationSelect}
