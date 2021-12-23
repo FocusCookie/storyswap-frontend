@@ -6,8 +6,12 @@ import { Button } from "../../components/Button/Button";
 import person from "../../assets/person/happy.png";
 
 export const Login = ({ ...props }) => {
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    getAccessTokenSilently,
+    isLoading,
+  } = useAuth0();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,14 +32,31 @@ export const Login = ({ ...props }) => {
           alt="Happy person with a cup"
           className="login-view__person"
         />
-        <h1 className="headline">👋 Willkommen!</h1>
-        <p>
-          Nur noch ein Login trennt dich und deine zukünftigen Lieblingsbücher.
-        </p>
+
+        {isLoading && (
+          <div>
+            <h1 className="headline">⏳ Logge ein</h1>
+            <p>
+              Wir haben einen früheren Login erkannt und loggen dich erneut ein.
+            </p>
+          </div>
+        )}
+
+        {!isLoading && !isAuthenticated && (
+          <div>
+            <h1 className="headline">👋 Willkommen!</h1>
+            <p>
+              Nur noch ein Login trennt dich und deine zukünftigen
+              Lieblingsbücher.
+            </p>
+          </div>
+        )}
       </div>
-      <Button size="xl" onClick={handleLogin}>
-        Anmelden / Registrieren
-      </Button>
+      {!isLoading && !isAuthenticated && (
+        <Button size="xl" onClick={handleLogin}>
+          Anmelden / Registrieren
+        </Button>
+      )}
     </div>
   );
 };

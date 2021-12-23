@@ -11,11 +11,11 @@ import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { Navigation } from "./components/Navigation/Navigation";
 import { useMetadata } from "./contexts/metadata.context";
 import { useApiToken } from "./contexts/apiToken.context";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { user as userApi } from "./services/api.servise";
 
 function App() {
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { metadataState, metadataDispatch } = useMetadata();
   const { apiTokenState, apiTokenDispatch } = useApiToken();
   const [selectedNavItem, setSelectedNavItem] = useState("home");
