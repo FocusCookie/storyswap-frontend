@@ -28,6 +28,38 @@ const user = {
       throw new Error(error);
     }
   },
+  setMetadata: async (token, metadata) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (!metadata || typeof metadata !== "object" || Array.isArray(metadata))
+        throw new TypeError("invalid metadata");
+
+      const updatedMetadata = await instance.patch("user/metadata", metadata, {
+        headers: authHeader,
+      });
+
+      return updatedMetadata.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  setUser: async (token, user) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (!user || typeof user !== "object" || Array.isArray(user))
+        throw new TypeError("invalid metadata");
+
+      const updatedUser = await instance.patch("user", user, {
+        headers: authHeader,
+      });
+
+      return updatedUser.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export { user };

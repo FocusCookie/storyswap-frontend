@@ -1,0 +1,20 @@
+.onboarding-view {
+  @apply w-full flex flex-col gap-8;
+}
+
+.onboarding-view__section {
+  @apply w-full flex flex-col gap-2 text-center items-stretch;
+}
+.onboarding-view__section--gap-4 {
+  @apply gap-4;
+}
+
+.onboarding-view__section .input {
+  @apply text-left;
+}
+
+.onboarding-view__person {
+  height: 214px;
+  width: 154px;
+  @apply self-center;
+}
