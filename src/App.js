@@ -10,6 +10,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { Navigation } from "./components/Navigation/Navigation";
 import { useMetadata } from "./contexts/metadata.context";
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 
 function App() {
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
@@ -42,55 +44,57 @@ function App() {
   //TODO: hide nav if not logged in, redirect to login if logout
 
   return (
-    <div className="App">
-      <div className="App__content">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/home"
-            element={
-              <RequireAuth>
-                <Home />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/library"
-            element={
-              <RequireAuth>
-                <Library />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/messages"
-            element={
-              <RequireAuth>
-                <Messages />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <RequireAuth>
-                <Settings />
-              </RequireAuth>
-            }
-          />
-          <Route path="*" element={<Login />} />
-        </Routes>
-      </div>
-
-      {isAuthenticated && (
-        <div className="App__navigation">
-          <Navigation
-            onSelect={handleNavigationSelect}
-            select={selectedNavItem}
-          />
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <div className="App__content">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/library"
+              element={
+                <RequireAuth>
+                  <Library />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/messages"
+              element={
+                <RequireAuth>
+                  <Messages />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <RequireAuth>
+                  <Settings />
+                </RequireAuth>
+              }
+            />
+            <Route path="*" element={<Login />} />
+          </Routes>
         </div>
-      )}
-    </div>
+
+        {isAuthenticated && (
+          <div className="App__navigation">
+            <Navigation
+              onSelect={handleNavigationSelect}
+              select={selectedNavItem}
+            />
+          </div>
+        )}
+      </div>
+    </QueryClientProvider>
   );
 }
 
