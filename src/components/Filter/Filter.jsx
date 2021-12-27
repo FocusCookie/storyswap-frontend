@@ -8,11 +8,16 @@ import { isValideIsbnOrIsbn13, isValidZip } from "../../utils/utils";
 
 export const Filter = ({ onFilter, initFilters, ...props }) => {
   const [open, setOpen] = useState(false);
-  const [filters, setFilters] = useState(initFilters || {});
+  const [filters, setFilters] = useState({});
   const [filterErrors, setFilterErrors] = useState({});
+  const [filtersInitialized, setFiltersInitialized] = useState(false);
 
   useEffect(() => {
-    setFilters(initFilters);
+    if (!filtersInitialized && !initFilters) {
+      console.log(initFilters);
+      setFilters(initFilters);
+      setFiltersInitialized(true);
+    }
   }, [initFilters]);
 
   function handleOpen() {
@@ -24,7 +29,9 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
   }
 
   function handleResetFilter() {
-    setFilters({});
+    setFilterErrors({});
+    setFilters(initFilters);
+    onFilter(initFilters);
   }
 
   function handleNewFilter(filter) {
@@ -87,17 +94,19 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
 
       {open && (
         <Card className="filter__content">
+          {/* 
+        //TODO: reimplement if the backend has a seperated isbn and author search integrated  
           <Input
             onChange={(v) => handleNewFilter({ isbn: v.toLowerCase() })}
             label="ISBN"
             value={filters.isbn ? filters.isbn : ""}
             error={filterErrors.isbn ? filterErrors.isbn : ""}
-          />
+          /> 
           <Input
             onChange={(v) => handleNewFilter({ author: v.toLowerCase() })}
             label="Author"
             value={filters.author ? filters.author : ""}
-          />
+          /> */}
           <Input
             onChange={(v) => handleNewFilter({ zip: v.toLowerCase() })}
             label="Postleitzahl"

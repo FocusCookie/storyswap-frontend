@@ -62,4 +62,23 @@ const user = {
   },
 };
 
-export { user };
+const offers = {
+  getOffersWithFilter: async (token, filter) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (!filter || typeof filter !== "object" || Array.isArray(filter))
+        throw new TypeError("invalid filter");
+
+      const filteredOffers = await instance.post("offers/filter", filter, {
+        headers: authHeader,
+      });
+
+      return filteredOffers.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+export { user, offers };
