@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Filter.css";
 import { Card } from "../Card/Card";
@@ -10,6 +10,10 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState(initFilters || {});
   const [filterErrors, setFilterErrors] = useState({});
+
+  useEffect(() => {
+    setFilters(initFilters);
+  }, [initFilters]);
 
   function handleOpen() {
     setOpen((open) => !open);
