@@ -131,4 +131,20 @@ const offers = {
   },
 };
 
-export { user, offers };
+const reservations = {
+  getMyReservations: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const reservations = await instance.get("reservations", {
+        headers: authHeader,
+      });
+
+      return reservations.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+export { user, offers, reservations };

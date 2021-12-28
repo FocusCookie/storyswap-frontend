@@ -1,3 +1,15 @@
 .library-view {
-  @apply w-full flex flex-col;
+  @apply w-full flex flex-col gap-4;
+}
+
+.library-view-__create-offer-modal {
+  width: calc(100vw - 4rem);
+  @apply flex flex-col gap-4;
+}
+
+.library-view__reserved {
+  @apply grid grid-cols-2 gap-4;
+}
+.library-view__offers {
+  @apply grid grid-cols-2 gap-4;
 }

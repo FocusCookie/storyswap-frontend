@@ -1,5 +1,5 @@
 .badge {
-  @apply w-max border py-2 px-4 font-base text-lg font-bold uppercase rounded-full;
+  @apply w-max border py-2 px-4 font-base text-xs font-bold uppercase rounded-full;
 }
 
 .badge--fullwidth {

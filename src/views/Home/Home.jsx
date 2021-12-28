@@ -30,7 +30,7 @@ export const Home = ({ ...props }) => {
   const reserveOfferRequest = useMutation((options) => {
     return offersApi.reserveOffer(apiTokenState.value, options);
   });
-  const uneserveOfferRequest = useMutation((offerId) => {
+  const unreserveOfferRequest = useMutation((offerId) => {
     return offersApi.unreserveOffer(apiTokenState.value, offerId);
   });
 
@@ -60,8 +60,6 @@ export const Home = ({ ...props }) => {
 
         setOffers((lastOffers) => [...lastOffers, ...newOffers]);
 
-        console.log("pageYOffset", pageYOffset);
-
         window.scrollTo(0, pageYOffset);
 
         if (isLoadingMoreOffers) setIsLoadingMoreOffers(false);
@@ -83,7 +81,7 @@ export const Home = ({ ...props }) => {
   }, [reserveOfferRequest.isLoading]);
 
   useEffect(() => {
-    if (!uneserveOfferRequest.isLoading && uneserveOfferRequest.isSuccess) {
+    if (!unreserveOfferRequest.isLoading && unreserveOfferRequest.isSuccess) {
       const updatedOfferInOffers = offers.map((offer) => {
         if (offer._id === reserveOfferDetails.id) offer.reserved = false;
 
@@ -91,7 +89,7 @@ export const Home = ({ ...props }) => {
       });
       setOffers(updatedOfferInOffers);
     }
-  }, [uneserveOfferRequest.isLoading]);
+  }, [unreserveOfferRequest.isLoading]);
 
   function handleNewFilter(value) {
     setOffers([]);
@@ -123,7 +121,7 @@ export const Home = ({ ...props }) => {
   }
 
   function handleCreateOffer() {
-    console.log("erstellen");
+    navigate(`/library/create-offer`);
   }
 
   function handleContactProvider(provider) {
@@ -139,7 +137,7 @@ export const Home = ({ ...props }) => {
   }
 
   function handleUnreserveOffer(details) {
-    uneserveOfferRequest.mutate(details.id);
+    unreserveOfferRequest.mutate(details.id);
   }
 
   return (

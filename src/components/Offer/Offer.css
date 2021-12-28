@@ -67,5 +67,5 @@
   @apply flex flex-col gap-4;
 }
 .offer__reservation__title {
-  @apply text-center font-bold text-2xl font-highlight;
+  @apply text-center font-bold text-2xl font-highlight break-words;
 }

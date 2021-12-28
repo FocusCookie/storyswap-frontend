@@ -91,6 +91,14 @@ function App() {
             }
           />
           <Route
+            path="/library/:init"
+            element={
+              <RequireAuth>
+                <Library />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/library"
             element={
               <RequireAuth>
