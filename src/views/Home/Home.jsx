@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
 import { useMetadata } from "../../contexts/metadata.context";
 import { useMutation } from "react-query";
 import { useApiToken } from "../../contexts/apiToken.context";
@@ -13,18 +14,29 @@ import isSadPerson from "../../assets/person/sad.png";
 export const Home = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
+  const navigate = useNavigate();
   const [initFilterValue, setInitFilterValue] = useState();
   const [offers, setOffers] = useState([]);
   const [lastOfferId, setLastOfferId] = useState(null);
   const [filter, setFilter] = useState({});
   const [isLoadingMoreOffers, setIsLoadingMoreOffers] = useState(false);
   const [hideMore, setHideMore] = useState(false);
-
-  //TODO: Fix scroll bug when more offers are fetched and added, it scrolls currently to the top
+  const [pageYOffset, setPageYOffset] = useState(0);
+  const [reserveOfferDetails, setReserveOfferDetails] = useState(null);
 
   const offersRequest = useMutation((options) => {
     return offersApi.getOffersWithFilter(apiTokenState.value, options);
   });
+  const reserveOfferRequest = useMutation((options) => {
+    return offersApi.reserveOffer(apiTokenState.value, options);
+  });
+  const uneserveOfferRequest = useMutation((offerId) => {
+    return offersApi.unreserveOffer(apiTokenState.value, offerId);
+  });
+
+  //TODO: Fix scrollto its visible that the content moves up and fast down again
+
+  //TODO: implement error handling for example if the offer is reserved already and the user tries to reserve it again.
 
   useEffect(() => {
     if ((metadata && metadata.city) || (metadata && metadata.zip)) {
@@ -48,12 +60,38 @@ export const Home = ({ ...props }) => {
 
         setOffers((lastOffers) => [...lastOffers, ...newOffers]);
 
+        console.log("pageYOffset", pageYOffset);
+
+        window.scrollTo(0, pageYOffset);
+
         if (isLoadingMoreOffers) setIsLoadingMoreOffers(false);
 
         if (newOffers.length < 10) setHideMore(true);
       }
     }
   }, [offersRequest.isLoading]);
+
+  useEffect(() => {
+    if (!reserveOfferRequest.isLoading && reserveOfferRequest.isSuccess) {
+      const updatedOfferInOffers = offers.map((offer) => {
+        if (offer._id === reserveOfferDetails.id) offer.reserved = true;
+
+        return offer;
+      });
+      setOffers(updatedOfferInOffers);
+    }
+  }, [reserveOfferRequest.isLoading]);
+
+  useEffect(() => {
+    if (!uneserveOfferRequest.isLoading && uneserveOfferRequest.isSuccess) {
+      const updatedOfferInOffers = offers.map((offer) => {
+        if (offer._id === reserveOfferDetails.id) offer.reserved = false;
+
+        return offer;
+      });
+      setOffers(updatedOfferInOffers);
+    }
+  }, [uneserveOfferRequest.isLoading]);
 
   function handleNewFilter(value) {
     setOffers([]);
@@ -67,6 +105,9 @@ export const Home = ({ ...props }) => {
 
   function handleLoadMoreOffers() {
     setIsLoadingMoreOffers(true);
+
+    const yOffset = window.pageYOffset;
+    setPageYOffset(yOffset);
 
     const newFilterWithLastOfferID = {
       filter: filter.filter,
@@ -83,6 +124,22 @@ export const Home = ({ ...props }) => {
 
   function handleCreateOffer() {
     console.log("erstellen");
+  }
+
+  function handleContactProvider(provider) {
+    navigate(`/messages/${provider.sub}`);
+    //TODO: implement the book in the first message automatically
+  }
+
+  function handleReserveOffer(details) {
+    const reserveOptions = { id: details.id, until: details.until };
+
+    setReserveOfferDetails(reserveOptions);
+    reserveOfferRequest.mutate(reserveOptions);
+  }
+
+  function handleUnreserveOffer(details) {
+    uneserveOfferRequest.mutate(details.id);
   }
 
   return (
@@ -116,7 +173,16 @@ export const Home = ({ ...props }) => {
 
       {!offersRequest.isLoading &&
         offers &&
-        offers.map((offer) => <Offer key={offer._id} offer={offer} />)}
+        offers.map((offer) => (
+          <Offer
+            key={offer._id}
+            offer={offer}
+            onContactProvider={handleContactProvider}
+            onReserveUntil={handleReserveOffer}
+            onUnreserve={handleUnreserveOffer}
+            reserved={offer.reserved}
+          />
+        ))}
 
       {!offersRequest.isLoading && offers.length > 0 && !hideMore && (
         <Button loading={isLoadingMoreOffers} onClick={handleLoadMoreOffers}>

@@ -14,7 +14,6 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
 
   useEffect(() => {
     if (!filtersInitialized && initFilters) {
-      console.log(initFilters);
       setFilters(initFilters);
       setFiltersInitialized(true);
     }
