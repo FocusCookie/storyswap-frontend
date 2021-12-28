@@ -9,6 +9,8 @@ import { Badge } from "../Badge/Badge";
 import { Map } from "../Map/Map";
 import { addDaysToToday } from "../../utils/utils";
 
+//TODO: Implement fall back cover if no image is provided with the book
+
 export const Offer = ({
   offer,
   onReserveUntil,

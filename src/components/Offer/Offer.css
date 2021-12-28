@@ -7,7 +7,7 @@
 }
 
 .offer__title {
-  @apply font-highlight text-2xl font-bold uppercase text-medium-900;
+  @apply font-highlight text-2xl font-bold uppercase text-medium-900 break-words;
 }
 .offer__author {
   @apply font-base text-sm font-bold uppercase text-accent-500;

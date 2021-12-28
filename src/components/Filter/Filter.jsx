@@ -13,7 +13,7 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
   const [filtersInitialized, setFiltersInitialized] = useState(false);
 
   useEffect(() => {
-    if (!filtersInitialized && !initFilters) {
+    if (!filtersInitialized && initFilters) {
       console.log(initFilters);
       setFilters(initFilters);
       setFiltersInitialized(true);
