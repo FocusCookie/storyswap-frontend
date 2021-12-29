@@ -7,7 +7,7 @@
 }
 
 .offer__title {
-  @apply font-highlight text-2xl font-bold uppercase text-medium-900;
+  @apply font-highlight text-2xl font-bold uppercase text-medium-900 break-words;
 }
 .offer__author {
   @apply font-base text-sm font-bold uppercase text-accent-500;
@@ -67,5 +67,5 @@
   @apply flex flex-col gap-4;
 }
 .offer__reservation__title {
-  @apply text-center font-bold text-2xl font-highlight;
+  @apply text-center font-bold text-2xl font-highlight break-words;
 }

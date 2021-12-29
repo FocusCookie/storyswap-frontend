@@ -33,6 +33,7 @@ export const ReservationCard = ({
   function handleUnreserve() {
     setIsUnreserving(true);
     onUnreserve(reservation.offer._id);
+    setShowDetails(false);
   }
   function handleContactProvider() {
     onContactProvider(reservation.offer.provider);

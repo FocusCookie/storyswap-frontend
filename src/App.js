@@ -60,6 +60,11 @@ function App() {
     if (isAuthenticated) console.log(" apiTokenState ", apiTokenState);
   }, [metadataState, apiTokenState]);
 
+  useEffect(() => {
+    if (location.pathname.includes("messages")) setSelectedNavItem("messages");
+    if (location.pathname.includes("home")) setSelectedNavItem("home");
+  }, [location.pathname]);
+
   function handleNavigationSelect(selected) {
     setSelectedNavItem(selected);
     navigate(`/${selected}`);
@@ -87,6 +92,14 @@ function App() {
             }
           />
           <Route
+            path="/library/:init"
+            element={
+              <RequireAuth>
+                <Library />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/library"
             element={
               <RequireAuth>
@@ -96,6 +109,14 @@ function App() {
           />
           <Route
             path="/messages"
+            element={
+              <RequireAuth>
+                <Messages />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/messages/:contact"
             element={
               <RequireAuth>
                 <Messages />
