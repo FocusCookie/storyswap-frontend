@@ -38,6 +38,8 @@ export const Library = ({ ...props }) => {
   const [isbnError, setIsbnError] = useState("");
   const [bookForOffer, setBookForOffer] = useState(null);
   const [bookWasCreated, setBookWasCreated] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deletedOfferId, setDeletedOfferId] = useState(null);
 
   const reservationRequest = useQuery("reservations", async () => {
     return await reservationsApi.getMyReservations(apiTokenState.value);
@@ -61,6 +63,10 @@ export const Library = ({ ...props }) => {
 
   const checkIsbnRequest = useMutation((isbn) => {
     return bookApi.checkIsbn(apiTokenState.value, isbn);
+  });
+
+  const deleteOfferRequest = useMutation((id) => {
+    return offersApi.delete(apiTokenState.value, id);
   });
 
   const createOfferRequest = useMutation((options) => {
@@ -147,6 +153,18 @@ export const Library = ({ ...props }) => {
     }
   }, [createOfferRequest.isLoading]);
 
+  useEffect(() => {
+    if (!deleteOfferRequest.isLoading && deleteOfferRequest.isSuccess) {
+      const updatedMyOffers = myOffers.filter((offer) => {
+        return offer._id !== deletedOfferId;
+      });
+      setMyOffers(updatedMyOffers);
+
+      setDeletedOfferId(null);
+      setIsDeleting(false);
+    }
+  }, [deleteOfferRequest.isLoading]);
+
   function handleCancelOfferCreation() {
     setShowCreationModal(false);
     setBookWasCreated(false);
@@ -228,7 +246,9 @@ export const Library = ({ ...props }) => {
   }
 
   function handleDeleteOffer(id) {
-    console.log("DELETE ID : ", id);
+    setDeletedOfferId(id);
+    setIsDeleting(true);
+    deleteOfferRequest.mutate(id);
   }
 
   return (

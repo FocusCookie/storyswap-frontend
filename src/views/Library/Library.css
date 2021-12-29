@@ -19,7 +19,7 @@
   @apply flex flex-col gap-4 items-center;
 }
 .library-view__offers__myOffers {
-  @apply grid grid-cols-2 gap-4;
+  @apply grid grid-cols-2 gap-4 w-full;
 }
 .library-view__message {
   @apply flex flex-col gap-4 items-center text-center;

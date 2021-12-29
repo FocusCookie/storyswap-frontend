@@ -185,6 +185,23 @@ const offers = {
       throw new Error(error);
     }
   },
+
+  delete: async (token, id) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (!id || typeof id !== "string")
+        throw new TypeError("invalid offer id");
+
+      const isDeleted = await instance.delete(`offers/${id}`, {
+        headers: authHeader,
+      });
+
+      return isDeleted.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 const reservations = {
