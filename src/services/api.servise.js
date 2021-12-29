@@ -80,6 +80,20 @@ const offers = {
     }
   },
 
+  getMyOffers: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const myOffers = await instance.get("offers/my", {
+        headers: authHeader,
+      });
+
+      return myOffers.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   reserveOffer: async (token, options) => {
     try {
       const authHeader = createAuthenticationHeader(token);
@@ -129,6 +143,24 @@ const offers = {
       throw new Error(error);
     }
   },
+
+  wasPickedup: async (token, id) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const reservations = await instance.post(
+        `offers/${id}/pickedup`,
+        {},
+        {
+          headers: authHeader,
+        }
+      );
+
+      return reservations.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 const reservations = {
@@ -139,6 +171,24 @@ const reservations = {
       const reservations = await instance.get("reservations", {
         headers: authHeader,
       });
+
+      return reservations.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  wasPickedup: async (token, id) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const reservations = await instance.post(
+        `reservations/${id}/pickedup`,
+        {},
+        {
+          headers: authHeader,
+        }
+      );
 
       return reservations.data;
     } catch (error) {

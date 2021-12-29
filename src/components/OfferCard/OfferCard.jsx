@@ -132,7 +132,7 @@ OfferCard.propTypes = {
       }),
       until: PropTypes.string,
       offer: PropTypes.string,
-      state: ["pending", "reserved", "deleted", "pickedup"],
+      state: PropTypes.oneOf(["reserved", "deleted", "pickedup", "expired"]),
       __v: 0,
     }),
   }),

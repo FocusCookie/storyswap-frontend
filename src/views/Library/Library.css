@@ -2,14 +2,25 @@
   @apply w-full flex flex-col gap-4;
 }
 
-.library-view-__create-offer-modal {
+.library-view__create-offer-modal {
   width: calc(100vw - 4rem);
   @apply flex flex-col gap-4;
 }
 
 .library-view__reserved {
+  @apply flex flex-col gap-4;
+}
+
+.library-view__reserved__offers {
   @apply grid grid-cols-2 gap-4;
 }
+
 .library-view__offers {
+  @apply flex flex-col gap-4 items-center;
+}
+.library-view__offers__myOffers {
   @apply grid grid-cols-2 gap-4;
+}
+.library-view__message {
+  @apply flex flex-col gap-4 items-center text-center;
 }

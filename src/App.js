@@ -62,6 +62,7 @@ function App() {
 
   useEffect(() => {
     if (location.pathname.includes("messages")) setSelectedNavItem("messages");
+    if (location.pathname.includes("home")) setSelectedNavItem("home");
   }, [location.pathname]);
 
   function handleNavigationSelect(selected) {
