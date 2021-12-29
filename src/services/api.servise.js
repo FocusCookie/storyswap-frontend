@@ -161,6 +161,30 @@ const offers = {
       throw new Error(error);
     }
   },
+
+  create: async (token, options) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (
+        !options ||
+        typeof options !== "object" ||
+        Array.isArray(options) ||
+        !options.book ||
+        !options.zip ||
+        !options.city
+      )
+        throw new TypeError("invalid options");
+
+      const offer = await instance.post(`offers/`, options, {
+        headers: authHeader,
+      });
+
+      return offer.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 const reservations = {
@@ -197,4 +221,38 @@ const reservations = {
   },
 };
 
-export { user, offers, reservations };
+const books = {
+  checkIsbn: async (token, isbn) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (
+        !isbn ||
+        typeof isbn !== "string" ||
+        isbn.length < 9 ||
+        isbn.length > 13
+      )
+        throw new TypeError("invalid isbn");
+
+      const isbnFilter = { isbn: isbn, isbn13: isbn };
+
+      if (isbn.length > 10) {
+        delete isbnFilter.isbn;
+      } else {
+        delete isbnFilter.isbn13;
+      }
+
+      const book = await instance.post("books", isbnFilter, {
+        headers: authHeader,
+      });
+
+      if (book.status === 200) return book.data;
+
+      return false;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+export { user, offers, reservations, books };

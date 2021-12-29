@@ -7,9 +7,15 @@ import { Button } from "../Button/Button";
 import { Badge } from "../Badge/Badge";
 import { User } from "../User/User";
 
-export const OfferCard = ({ offer, onContactCollector, onPickedUp }) => {
+export const OfferCard = ({
+  offer,
+  onContactCollector,
+  onDelete,
+  onPickedUp,
+}) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isPickingUp, setIsPickingUp] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const today = new Date();
   const until = new Date(offer.reservation ? offer.reservation.until : "");
@@ -33,6 +39,10 @@ export const OfferCard = ({ offer, onContactCollector, onPickedUp }) => {
   }
   function contactCollectorHandler() {
     onContactCollector(offer.reservation.collector);
+  }
+  function handleDelete() {
+    setIsDeleting(true);
+    onDelete(offer._id);
   }
   function bookWasPickedupHandler() {
     setIsPickingUp(true);
@@ -61,6 +71,11 @@ export const OfferCard = ({ offer, onContactCollector, onPickedUp }) => {
                 Abzuholen in {offer.zip} {offer.city}
               </p>
             </div>
+
+            <Button variant="text" onClick={handleDelete} loading={isDeleting}>
+              Inserat löschen
+            </Button>
+
             {offer?.reservation && offer.state === "reserved" && (
               <>
                 <div className="offer-card__divider"></div>
@@ -86,7 +101,7 @@ export const OfferCard = ({ offer, onContactCollector, onPickedUp }) => {
               </Button>
             )}
             <Button
-              disabled={isPickingUp}
+              disabled={isPickingUp || isDeleting}
               variant="secondary"
               onClick={toggleDetails}
             >
@@ -144,8 +159,13 @@ OfferCard.propTypes = {
    * click handler when the book was picked up button is clicked
    */
   onPickedUp: PropTypes.func,
+  /**
+   * click handler when the offer is deleted
+   */
+  onDelete: PropTypes.func,
 };
 OfferCard.defaultProps = {
   onContactCollector: undefined,
   onPickedUp: undefined,
+  onDelete: undefined,
 };

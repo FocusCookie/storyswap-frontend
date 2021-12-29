@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Library.css";
+import { useMetadata } from "../../contexts/metadata.context";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Modal } from "../../components/Modal/Modal";
@@ -7,6 +8,7 @@ import { Button } from "../../components/Button/Button";
 import { Select } from "../../components/Select/Select";
 import { ReservationCard } from "../../components/ReservationCard/ReservationCard";
 import { OfferCard } from "../../components/OfferCard/OfferCard";
+import { Input } from "../../components/Input/Input";
 import calmPerson from "../../assets/person/calm.png";
 
 import { useApiToken } from "../../contexts/apiToken.context";
@@ -14,12 +16,14 @@ import { useQuery, useMutation } from "react-query";
 import {
   reservations as reservationsApi,
   offers as offersApi,
+  books as bookApi,
 } from "../../services/api.servise";
 
-//TODO offer creation
+//TODO: Implement delete offer! handleDeleteOffer weiter machen dort
 
 export const Library = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
+  const { metadataState: metadata } = useMetadata();
   const navigate = useNavigate();
   const { init } = useParams();
   const [showCreationModal, setShowCreationModal] = useState(false);
@@ -30,6 +34,10 @@ export const Library = ({ ...props }) => {
   const [myOffers, setMyOffers] = useState([]);
   const [reservationPickedupId, setReservationPickedupId] = useState(null);
   const [offerPickedupId, setOfferPickedupId] = useState(null);
+  const [isbn, setIsbn] = useState("");
+  const [isbnError, setIsbnError] = useState("");
+  const [bookForOffer, setBookForOffer] = useState(null);
+  const [bookWasCreated, setBookWasCreated] = useState(false);
 
   const reservationRequest = useQuery("reservations", async () => {
     return await reservationsApi.getMyReservations(apiTokenState.value);
@@ -51,9 +59,20 @@ export const Library = ({ ...props }) => {
     return offersApi.wasPickedup(apiTokenState.value, offerId);
   });
 
+  const checkIsbnRequest = useMutation((isbn) => {
+    return bookApi.checkIsbn(apiTokenState.value, isbn);
+  });
+
+  const createOfferRequest = useMutation((options) => {
+    return offersApi.create(apiTokenState.value, options);
+  });
+
   // If route has create param show creation modal
   useEffect(() => {
-    if (init === "create-offer") setShowCreationModal(true);
+    if (init === "create-offer") {
+      setShowCreationModal(true);
+      setBookWasCreated(false);
+    }
 
     console.log("reservations ", reservations);
     console.log("reservationRequest.data", reservationRequest.data);
@@ -114,8 +133,23 @@ export const Library = ({ ...props }) => {
     }
   }, [offerPickedupRequest.isLoading]);
 
+  useEffect(() => {
+    if (!checkIsbnRequest.isLoading && checkIsbnRequest.isSuccess) {
+      console.log("book found ", checkIsbnRequest.data);
+
+      setBookForOffer(checkIsbnRequest.data);
+    }
+  }, [checkIsbnRequest.isLoading]);
+
+  useEffect(() => {
+    if (!createOfferRequest.isLoading && createOfferRequest.isSuccess) {
+      setBookWasCreated(true);
+    }
+  }, [createOfferRequest.isLoading]);
+
   function handleCancelOfferCreation() {
     setShowCreationModal(false);
+    setBookWasCreated(false);
   }
 
   function handleSelectChange(item) {
@@ -147,6 +181,54 @@ export const Library = ({ ...props }) => {
 
   function handleOpenCreateOffer() {
     setShowCreationModal(true);
+    setBookWasCreated(false);
+  }
+
+  function handleIsbnChange(value) {
+    setIsbn(value);
+  }
+
+  function handleCheckIsbn() {
+    setIsbnError("");
+
+    if (
+      isbn.length < 9 ||
+      (isbn.length > 10 && isbn.length < 13) ||
+      isbn.length > 13
+    ) {
+      setIsbnError("Die ISBN muss 9,10 oder 13 stellig sein.");
+    } else {
+      checkIsbnRequest.mutate(isbn);
+    }
+  }
+
+  function backToIsbnCheckHandler() {
+    setBookForOffer(null);
+  }
+
+  function createOfferHandler() {
+    const options = {
+      book: bookForOffer._id,
+      zip: parseInt(metadata.zip),
+      city: metadata.city,
+    };
+
+    createOfferRequest.mutate(options);
+  }
+
+  function handleBackToOffers() {
+    const newCreatedOffer = createOfferRequest.data;
+    newCreatedOffer.book = bookForOffer;
+    const newOffers = [...myOffers, newCreatedOffer];
+
+    setMyOffers(newOffers);
+    setBookWasCreated(false);
+    setBookForOffer(null);
+    setShowCreationModal(false);
+  }
+
+  function handleDeleteOffer(id) {
+    console.log("DELETE ID : ", id);
   }
 
   return (
@@ -193,6 +275,7 @@ export const Library = ({ ...props }) => {
                   offer={offer}
                   onContactCollector={contactUser}
                   onPickedUp={handleOfferWasPickedUp}
+                  onDelete={handleDeleteOffer}
                 />
               ))}
             </div>
@@ -215,8 +298,79 @@ export const Library = ({ ...props }) => {
       {showCreationModal && (
         <Modal>
           <div className="library-view__create-offer-modal">
-            <p>create new offer</p>
-            <Button onClick={handleCancelOfferCreation}>abbrechen</Button>
+            {!bookForOffer && !bookWasCreated && (
+              <div className="flex flex-col gap-4">
+                <h1 className="headline text-center">Neues Inserat 📚 </h1>
+                <p className="text-center">
+                  Um ein neues Inserat anlegenzulegen gebe einfach die ISBN oder
+                  ISBN13 deines Buches ein. Wir werden anschließend alle
+                  notwendigen Informationen zuammentragen und automatisch 🤖 für
+                  dich ergänzen.
+                </p>
+                <Input
+                  value={isbn}
+                  onChange={handleIsbnChange}
+                  label="ISBN oder ISBN13"
+                  type="text"
+                  disabled={false}
+                  error={isbnError}
+                />
+
+                <Button
+                  size="xl"
+                  loading={checkIsbnRequest.isLoading}
+                  onClick={handleCheckIsbn}
+                >
+                  Überprüfe ISBN
+                </Button>
+              </div>
+            )}
+
+            {bookForOffer && !bookWasCreated && (
+              <div className="flex flex-col gap-4">
+                <h2 className="headline">{bookForOffer.title}</h2>
+                <p className="offer__author">
+                  VON {bookForOffer.authors.join(" & ")}
+                </p>
+
+                <img
+                  src={bookForOffer.image}
+                  alt={bookForOffer.title}
+                  className="rounded"
+                />
+
+                <p className="font-bold text-center">
+                  Angeboten in {metadata.zip}, {metadata.city}
+                </p>
+
+                <Button size="xl" onClick={createOfferHandler}>
+                  erstellen
+                </Button>
+
+                <Button variant="secondary" onClick={backToIsbnCheckHandler}>
+                  zurück
+                </Button>
+              </div>
+            )}
+
+            {!bookWasCreated && (
+              <Button
+                variant="secondary"
+                disabled={checkIsbnRequest.isLoading}
+                onClick={handleCancelOfferCreation}
+              >
+                abbrechen
+              </Button>
+            )}
+
+            {bookWasCreated && (
+              <div>
+                <h1>Wurde erstellt!</h1>
+                <Button onClick={handleBackToOffers}>
+                  zurück zu meinen Inseraten
+                </Button>
+              </div>
+            )}
           </div>
         </Modal>
       )}
