@@ -1,3 +1,4 @@
 .chat-view {
-  @apply bg-red-500;
+  width: calc(100vw - 2rem);
+  @apply flex flex-col gap-4 bg-red-500;
 }

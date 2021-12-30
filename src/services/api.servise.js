@@ -272,4 +272,20 @@ const books = {
   },
 };
 
-export { user, offers, reservations, books };
+const chats = {
+  getMyChats: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const chats = await instance.get("chats/my", {
+        headers: authHeader,
+      });
+
+      return chats.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+export { user, offers, reservations, books, chats };
