@@ -178,7 +178,7 @@ export const Library = ({ ...props }) => {
   }
 
   function contactUser(details) {
-    navigate(`/messages/${details.sub}`);
+    navigate(`/messages/chat/${details.sub}`);
   }
 
   function handleGoToHome() {
