@@ -163,7 +163,7 @@ export const Home = ({ ...props }) => {
             <img src={isSadPerson} alt="Sad person" />
             <p>
               Wir konnten leider keine Inserate finden. Du kannst die Suchfilter
-              ändern, um mehr Angebote zu finden oder erstelle ein Inserat.{" "}
+              ändern, um mehr Angebote zu finden oder erstelle ein Inserat.
             </p>
             <Button onClick={handleCreateOffer}>Erstelle ein Inserat</Button>
           </div>

@@ -13,3 +13,7 @@
 .messages-view__chat:hover .user__nickname {
   @apply text-primary-500;
 }
+
+.messages-view__no-chats {
+  @apply flex flex-col gap-4 items-center text-center;
+}
