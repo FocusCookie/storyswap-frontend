@@ -10,9 +10,9 @@ export const CreateMessage = ({ onCreate, sending, ...props }) => {
   const [wasSend, setWasSend] = useState(false);
 
   useEffect(() => {
-    if (sending && !wasSend) setWasSend(true);
+    if (!sending && !wasSend) setWasSend(true);
 
-    if (!sending && wasSend) {
+    if (sending && wasSend) {
       setMessage("");
       setWasSend(false);
     }

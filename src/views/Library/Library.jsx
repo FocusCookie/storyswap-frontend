@@ -19,6 +19,8 @@ import {
   books as bookApi,
 } from "../../services/api.servise";
 
+//TODO show successfully created modal with person ;)
+
 //TODO: Implement delete offer! handleDeleteOffer weiter machen dort
 
 export const Library = ({ ...props }) => {
@@ -178,7 +180,7 @@ export const Library = ({ ...props }) => {
   }
 
   function contactUser(details) {
-    navigate(`/messages/chat/${details.sub}`);
+    navigate(`/messages/sub/${details.sub}`);
   }
 
   function handleGoToHome() {

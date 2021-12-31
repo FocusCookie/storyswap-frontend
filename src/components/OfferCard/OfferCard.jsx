@@ -6,6 +6,7 @@ import { Modal } from "../Modal/Modal";
 import { Button } from "../Button/Button";
 import { Badge } from "../Badge/Badge";
 import { User } from "../User/User";
+import FallBackCover from "../../assets/book_small.jpg";
 
 export const OfferCard = ({
   offer,
@@ -52,7 +53,7 @@ export const OfferCard = ({
     <>
       <BookCard
         onClick={toggleDetails}
-        imageUrl={offer.book.image}
+        imageUrl={offer.book.image ? offer.book.image : FallBackCover}
         variant={bookVariantFromOfferState(offer.state)}
         alt={offer.book.title}
         label={labelFromOfferState(offer.state)}

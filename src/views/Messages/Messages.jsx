@@ -9,6 +9,8 @@ import { Button } from "../../components/Button/Button";
 import { chats as chatApi } from "../../services/api.servise";
 import unhappyPerson from "../../assets/person/unhappy.png";
 
+//TODO implement creating new chat if no existing chat
+
 export const Messages = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
   const [search, setSearch] = useState("");
@@ -25,7 +27,6 @@ export const Messages = ({ ...props }) => {
       chatsRequest.isSuccess &&
       chatsRequest.data
     ) {
-      console.log("chat os set");
       setChats(chatsRequest.data);
     }
   }, [chatsRequest.isLoading]);
@@ -34,8 +35,8 @@ export const Messages = ({ ...props }) => {
     setSearch(value);
   }
 
-  function handleOpenChat(chatId) {
-    navigate(`/messages/chat/${chatId}`);
+  function handleOpenChat(userSub) {
+    navigate(`/messages/sub/${userSub}`);
   }
 
   function handleGoToOffers() {
@@ -80,7 +81,7 @@ export const Messages = ({ ...props }) => {
                 <div
                   key={chat._id}
                   className="messages-view__chat"
-                  onClick={() => handleOpenChat(chat._id)}
+                  onClick={() => handleOpenChat(chat.users[1].sub)}
                 >
                   <User user={chat.users[1]} />
                   {/* TODO add new message badge if its available on backend */}

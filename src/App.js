@@ -109,18 +109,18 @@ function App() {
             }
           />
           <Route
-            path="/messages"
+            path="/messages/sub/:sub"
             element={
               <RequireAuth>
-                <Messages />
+                <Chat />
               </RequireAuth>
             }
           />
           <Route
-            path="/messages/chat/:contact"
+            path="/messages"
             element={
               <RequireAuth>
-                <Chat />
+                <Messages />
               </RequireAuth>
             }
           />

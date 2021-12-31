@@ -125,7 +125,7 @@ export const Home = ({ ...props }) => {
   }
 
   function handleContactProvider(provider) {
-    navigate(`/messages/chat/${provider.sub}`);
+    navigate(`/messages/sub/${provider.sub}`);
     //TODO: implement the book in the first message automatically
   }
 

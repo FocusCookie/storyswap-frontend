@@ -1,4 +1,18 @@
 .chat-view {
+  @apply flex flex-col w-full;
+}
+
+.chat-view__header {
+  @apply flex flex-row gap-4 justify-start items-center border-b border-medium-600 pb-4;
+}
+
+.chat-view__messages {
+  height: calc(100vh - 14rem);
+  @apply flex flex-col gap-6  overflow-y-scroll py-4;
+}
+
+.chat-view__write-input {
   width: calc(100vw - 2rem);
-  @apply flex flex-col gap-4 bg-red-500;
+  bottom: 106px;
+  @apply fixed;
 }
