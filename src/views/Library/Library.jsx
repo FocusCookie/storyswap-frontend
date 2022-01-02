@@ -10,6 +10,7 @@ import { ReservationCard } from "../../components/ReservationCard/ReservationCar
 import { OfferCard } from "../../components/OfferCard/OfferCard";
 import { Input } from "../../components/Input/Input";
 import calmPerson from "../../assets/person/calm.png";
+import happyPerson from "../../assets/person/smilling.png";
 
 import { useApiToken } from "../../contexts/apiToken.context";
 import { useQuery, useMutation } from "react-query";
@@ -18,10 +19,6 @@ import {
   offers as offersApi,
   books as bookApi,
 } from "../../services/api.servise";
-
-//TODO show successfully created modal with person ;)
-
-//TODO: Implement delete offer! handleDeleteOffer weiter machen dort
 
 export const Library = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
@@ -374,8 +371,12 @@ export const Library = ({ ...props }) => {
             )}
 
             {bookWasCreated && (
-              <div>
-                <h1>Wurde erstellt!</h1>
+              <div className="library-view__message">
+                <img src={happyPerson} alt="Happy person with a coffe cup" />
+                <p className="text-center">
+                  Dein Buch 📖 wurde erfolgreich inseriert und ist nun für
+                  andere Nutzer sichtbar 🎉.
+                </p>
                 <Button onClick={handleBackToOffers}>
                   zurück zu meinen Inseraten
                 </Button>
