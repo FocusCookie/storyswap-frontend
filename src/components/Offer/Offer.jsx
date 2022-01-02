@@ -8,6 +8,7 @@ import { Button } from "../Button/Button";
 import { Badge } from "../Badge/Badge";
 import { Map } from "../Map/Map";
 import { addDaysToToday } from "../../utils/utils";
+import FallBackCover from "../../assets/book_small.jpg";
 
 //TODO: Implement fall back cover if no image is provided with the book
 
@@ -126,7 +127,11 @@ export const Offer = ({
           <div
             className="offer__cover"
             role="img"
-            style={{ backgroundImage: `url(${offer.book.image})` }}
+            style={{
+              backgroundImage: `url(${
+                offer.book.image ? offer.book.image : FallBackCover
+              })`,
+            }}
             onClick={toggleOfferDetails}
           ></div>
         )}

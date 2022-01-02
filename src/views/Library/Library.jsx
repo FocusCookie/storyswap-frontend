@@ -10,6 +10,7 @@ import { ReservationCard } from "../../components/ReservationCard/ReservationCar
 import { OfferCard } from "../../components/OfferCard/OfferCard";
 import { Input } from "../../components/Input/Input";
 import calmPerson from "../../assets/person/calm.png";
+import happyPerson from "../../assets/person/smilling.png";
 
 import { useApiToken } from "../../contexts/apiToken.context";
 import { useQuery, useMutation } from "react-query";
@@ -18,8 +19,6 @@ import {
   offers as offersApi,
   books as bookApi,
 } from "../../services/api.servise";
-
-//TODO: Implement delete offer! handleDeleteOffer weiter machen dort
 
 export const Library = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
@@ -79,14 +78,10 @@ export const Library = ({ ...props }) => {
       setShowCreationModal(true);
       setBookWasCreated(false);
     }
-
-    console.log("reservations ", reservations);
-    console.log("reservationRequest.data", reservationRequest.data);
   }, []);
 
   useEffect(() => {
     if (!reservationRequest.isFetching && reservationRequest.isSuccess) {
-      console.log(reservationRequest.data);
       if (reservationRequest.data.length > 0) {
         setReservations(reservationRequest.data);
       }
@@ -103,8 +98,6 @@ export const Library = ({ ...props }) => {
 
   useEffect(() => {
     if (!unreserveOfferRequest.isLoading && unreserveOfferRequest.isSuccess) {
-      console.log("unreserved");
-
       const updatedReservations = reservations.filter((reservation) => {
         return reservation.offer._id !== unreserveOfferId;
       });
@@ -117,8 +110,6 @@ export const Library = ({ ...props }) => {
       !reservationPickedupRequest.isLoading &&
       reservationPickedupRequest.isSuccess
     ) {
-      console.log("reservation pickedup");
-
       const updatedReservations = reservations.filter((reservation) => {
         return reservation._id !== reservationPickedupId;
       });
@@ -129,8 +120,6 @@ export const Library = ({ ...props }) => {
 
   useEffect(() => {
     if (!offerPickedupRequest.isLoading && offerPickedupRequest.isSuccess) {
-      console.log("offer pickedup");
-
       const updatedMyOffers = myOffers.filter((offer) => {
         return offer._id !== offerPickedupId;
       });
@@ -141,8 +130,6 @@ export const Library = ({ ...props }) => {
 
   useEffect(() => {
     if (!checkIsbnRequest.isLoading && checkIsbnRequest.isSuccess) {
-      console.log("book found ", checkIsbnRequest.data);
-
       setBookForOffer(checkIsbnRequest.data);
     }
   }, [checkIsbnRequest.isLoading]);
@@ -190,7 +177,7 @@ export const Library = ({ ...props }) => {
   }
 
   function contactUser(details) {
-    navigate(`/messages/${details.sub}`);
+    navigate(`/messages/sub/${details.sub}`);
   }
 
   function handleGoToHome() {
@@ -384,8 +371,12 @@ export const Library = ({ ...props }) => {
             )}
 
             {bookWasCreated && (
-              <div>
-                <h1>Wurde erstellt!</h1>
+              <div className="library-view__message">
+                <img src={happyPerson} alt="Happy person with a coffe cup" />
+                <p className="text-center">
+                  Dein Buch 📖 wurde erfolgreich inseriert und ist nun für
+                  andere Nutzer sichtbar 🎉.
+                </p>
                 <Button onClick={handleBackToOffers}>
                   zurück zu meinen Inseraten
                 </Button>

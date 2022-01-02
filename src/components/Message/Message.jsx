@@ -14,7 +14,7 @@ export const Message = ({ message, timestamp, creator, ...props }) => {
         className={`message__card ${creator ? "message--primary" : ""}`}
         {...props}
       >
-        <p class="message__content">{message}</p>
+        <p className="message__content">{message}</p>
         <p className="message__timestamp">{timestamp}</p>
       </Card>
     </div>

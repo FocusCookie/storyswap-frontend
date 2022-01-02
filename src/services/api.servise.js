@@ -272,4 +272,119 @@ const books = {
   },
 };
 
-export { user, offers, reservations, books };
+const chats = {
+  getMyChats: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const chats = await instance.get("chats/my", {
+        headers: authHeader,
+      });
+
+      return chats.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  getById: async (token, chatId) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (!chatId || typeof chatId !== "string")
+        throw new TypeError("invalid chatId");
+
+      const chat = await instance.get(`chats/${chatId}`, {
+        headers: authHeader,
+      });
+
+      return chat.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  getByReceiverUserSub: async (token, receiverSub) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (!receiverSub || typeof receiverSub !== "string")
+        throw new TypeError("invalid receiverSub");
+
+      const chat = await instance.get(`chats/sub/${receiverSub}`, {
+        headers: authHeader,
+      });
+
+      return chat.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  getMessages: async (token, chatId) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const messages = await instance.get(`/chats/${chatId}/messages`, {
+        headers: authHeader,
+      });
+
+      return messages.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  getMessagesAfterMessageId: async (token, chatId, messageId) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const messages = await instance.get(
+        `/chats/${chatId}/messages/${messageId}`,
+        {
+          headers: authHeader,
+        }
+      );
+
+      return messages.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  getLastMessage: async (token, chatId) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const message = await instance.get(`/chats/${chatId}/last-message`, {
+        headers: authHeader,
+      });
+
+      return message.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+const messages = {
+  create: async (token, options) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (
+        !options ||
+        typeof options !== "object" ||
+        Array.isArray(options) ||
+        !options.content ||
+        !options.chat
+      )
+        throw new TypeError("invalid options");
+
+      const createdMessage = await instance.post("messages/", options, {
+        headers: authHeader,
+      });
+
+      return createdMessage.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+export { user, offers, reservations, books, chats, messages };

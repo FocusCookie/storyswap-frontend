@@ -5,6 +5,7 @@ import { Modal } from "../Modal/Modal";
 import { Offer } from "../Offer/Offer";
 import { Button } from "../Button/Button";
 import { BookCard } from "../BookCard/BookCard";
+import FallBackCover from "../../assets/book_small.jpg";
 
 export const ReservationCard = ({
   reservation,
@@ -47,7 +48,11 @@ export const ReservationCard = ({
     <>
       <BookCard
         onClick={toggleDetails}
-        imageUrl={reservation.offer.book.image}
+        imageUrl={
+          reservation.offer.book.image
+            ? reservation.offer.book.image
+            : FallBackCover
+        }
         variant={daysLeftOfReservation <= 1 ? "accent" : "medium"}
         alt={reservation.offer.book.title}
         label={bookCardLabel}

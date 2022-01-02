@@ -6,6 +6,7 @@ import { Home } from "./views/Home/Home";
 import { Onboarding } from "./views/Onboarding/Onboarding";
 import { Library } from "./views/Library/Library";
 import { Messages } from "./views/Messages/Messages";
+import { Chat } from "./views/Chat/Chat";
 import { Settings } from "./views/Settings/Settings";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
@@ -108,15 +109,15 @@ function App() {
             }
           />
           <Route
-            path="/messages"
+            path="/messages/sub/:sub"
             element={
               <RequireAuth>
-                <Messages />
+                <Chat />
               </RequireAuth>
             }
           />
           <Route
-            path="/messages/:contact"
+            path="/messages"
             element={
               <RequireAuth>
                 <Messages />

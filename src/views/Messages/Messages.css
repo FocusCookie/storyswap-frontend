@@ -1,3 +1,19 @@
 .messages-view {
-  @apply w-full flex flex-col;
+  @apply w-full flex flex-col gap-8;
+}
+
+.messages-view__chats {
+  @apply flex flex-col gap-4;
+}
+
+.messages-view__chat {
+  @apply flex flex-row gap-2 items-center justify-between border-b border-medium-600 pb-4 cursor-pointer;
+}
+
+.messages-view__chat:hover .user__nickname {
+  @apply text-primary-500;
+}
+
+.messages-view__no-chats {
+  @apply flex flex-col gap-4 items-center text-center;
 }
