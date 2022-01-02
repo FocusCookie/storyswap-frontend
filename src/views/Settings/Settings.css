@@ -1,3 +1,12 @@
 .settings-view {
-  @apply w-full flex flex-col;
+  @apply w-full flex flex-col gap-4;
+}
+
+.settings-view__user__image {
+  @apply w-32 h-32 rounded self-center;
+}
+
+.settings-view__delte-modal {
+  width: calc(100vw - 4rem);
+  @apply flex flex-col gap-4 items-center text-center;
 }

@@ -25,7 +25,11 @@ function App() {
   const [getMetadata, setGetMetadata] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoading: metadataIsLoading, data: metadata } = useQuery(
+  const {
+    isLoading: metadataIsLoading,
+    isSuccess: metadataIsSuccess,
+    data: metadata,
+  } = useQuery(
     "metadata",
     async () => {
       return await userApi.getMetadata(apiTokenState?.value);
@@ -36,15 +40,18 @@ function App() {
   );
 
   useEffect(() => {
-    if (!metadataIsLoading && metadata) {
+    console.log("hier ", metadata);
+    if (!metadataIsLoading && metadataIsSuccess) {
       metadataDispatch({ type: "setMetadata", payload: metadata });
       setGetMetadata(false);
+      console.log("got metadata");
 
-      if (!metadata.isOnboarded) {
+      if (metadata && !metadata.isOnboarded) {
+        console.log("onboarding");
         navigate("/onboarding");
       }
     }
-  }, [metadataIsLoading]);
+  }, [metadataIsLoading, metadata]);
 
   useEffect(() => {
     if (isAuthenticated) {

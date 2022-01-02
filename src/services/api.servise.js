@@ -360,6 +360,31 @@ const chats = {
       throw new Error(error);
     }
   },
+  create: async (token, receiver) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (
+        !receiver ||
+        typeof receiver !== "object" ||
+        Array.isArray(receiver) ||
+        !receiver.sub
+      )
+        throw new TypeError("invalid receiver");
+
+      const chat = await instance.post(
+        `chats/`,
+        { receiver: receiver },
+        {
+          headers: authHeader,
+        }
+      );
+
+      return chat.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 const messages = {
