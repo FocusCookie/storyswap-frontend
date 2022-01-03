@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Settings.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import { useApiToken } from "../../contexts/apiToken.context";
 import { useMutation } from "react-query";
 import { Button } from "../../components/Button/Button";
@@ -30,7 +29,6 @@ export const Settings = ({ ...props }) => {
   const [email, setEmail] = useState(user.email);
   const [emailError, setEmailError] = useState("");
   const [picture, setPicture] = useState(user.picture);
-  const navigate = useNavigate();
 
   const sendPasswordMailRequest = useMutation(() => {
     return userApi.sendPasswordChangeMail(apiTokenState.value);
