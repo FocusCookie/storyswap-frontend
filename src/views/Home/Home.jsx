@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { useMetadata } from "../../contexts/metadata.context";
+import { useReceiver } from "../../contexts/receiver.context";
 import { useMutation } from "react-query";
 import { useApiToken } from "../../contexts/apiToken.context";
 import { Filter } from "../../components/Filter/Filter";
@@ -14,6 +15,7 @@ import isSadPerson from "../../assets/person/sad.png";
 export const Home = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
+  const { receiverDispatch } = useReceiver();
   const navigate = useNavigate();
   const [initFilterValue, setInitFilterValue] = useState();
   const [offers, setOffers] = useState([]);
@@ -125,6 +127,7 @@ export const Home = ({ ...props }) => {
   }
 
   function handleContactProvider(provider) {
+    receiverDispatch({ type: "setReceiver", payload: provider });
     navigate(`/messages/sub/${provider.sub}`);
     //TODO: implement the book in the first message automatically
   }

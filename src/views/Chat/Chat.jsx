@@ -14,6 +14,7 @@ import {
   messages as messagesApi,
 } from "../../services/api.servise";
 import { useQuery, useMutation } from "react-query";
+import { useReceiver } from "../../contexts/receiver.context";
 
 //TODO need to send nickname and picture of the receiver as well to the backend. Need to include them as parameters in the route
 //TODO use the useSearchParams from react router where you can store an object in the context and call in in the provider somewhere else :)
@@ -31,6 +32,7 @@ export const Chat = ({ ...props }) => {
   const [chatId, setChatId] = useState(false);
   const [messageIsSending, setMessageIsSending] = useState(false);
   const messagesEndRef = useRef(null);
+  const { receiverState, receiverDispatch } = useReceiver();
 
   const existingChatRequest = useQuery(
     `chat-sub-${sub}`,
@@ -115,6 +117,8 @@ export const Chat = ({ ...props }) => {
     ) {
       setChat(createChatRequest.data);
       setChatId(createChatRequest.data._id);
+      receiverDispatch({ type: "resetReceiver" });
+      setCreateNewChat(false);
     }
   }, [createChatRequest.isLoading]);
 
@@ -123,7 +127,7 @@ export const Chat = ({ ...props }) => {
   }, [messages]);
 
   useEffect(() => {
-    if (createNewChat) createChatRequest.mutate({ sub: sub });
+    if (createNewChat) createChatRequest.mutate(receiverState);
   }, [createNewChat]);
 
   function scrollToBottom() {

@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from "react-router-dom";
 import { MetadataProvider } from "./contexts/metadata.context";
+import { ReceiverProvider } from "./contexts/receiver.context";
 import { ApiTokenProvider } from "./contexts/apiToken.context";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -23,9 +24,11 @@ ReactDOM.render(
       <ApiTokenProvider>
         <QueryClientProvider client={queryClient}>
           <MetadataProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
+            <ReceiverProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </ReceiverProvider>
           </MetadataProvider>
         </QueryClientProvider>
       </ApiTokenProvider>

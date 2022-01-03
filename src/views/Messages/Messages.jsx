@@ -36,7 +36,7 @@ export const Messages = ({ ...props }) => {
   }
 
   function handleOpenChat(userSub) {
-    navigate(`/messages/receiver/${userSub}`);
+    navigate(`/messages/sub/${userSub}`);
   }
 
   function handleGoToOffers() {

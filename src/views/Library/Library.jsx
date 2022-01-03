@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Library.css";
 import { useMetadata } from "../../contexts/metadata.context";
 import { useNavigate } from "react-router-dom";
+import { useReceiver } from "../../contexts/receiver.context";
 import { useParams } from "react-router-dom";
 import { Modal } from "../../components/Modal/Modal";
 import { Button } from "../../components/Button/Button";
@@ -23,6 +24,7 @@ import {
 export const Library = ({ ...props }) => {
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
+  const { receiverDispatch } = useReceiver();
   const navigate = useNavigate();
   const { init } = useParams();
   const [showCreationModal, setShowCreationModal] = useState(false);
@@ -37,7 +39,6 @@ export const Library = ({ ...props }) => {
   const [isbnError, setIsbnError] = useState("");
   const [bookForOffer, setBookForOffer] = useState(null);
   const [bookWasCreated, setBookWasCreated] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [deletedOfferId, setDeletedOfferId] = useState(null);
 
   const reservationRequest = useQuery("reservations", async () => {
@@ -148,7 +149,6 @@ export const Library = ({ ...props }) => {
       setMyOffers(updatedMyOffers);
 
       setDeletedOfferId(null);
-      setIsDeleting(false);
     }
   }, [deleteOfferRequest.isLoading]);
 
@@ -176,8 +176,9 @@ export const Library = ({ ...props }) => {
     reservationPickedupRequest.mutate(id);
   }
 
-  function contactUser(details) {
-    navigate(`/messages/sub/${details.sub}`);
+  function contactUser(user) {
+    receiverDispatch({ type: "setReceiver", payload: user });
+    navigate(`/messages/sub/${user.sub}`);
   }
 
   function handleGoToHome() {
@@ -234,7 +235,6 @@ export const Library = ({ ...props }) => {
 
   function handleDeleteOffer(id) {
     setDeletedOfferId(id);
-    setIsDeleting(true);
     deleteOfferRequest.mutate(id);
   }
 

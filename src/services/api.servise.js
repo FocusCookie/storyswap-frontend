@@ -368,7 +368,9 @@ const chats = {
         !receiver ||
         typeof receiver !== "object" ||
         Array.isArray(receiver) ||
-        !receiver.sub
+        !receiver.sub ||
+        !receiver.nickname ||
+        !receiver.picture
       )
         throw new TypeError("invalid receiver");
 
