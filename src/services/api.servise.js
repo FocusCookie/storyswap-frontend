@@ -60,6 +60,23 @@ const user = {
       throw new Error(error);
     }
   },
+  sendPasswordChangeMail: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const updatedUser = await instance.post(
+        "user/password",
+        {},
+        {
+          headers: authHeader,
+        }
+      );
+
+      return updatedUser.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 const offers = {
