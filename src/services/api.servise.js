@@ -48,8 +48,10 @@ const user = {
     try {
       const authHeader = createAuthenticationHeader(token);
 
+      console.log("user", user);
+
       if (!user || typeof user !== "object" || Array.isArray(user))
-        throw new TypeError("invalid metadata");
+        throw new TypeError("invalid user");
 
       const updatedUser = await instance.patch("user", user, {
         headers: authHeader,
@@ -81,13 +83,11 @@ const user = {
     try {
       const authHeader = createAuthenticationHeader(token);
 
-      const isDeleted = await instance.delete(
-        "user",
-        {},
-        {
-          headers: authHeader,
-        }
-      );
+      console.log(token);
+
+      const isDeleted = await instance.delete("user", {
+        headers: authHeader,
+      });
 
       return isDeleted.data;
     } catch (error) {
