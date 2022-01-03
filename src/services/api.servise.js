@@ -64,7 +64,7 @@ const user = {
     try {
       const authHeader = createAuthenticationHeader(token);
 
-      const updatedUser = await instance.post(
+      const changePasswordMailSent = await instance.post(
         "user/password",
         {},
         {
@@ -72,7 +72,24 @@ const user = {
         }
       );
 
-      return updatedUser.data;
+      return changePasswordMailSent.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  deleteAccount: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const isDeleted = await instance.delete(
+        "user",
+        {},
+        {
+          headers: authHeader,
+        }
+      );
+
+      return isDeleted.data;
     } catch (error) {
       throw new Error(error);
     }
