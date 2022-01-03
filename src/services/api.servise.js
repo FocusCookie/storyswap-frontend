@@ -48,8 +48,6 @@ const user = {
     try {
       const authHeader = createAuthenticationHeader(token);
 
-      console.log("user", user);
-
       if (!user || typeof user !== "object" || Array.isArray(user))
         throw new TypeError("invalid user");
 
@@ -82,8 +80,6 @@ const user = {
   deleteAccount: async (token) => {
     try {
       const authHeader = createAuthenticationHeader(token);
-
-      console.log(token);
 
       const isDeleted = await instance.delete("user", {
         headers: authHeader,
@@ -158,8 +154,6 @@ const offers = {
   unreserveOffer: async (token, offerId) => {
     try {
       const authHeader = createAuthenticationHeader(token);
-
-      console.log("offerID", offerId);
 
       if (!offerId || typeof offerId !== "string")
         throw new TypeError("invalid offer id");

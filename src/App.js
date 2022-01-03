@@ -40,14 +40,11 @@ function App() {
   );
 
   useEffect(() => {
-    console.log("hier ", metadata);
     if (!metadataIsLoading && metadataIsSuccess) {
       metadataDispatch({ type: "setMetadata", payload: metadata });
       setGetMetadata(false);
-      console.log("got metadata");
 
       if (metadata && !metadata.isOnboarded) {
-        console.log("onboarding");
         navigate("/onboarding");
       }
     }
@@ -61,12 +58,6 @@ function App() {
       });
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    //TODO remove in production
-    if (isAuthenticated) console.log(" metadata ", metadataState);
-    if (isAuthenticated) console.log(" apiTokenState ", apiTokenState);
-  }, [metadataState, apiTokenState]);
 
   useEffect(() => {
     if (location.pathname.includes("messages")) setSelectedNavItem("messages");

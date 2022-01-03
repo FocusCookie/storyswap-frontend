@@ -141,8 +141,6 @@ export const Onboarding = ({ ...props }) => {
 
     setPostMetadata(true);
     setPostNickname(true);
-
-    console.log("save");
   }
 
   function handleCancel() {
