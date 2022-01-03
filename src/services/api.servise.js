@@ -49,13 +49,43 @@ const user = {
       const authHeader = createAuthenticationHeader(token);
 
       if (!user || typeof user !== "object" || Array.isArray(user))
-        throw new TypeError("invalid metadata");
+        throw new TypeError("invalid user");
 
       const updatedUser = await instance.patch("user", user, {
         headers: authHeader,
       });
 
       return updatedUser.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  sendPasswordChangeMail: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const changePasswordMailSent = await instance.post(
+        "user/password",
+        {},
+        {
+          headers: authHeader,
+        }
+      );
+
+      return changePasswordMailSent.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  deleteAccount: async (token) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      const isDeleted = await instance.delete("user", {
+        headers: authHeader,
+      });
+
+      return isDeleted.data;
     } catch (error) {
       throw new Error(error);
     }
@@ -124,8 +154,6 @@ const offers = {
   unreserveOffer: async (token, offerId) => {
     try {
       const authHeader = createAuthenticationHeader(token);
-
-      console.log("offerID", offerId);
 
       if (!offerId || typeof offerId !== "string")
         throw new TypeError("invalid offer id");
@@ -356,6 +384,33 @@ const chats = {
       });
 
       return message.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  create: async (token, receiver) => {
+    try {
+      const authHeader = createAuthenticationHeader(token);
+
+      if (
+        !receiver ||
+        typeof receiver !== "object" ||
+        Array.isArray(receiver) ||
+        !receiver.sub ||
+        !receiver.nickname ||
+        !receiver.picture
+      )
+        throw new TypeError("invalid receiver");
+
+      const chat = await instance.post(
+        `chats/`,
+        { receiver: receiver },
+        {
+          headers: authHeader,
+        }
+      );
+
+      return chat.data;
     } catch (error) {
       throw new Error(error);
     }

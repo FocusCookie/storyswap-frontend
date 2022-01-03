@@ -13,7 +13,8 @@ import {
   chats as chatApi,
   messages as messagesApi,
 } from "../../services/api.servise";
-import { useQuery, useMutation, useLazyQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
+import { useReceiver } from "../../contexts/receiver.context";
 
 export const Chat = ({ ...props }) => {
   const { user } = useAuth0();
@@ -28,6 +29,7 @@ export const Chat = ({ ...props }) => {
   const [chatId, setChatId] = useState(false);
   const [messageIsSending, setMessageIsSending] = useState(false);
   const messagesEndRef = useRef(null);
+  const { receiverState, receiverDispatch } = useReceiver();
 
   const existingChatRequest = useQuery(
     `chat-sub-${sub}`,
@@ -48,6 +50,13 @@ export const Chat = ({ ...props }) => {
   const sendMessageRequest = useMutation((message) => {
     return messagesApi.create(token, message);
   });
+
+  const createChatRequest = useMutation(
+    (receiver) => {
+      return chatApi.create(token, receiver);
+    },
+    { enabled: !!token }
+  );
 
   useEffect(() => {
     if (apiTokenState.value) setToken(apiTokenState.value);
@@ -98,8 +107,25 @@ export const Chat = ({ ...props }) => {
   }, [sendMessageRequest.isLoading]);
 
   useEffect(() => {
+    if (
+      !createChatRequest.isFetching &&
+      !createChatRequest.isLoading &&
+      createChatRequest.isSuccess
+    ) {
+      setChat(createChatRequest.data);
+      setChatId(createChatRequest.data._id);
+      receiverDispatch({ type: "resetReceiver" });
+      setCreateNewChat(false);
+    }
+  }, [createChatRequest.isLoading]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (createNewChat) createChatRequest.mutate(receiverState);
+  }, [createNewChat]);
 
   function scrollToBottom() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -114,50 +140,6 @@ export const Chat = ({ ...props }) => {
     sendMessageRequest.mutate({ content: message, chat: chat._id });
   }
 
-  const devMessages = [
-    {
-      _id: "61cda02670ede655c180a04d",
-      chat: "61cd76329950c9d0ecd479c0",
-      creatorSub: "google-oauth2|107200534874715265580",
-      content: "Hello world",
-      created_at: "2021-12-30T12:03:50.317Z",
-      __v: 0,
-    },
-    {
-      _id: "61cda02670ede655c180a06d",
-      chat: "61cd76329950c9d0ecd479c0",
-      creatorSub: "auth0|Murdock",
-      content: "WHATS UPPP?!",
-      created_at: "2021-12-30T12:04:50.317Z",
-      __v: 0,
-    },
-    {
-      _id: "61cda02670ede655c180a06u",
-      chat: "61cd76329950c9d0ecd479c0",
-      creatorSub: "auth0|Murdock",
-      content: "Ich liebe es wenn ein Plan funktioniert!",
-      created_at: "2021-12-30T12:07:50.317Z",
-      __v: 0,
-    },
-    {
-      _id: "61cda02670ede655c180a04e",
-      chat: "61cd76329950c9d0ecd479c0",
-      creatorSub: "google-oauth2|107200534874715265580",
-      content: "Hole das Buch ab MAN!",
-      created_at: "2021-12-30T12:08:50.317Z",
-      __v: 0,
-    },
-    {
-      _id: "61cda02670ede655c180a06r",
-      chat: "61cd76329950c9d0ecd479c0",
-      creatorSub: "auth0|Murdock",
-      content:
-        "Gibt es bei dir einen Helilandeplatz, wo ich meinen Helikopter parken kann?",
-      created_at: "2021-12-30T12:09:50.317Z",
-      __v: 0,
-    },
-  ];
-
   return (
     <div className="chat-view">
       {!createNewChat && chat && (
@@ -166,7 +148,11 @@ export const Chat = ({ ...props }) => {
             <Button variant="secondary" size="xl" onClick={handleGoBack}>
               <RiArrowLeftLine />
             </Button>
-            <User user={chat.users[1]} />
+            <User
+              user={
+                chat.users[0].sub === user.sub ? chat.users[1] : chat.users[0]
+              }
+            />
           </div>
 
           {messages && (

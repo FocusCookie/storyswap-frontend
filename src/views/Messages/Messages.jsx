@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Messages.css";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useApiToken } from "../../contexts/apiToken.context";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +10,8 @@ import { Button } from "../../components/Button/Button";
 import { chats as chatApi } from "../../services/api.servise";
 import unhappyPerson from "../../assets/person/unhappy.png";
 
-//TODO implement creating new chat if no existing chat
-
 export const Messages = ({ ...props }) => {
+  const { user } = useAuth0();
   const { apiTokenState } = useApiToken();
   const [search, setSearch] = useState("");
   const [chats, setChats] = useState([]);
@@ -73,17 +73,34 @@ export const Messages = ({ ...props }) => {
           <div className="messages-view__chats">
             {chats
               .filter((chat) =>
-                chat.users[1].nickname
-                  .toLowerCase()
-                  .includes(search.toLowerCase())
+                //* Filter only the receiver in the chat not current user
+                chat.users[0].sub === user.sub
+                  ? chat.users[1].nickname
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                  : chat.users[0].nickname
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
               )
               .map((chat) => (
                 <div
                   key={chat._id}
                   className="messages-view__chat"
-                  onClick={() => handleOpenChat(chat.users[1].sub)}
+                  onClick={() =>
+                    handleOpenChat(
+                      chat.users[0].sub === user.sub
+                        ? chat.users[1].sub
+                        : chat.users[0].sub
+                    )
+                  }
                 >
-                  <User user={chat.users[1]} />
+                  <User
+                    user={
+                      chat.users[0].sub === user.sub
+                        ? chat.users[1]
+                        : chat.users[0]
+                    }
+                  />
                   {/* TODO add new message badge if its available on backend */}
                 </div>
               ))}

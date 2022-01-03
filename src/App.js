@@ -25,7 +25,11 @@ function App() {
   const [getMetadata, setGetMetadata] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoading: metadataIsLoading, data: metadata } = useQuery(
+  const {
+    isLoading: metadataIsLoading,
+    isSuccess: metadataIsSuccess,
+    data: metadata,
+  } = useQuery(
     "metadata",
     async () => {
       return await userApi.getMetadata(apiTokenState?.value);
@@ -36,15 +40,15 @@ function App() {
   );
 
   useEffect(() => {
-    if (!metadataIsLoading && metadata) {
+    if (!metadataIsLoading && metadataIsSuccess) {
       metadataDispatch({ type: "setMetadata", payload: metadata });
       setGetMetadata(false);
 
-      if (!metadata.isOnboarded) {
+      if (metadata && !metadata.isOnboarded) {
         navigate("/onboarding");
       }
     }
-  }, [metadataIsLoading]);
+  }, [metadataIsLoading, metadata]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -54,12 +58,6 @@ function App() {
       });
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    //TODO remove in production
-    if (isAuthenticated) console.log(" metadata ", metadataState);
-    if (isAuthenticated) console.log(" apiTokenState ", apiTokenState);
-  }, [metadataState, apiTokenState]);
 
   useEffect(() => {
     if (location.pathname.includes("messages")) setSelectedNavItem("messages");
