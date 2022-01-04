@@ -159,7 +159,7 @@ export const Onboarding = ({ ...props }) => {
           <section className="onboarding-view__section">
             <h1 className="headline">Dein Name</h1>
             <p>
-              Unter welchen Namen sollen dich die Anderen Nutzer sehen 👀
+              Unter welchen Namen sollen dich die anderen Nutzer sehen 👀
               können?
             </p>
             <Input

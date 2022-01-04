@@ -19,7 +19,7 @@ module.exports.isValidZip = (zip) => {
 };
 
 module.exports.addDaysToToday = (days) => {
-  var futureDate = new Date();
+  let futureDate = new Date();
   futureDate.setHours(23, 59, 59, 0);
   futureDate.setDate(futureDate.getDate() + days); // +1 to include last day until 23:59:29
   return futureDate;
@@ -37,17 +37,12 @@ module.exports.isValidEmail = (email) => {
 };
 
 module.exports.deletePageCookies = () => {
-  document.cookie.replace(/(?<=^|;).+?(?=\=|;|$)/g, (name) =>
-    window.location.hostname
-      .split(/\.(?=[^\.]+\.)/)
-      .reduceRight(
-        (acc, val, i, arr) =>
-          i ? (arr[i] = "." + val + acc) : ((arr[i] = ""), arr),
-        ""
-      )
-      .map(
-        (domain) =>
-          (document.cookie = `${name}=;max-age=0;path=/;domain=${domain}`)
-      )
-  );
+  let cookies = document.cookie.split(";");
+
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
+    let eqPos = cookie.indexOf("=");
+    let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
 };
