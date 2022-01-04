@@ -309,10 +309,10 @@ export const Library = ({ ...props }) => {
               <div className="flex flex-col gap-4">
                 <h1 className="headline text-center">Neues Inserat 📚 </h1>
                 <p className="text-center">
-                  Um ein neues Inserat anlegenzulegen gebe einfach die ISBN oder
-                  ISBN13 deines Buches ein. Wir werden anschließend alle
-                  notwendigen Informationen zuammentragen und automatisch 🤖 für
-                  dich ergänzen.
+                  Um ein neues Inserat anzulegen, gebe einfach die ISBN oder
+                  ISBN13 des Buches ein. Wir werden anschließend alle
+                  notwendigen Informationen zusammentragen und automatisch 🤖
+                  für dich ergänzen.
                 </p>
                 <Input
                   value={isbn}

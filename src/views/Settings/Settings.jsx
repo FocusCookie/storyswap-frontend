@@ -209,7 +209,7 @@ export const Settings = ({ ...props }) => {
         onClick={handlePassword}
         loading={isSendingPasswordMail}
       >
-        password ändern
+        passwort ändern
       </Button>
 
       {passwordMailIsSent && !isSendingPasswordMail && (
@@ -225,11 +225,11 @@ export const Settings = ({ ...props }) => {
       {showDeleteModal && (
         <Modal>
           <div className="settings-view__delte-modal ">
+            <h1 className="headline">Nutzerkonto löschen</h1>
             <img src={sadPerson} alt="Sad Person" />
-            <h1 className="headline">Nuterkonto löschen</h1>
             <p>
               Oh nein 😳, schade das du uns verlassen möchtest. Bist du dir
-              sicher das du dein Nuterkonto löschen möchtest?
+              sicher das du dein Nutzerkonto löschen möchtest?
             </p>
 
             <div className="py-4">
