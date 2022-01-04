@@ -144,7 +144,7 @@ export const Home = ({ ...props }) => {
   }
 
   return (
-    <div className="home-view" enableResetScrollToCoords={false}>
+    <div className="home-view">
       {initFilterValue && (
         <Filter onFilter={handleNewFilter} initFilters={initFilterValue} />
       )}

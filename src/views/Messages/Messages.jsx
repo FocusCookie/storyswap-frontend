@@ -9,6 +9,7 @@ import { User } from "../../components/User/User";
 import { Button } from "../../components/Button/Button";
 import { chats as chatApi } from "../../services/api.servise";
 import unhappyPerson from "../../assets/person/unhappy.png";
+import { useReceiver } from "../../contexts/receiver.context";
 
 export const Messages = ({ ...props }) => {
   const { user } = useAuth0();
@@ -16,6 +17,7 @@ export const Messages = ({ ...props }) => {
   const [search, setSearch] = useState("");
   const [chats, setChats] = useState([]);
   const navigate = useNavigate();
+  const { receiverDispatch } = useReceiver();
 
   const chatsRequest = useQuery("chats", async () => {
     return chatApi.getMyChats(apiTokenState.value);
@@ -35,8 +37,9 @@ export const Messages = ({ ...props }) => {
     setSearch(value);
   }
 
-  function handleOpenChat(userSub) {
-    navigate(`/messages/sub/${userSub}`);
+  function handleOpenChat(receiver) {
+    receiverDispatch({ type: "setReceiver", payload: receiver });
+    navigate(`/messages/sub/${receiver.sub}`);
   }
 
   function handleGoToOffers() {
@@ -89,8 +92,8 @@ export const Messages = ({ ...props }) => {
                   onClick={() =>
                     handleOpenChat(
                       chat.users[0].sub === user.sub
-                        ? chat.users[1].sub
-                        : chat.users[0].sub
+                        ? chat.users[1]
+                        : chat.users[0]
                     )
                   }
                 >

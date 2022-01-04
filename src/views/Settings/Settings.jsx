@@ -135,10 +135,6 @@ export const Settings = ({ ...props }) => {
         className="settings-view__user__image"
       />
 
-      <Button size="lg" onClick={handleLogout}>
-        ausloggen
-      </Button>
-
       <Input
         label="Name"
         type="text"
@@ -168,6 +164,10 @@ export const Settings = ({ ...props }) => {
         disabled={!editUser}
         onChange={handlePictureChange}
       />
+
+      <Button size="lg" onClick={handleLogout}>
+        ausloggen
+      </Button>
 
       {editUser && (
         <>
