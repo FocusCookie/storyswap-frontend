@@ -1,8 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import mapboxgl from "mapbox-gl";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl-csp";
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import MapboxWorker from "worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker"; // Load worker code separately with worker-loader
+//* https://docs.mapbox.com/mapbox-gl-js/guides/install/#transpiling
+
 import "./Map.css";
 
+mapboxgl.workerClass = MapboxWorker; // Wire up loaded worker to be used instead of the default
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 export const Map = ({ center, marker, ...props }) => {

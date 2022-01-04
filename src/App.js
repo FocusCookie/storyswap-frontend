@@ -55,7 +55,6 @@ function App() {
       getAccessTokenSilently().then((token) => {
         apiTokenDispatch({ type: "setApiToken", payload: token });
         setGetMetadata(true);
-        console.log("token ", token);
       });
     }
   }, [isAuthenticated]);
