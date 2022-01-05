@@ -130,7 +130,11 @@ export const Library = ({ ...props }) => {
   }, [offerPickedupRequest.isLoading]);
 
   useEffect(() => {
-    if (!checkIsbnRequest.isLoading && checkIsbnRequest.isSuccess) {
+    if (
+      !checkIsbnRequest.isLoading &&
+      checkIsbnRequest.isSuccess &&
+      checkIsbnRequest.data
+    ) {
       setBookForOffer(checkIsbnRequest.data);
     }
   }, [checkIsbnRequest.isLoading]);
@@ -293,8 +297,8 @@ export const Library = ({ ...props }) => {
               <img src={calmPerson} alt="Calm person with a coffe cup" />
               <p>
                 Du hast noch kein Inserat eingestellt. Erstelle eins um anderen
-                Nutzer und Nutzerinnen die Möglichkeit zu geben Ihr neues Lieblignsbuch ❤️ zu
-                finden.
+                Nutzer und Nutzerinnen die Möglichkeit zu geben Ihr neues
+                Lieblignsbuch ❤️ zu finden.
               </p>
             </div>
           )}
@@ -322,6 +326,18 @@ export const Library = ({ ...props }) => {
                   disabled={false}
                   error={isbnError}
                 />
+
+                {checkIsbnRequest.isSuccess && !checkIsbnRequest.data && (
+                  <>
+                    <p className="animate-bounce text-center text-2xl">👻</p>
+                    <p className="text-center text-red-500">
+                      Ops! Leider konnten wir dein Buch nicht in unserer
+                      Datenbank finden. Dies ist meistens der Fall, wenn das
+                      Buch gerade erschienen ist. Probiere es in einigen Tagen
+                      nochmal.
+                    </p>
+                  </>
+                )}
 
                 <Button
                   size="xl"
@@ -353,14 +369,6 @@ export const Library = ({ ...props }) => {
                 <Button size="xl" onClick={createOfferHandler}>
                   erstellen
                 </Button>
-                {checkIsbnRequest.isError && (
-                  <p className="text-center text-red-500">
-                    <span className="animate-bounce">👻</span> Ops! Leider
-                    konnten wir dein Buch nicht in unserer Datenbank finden.
-                    Dies ist meistens der Fall, wenn das Buch gerade erschienen
-                    ist. Probiere es in einigen Tagen nochmal.
-                  </p>
-                )}
 
                 <Button variant="secondary" onClick={backToIsbnCheckHandler}>
                   zurück
