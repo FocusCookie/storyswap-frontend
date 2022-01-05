@@ -45,7 +45,7 @@
 
 .offer__user__picture {
   grid-area: user-picture;
-  @apply w-8 h-8 rounded border border-medium-900;
+  @apply w-8 h-8 rounded border border-medium-900 bg-cover bg-center;
 }
 .offer__user__nickname {
   grid-area: user-nickname;
