@@ -293,7 +293,7 @@ export const Library = ({ ...props }) => {
               <img src={calmPerson} alt="Calm person with a coffe cup" />
               <p>
                 Du hast noch kein Inserat eingestellt. Erstelle eins um anderen
-                Nutzern die Möglichkeit zu geben Ihr neues Lieblignsbuch ❤️ zu
+                Nutzer und Nutzerinnen die Möglichkeit zu geben Ihr neues Lieblignsbuch ❤️ zu
                 finden.
               </p>
             </div>
@@ -383,7 +383,7 @@ export const Library = ({ ...props }) => {
                 <img src={happyPerson} alt="Happy person with a coffe cup" />
                 <p className="text-center">
                   Dein Buch 📖 wurde erfolgreich inseriert und ist nun für
-                  andere Nutzer sichtbar 🎉.
+                  andere Nutzer und Nutzerinnen sichtbar 🎉.
                 </p>
                 <Button onClick={handleBackToOffers}>
                   zurück zu meinen Inseraten

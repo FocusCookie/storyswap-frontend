@@ -225,11 +225,11 @@ export const Settings = ({ ...props }) => {
       {showDeleteModal && (
         <Modal>
           <div className="settings-view__delte-modal ">
-            <h1 className="headline">Nutzerkonto löschen</h1>
+            <h1 className="headline">Konto löschen</h1>
             <img src={sadPerson} alt="Sad Person" />
             <p>
               Oh nein 😳, schade das du uns verlassen möchtest. Bist du dir
-              sicher das du dein Nutzerkonto löschen möchtest?
+              sicher das du dein Konto löschen möchtest?
             </p>
 
             <div className="py-4">
@@ -239,7 +239,7 @@ export const Settings = ({ ...props }) => {
                 variant="text"
                 onClick={handleDeleteAccount}
               >
-                Ja Nutzerkonto löschen
+                Ja mein Konto löschen
               </Button>
             </div>
 

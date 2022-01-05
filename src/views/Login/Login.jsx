@@ -46,9 +46,10 @@ export const Login = ({ ...props }) => {
 
         {!isLoading && !isAuthenticated && (
           <div>
-            <h1 className="headline">
-              <span className="animation-wink">👋</span> Willkommen!
-            </h1>
+            <div className="flex flex-row gap-2">
+              <div className="animation-wink">👋</div>
+              <h1 className="headline">Willkommen!</h1>
+            </div>
             <p>
               Nur noch ein Login trennt dich und deine zukünftigen
               Lieblingsbücher.

@@ -12,21 +12,18 @@
 }
 
 .animation-wink {
-  animation: wink 500ms infinite;
+  animation: wink 500ms infinite ease-in-out;
 }
 
 @keyframes wink {
   0% {
     transform: rotate(0deg);
   }
-  25% {
-    transform: rotate(25deg);
-  }
-  50% {
-    transform: rotate(-25deg);
-  }
-  75% {
+  30% {
     transform: rotate(15deg);
+  }
+  70% {
+    transform: rotate(-15deg);
   }
   100% {
     transform: rotate(0deg);
