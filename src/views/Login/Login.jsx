@@ -35,7 +35,9 @@ export const Login = ({ ...props }) => {
 
         {isLoading && (
           <div>
-            <h1 className="headline">⏳ Logge ein</h1>
+            <h1 className="headline">
+              <span className="animate-spin">⏳</span> Logge ein
+            </h1>
             <p>
               Wir haben einen früheren Login erkannt und loggen dich erneut ein.
             </p>
@@ -44,7 +46,9 @@ export const Login = ({ ...props }) => {
 
         {!isLoading && !isAuthenticated && (
           <div>
-            <h1 className="headline">👋 Willkommen!</h1>
+            <h1 className="headline">
+              <span className="animation-wink">👋</span> Willkommen!
+            </h1>
             <p>
               Nur noch ein Login trennt dich und deine zukünftigen
               Lieblingsbücher.

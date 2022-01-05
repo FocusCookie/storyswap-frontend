@@ -15,7 +15,9 @@
 
 .offer__cover {
   height: 28rem;
-  @apply bg-cover bg-center rounded;
+  width: 100%;
+  max-width: 20rem;
+  @apply bg-cover bg-center rounded self-center;
 }
 
 .offer__divider {
