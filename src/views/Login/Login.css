@@ -10,3 +10,25 @@
   height: 215px;
   width: 157px;
 }
+
+.animation-wink {
+  animation: wink 500ms ease 0 infinite;
+}
+
+@keyframes wink {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(25);
+  }
+  50% {
+    transform: rotate(-25);
+  }
+  75% {
+    transform: rotate(15);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
