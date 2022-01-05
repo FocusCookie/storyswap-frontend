@@ -6,6 +6,10 @@
   @apply w-full flex flex-col gap-4 items-center text-center;
 }
 
+.login-view__title {
+  @apply flex flex-row gap-2 justify-center;
+}
+
 .login-view__person {
   height: 215px;
   width: 157px;

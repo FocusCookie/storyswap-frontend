@@ -46,7 +46,7 @@ export const Login = ({ ...props }) => {
 
         {!isLoading && !isAuthenticated && (
           <div>
-            <div className="flex flex-row gap-2">
+            <div className="login-view__title">
               <div className="animation-wink">👋</div>
               <h1 className="headline">Willkommen!</h1>
             </div>
