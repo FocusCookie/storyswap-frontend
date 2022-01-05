@@ -52,7 +52,7 @@ export const Login = ({ ...props }) => {
             </div>
             <p>
               Nur noch ein Login trennt dich und deine zukünftigen
-              Lieblingsbücher.
+              Lieblingsbücher 📚.
             </p>
           </div>
         )}
