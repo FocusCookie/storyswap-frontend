@@ -15,14 +15,15 @@ export const BookCard = ({
   return (
     <Card>
       <div className="book-card" onClick={onClick} {...props}>
-        <div
+        <img src={imageUrl} alt={alt} className="book-card__cover" />
+        {/*  <div
           className="book-card__cover"
           role="img"
           aria-label={alt}
           style={{ backgroundImage: `url(${imageUrl})` }}
         >
           {!imageUrl ? alt : null}
-        </div>
+        </div> */}
         <Badge fullwidth variant={variant}>
           {label}
         </Badge>

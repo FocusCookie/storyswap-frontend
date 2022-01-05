@@ -353,6 +353,14 @@ export const Library = ({ ...props }) => {
                 <Button size="xl" onClick={createOfferHandler}>
                   erstellen
                 </Button>
+                {createOfferRequest.isError && (
+                  <p className="text-center text-red-500">
+                    <span className="animate-bounce">👻</span> Ops! Leider
+                    konnten wir dein Buch nicht in unserer Datenbank finden.
+                    Dies ist meistens der Fall, wenn das Buch gerade erschienen
+                    ist. Probiere es in einigen Tagen nochmal.
+                  </p>
+                )}
 
                 <Button variant="secondary" onClick={backToIsbnCheckHandler}>
                   zurück
