@@ -228,8 +228,8 @@ export const Settings = ({ ...props }) => {
             <h1 className="headline">Konto löschen</h1>
             <img src={sadPerson} alt="Sad Person" />
             <p>
-              Oh nein 😳, schade das du uns verlassen möchtest. Bist du dir
-              sicher das du dein Konto löschen möchtest?
+              😳 Oh nein! Schade, dass du uns verlassen möchtest. Bist du dir
+              sicher, dass du dein Konto löschen möchtest?
             </p>
 
             <div className="py-4">
@@ -239,7 +239,7 @@ export const Settings = ({ ...props }) => {
                 variant="text"
                 onClick={handleDeleteAccount}
               >
-                Ja mein Konto löschen
+                Ja, mein Konto löschen
               </Button>
             </div>
 

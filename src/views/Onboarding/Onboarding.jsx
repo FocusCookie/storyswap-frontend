@@ -159,7 +159,7 @@ export const Onboarding = ({ ...props }) => {
           <section className="onboarding-view__section">
             <h1 className="headline">Dein Name</h1>
             <p>
-              Unter welchen Namen sollen dich die anderen Nutzer und Nutzerinnen
+              Unter welchem Namen sollen dich die anderen Nutzer und Nutzerinnen
               sehen 👀 können?
             </p>
             <Input
@@ -176,7 +176,7 @@ export const Onboarding = ({ ...props }) => {
           <section className="onboarding-view__section">
             <h1 className="headline">Dein Einzugsgebiet</h1>
             <p>
-              In welchen Gebiet 🗺 sollen wir für dich nach Büchern suchen 🔎?
+              In welchem Gebiet 🗺 sollen wir für dich nach Büchern suchen 🔎?
             </p>
             <Input
               disabled={postMetadata || postNickname}
@@ -243,7 +243,7 @@ export const Onboarding = ({ ...props }) => {
           <h1 className="headline">Super {nickname}!</h1>
           <p>
             Alles ist eingerichtet 🎉! Schnapp dir eine Tasse Kaffee ☕, Tee
-            oder dein Lieblingsgetränk deiner Wahl und begebe dich auf die Suche
+            oder dein Lieblingsgetränk deiner Wahl und begib dich auf die Suche
             🔎 nach deinem nächsten Lieblingsbuch 📖.
           </p>
           <Button size="xl" onClick={handleFinished}>

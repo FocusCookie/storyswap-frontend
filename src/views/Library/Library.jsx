@@ -253,10 +253,10 @@ export const Library = ({ ...props }) => {
         <div className="library-view__reserved">
           {reservations.length === 0 && (
             <div className="library-view__message">
-              <img src={calmPerson} alt="Calm person with a coffe cup" />
+              <img src={calmPerson} alt="Calm person with a coffee cup" />
               <p>
-                Du hast keine Reservierungen derzeitig. Schau doch mal nach ob
-                du nicht vielleicht ein neues Lieblingsbuch endeckst🕵️‍♂️ !
+                Du hast aktuell keine Reservierungen. Schau gerne in den
+                Inseraten 🕵️‍♂️, ob du nicht dein neues Lieblingsbuch endeckst!
               </p>
               <Button onClick={handleGoToHome}>Zu den Inseraten</Button>
             </div>
@@ -296,9 +296,9 @@ export const Library = ({ ...props }) => {
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffe cup" />
               <p>
-                Du hast noch kein Inserat eingestellt. Erstelle eins um anderen
-                Nutzer und Nutzerinnen die Möglichkeit zu geben Ihr neues
-                Lieblignsbuch ❤️ zu finden.
+                Du hast noch kein Inserat eingestellt. Erstelle eins, um anderen
+                Nutzern und Nutzerinnen die Möglichkeit zu geben ihr neues
+                Lieblingsbuch ❤️ zu finden.
               </p>
             </div>
           )}
@@ -313,7 +313,7 @@ export const Library = ({ ...props }) => {
               <div className="flex flex-col gap-4">
                 <h1 className="headline text-center">Neues Inserat 📚 </h1>
                 <p className="text-center">
-                  Um ein neues Inserat anzulegen, gebe einfach die ISBN oder
+                  Um ein neues Inserat anzulegen, gib einfach die ISBN oder
                   ISBN13 des Buches ein. Wir werden anschließend alle
                   notwendigen Informationen zusammentragen und automatisch 🤖
                   für dich ergänzen.
@@ -331,7 +331,7 @@ export const Library = ({ ...props }) => {
                   <>
                     <p className="animate-bounce text-center text-2xl">👻</p>
                     <p className="text-center text-red-500">
-                      Ops! Leider konnten wir dein Buch nicht in unserer
+                      Ups! Leider konnten wir dein Buch nicht in unserer
                       Datenbank finden. Dies ist meistens der Fall, wenn das
                       Buch gerade erschienen ist. Probiere es in einigen Tagen
                       nochmal.
