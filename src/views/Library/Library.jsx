@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Library.css";
+import { useLanguage } from "../../contexts/language.context";
+import GERMAN_TEXTS from "../../translations/german";
+import ENGLISH_TEXTS from "../../translations/english";
 import { useMetadata } from "../../contexts/metadata.context";
 import { useNavigate } from "react-router-dom";
 import { useReceiver } from "../../contexts/receiver.context";
@@ -22,13 +25,18 @@ import {
 } from "../../services/api.servise";
 
 export const Library = ({ ...props }) => {
+  const { languageState } = useLanguage();
+  const [texts, setTexts] = useState(ENGLISH_TEXTS);
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
   const { receiverDispatch } = useReceiver();
   const navigate = useNavigate();
   const { init } = useParams();
   const [showCreationModal, setShowCreationModal] = useState(false);
-  const selectLabels = [{ label: "reserviert" }, { label: "inseriert" }];
+  const selectLabels = [
+    { label: texts.library.reserved },
+    { label: texts.library.offered },
+  ];
   const [selected, setSelected] = useState(selectLabels[0].label);
   const [unreserveOfferId, setUnreserveOfferId] = useState(null);
   const [reservations, setReservations] = useState([]);
@@ -40,6 +48,14 @@ export const Library = ({ ...props }) => {
   const [bookForOffer, setBookForOffer] = useState(null);
   const [bookWasCreated, setBookWasCreated] = useState(false);
   const [deletedOfferId, setDeletedOfferId] = useState(null);
+
+  useEffect(() => {
+    if (languageState === "de-DE") {
+      setTexts(GERMAN_TEXTS);
+    } else {
+      setTexts(ENGLISH_TEXTS);
+    }
+  }, [languageState]);
 
   const reservationRequest = useQuery("reservations", async () => {
     return await reservationsApi.getMyReservations(apiTokenState.value);
@@ -206,7 +222,7 @@ export const Library = ({ ...props }) => {
       (isbn.length > 10 && isbn.length < 13) ||
       isbn.length > 13
     ) {
-      setIsbnError("Die ISBN muss 9,10 oder 13 stellig sein.");
+      setIsbnError(texts.library.isbn_validation_error);
     } else {
       checkIsbnRequest.mutate(isbn);
     }
@@ -246,19 +262,18 @@ export const Library = ({ ...props }) => {
     <div className="library-view">
       <Select
         items={selectLabels}
-        preselected={selectLabels[0].label}
+        preselected={texts.library.reserved}
         onChange={handleSelectChange}
       />
-      {selected === "reserviert" && (
+      {selected === texts.library.reserved && (
         <div className="library-view__reserved">
           {reservations.length === 0 && (
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffee cup" />
-              <p>
-                Du hast aktuell keine Reservierungen. Schau gerne in den
-                Inseraten 🕵️‍♂️, ob du nicht dein neues Lieblingsbuch endeckst!
-              </p>
-              <Button onClick={handleGoToHome}>Zu den Inseraten</Button>
+              <p>{texts.library.no_reservations}</p>
+              <Button onClick={handleGoToHome}>
+                {texts.library.button_to_offers}
+              </Button>
             </div>
           )}
 
@@ -276,7 +291,7 @@ export const Library = ({ ...props }) => {
           </div>
         </div>
       )}
-      {selected === "inseriert" && (
+      {selected === texts.library.offered && (
         <div className="library-view__offers">
           {myOffers.length > 0 && (
             <div className="library-view__offers__myOffers">
@@ -295,15 +310,13 @@ export const Library = ({ ...props }) => {
           {myOffers.length === 0 && (
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffe cup" />
-              <p>
-                Du hast noch kein Inserat eingestellt. Erstelle eins, um anderen
-                Nutzern und Nutzerinnen die Möglichkeit zu geben ihr neues
-                Lieblingsbuch ❤️ zu finden.
-              </p>
+              <p>{texts.library.no_offers}</p>
             </div>
           )}
 
-          <Button onClick={handleOpenCreateOffer}>Inserat erstellen</Button>
+          <Button onClick={handleOpenCreateOffer}>
+            {texts.library.button_create_offer}
+          </Button>
         </div>
       )}
       {showCreationModal && (
@@ -311,17 +324,14 @@ export const Library = ({ ...props }) => {
           <div className="library-view__create-offer-modal">
             {!bookForOffer && !bookWasCreated && (
               <div className="flex flex-col gap-4">
-                <h1 className="headline text-center">Neues Inserat 📚 </h1>
-                <p className="text-center">
-                  Um ein neues Inserat anzulegen, gib einfach die ISBN oder
-                  ISBN13 des Buches ein. Wir werden anschließend alle
-                  notwendigen Informationen zusammentragen und automatisch 🤖
-                  für dich ergänzen.
-                </p>
+                <h1 className="headline text-center">
+                  {texts.library.create_title}
+                </h1>
+                <p className="text-center">{texts.library.create_message}</p>
                 <Input
                   value={isbn}
                   onChange={handleIsbnChange}
-                  label="ISBN oder ISBN13"
+                  label="ISBN / ISBN13"
                   type="text"
                   disabled={false}
                   error={isbnError}
@@ -331,10 +341,7 @@ export const Library = ({ ...props }) => {
                   <>
                     <p className="animate-bounce text-center text-2xl">👻</p>
                     <p className="text-center text-red-500">
-                      Ups! Leider konnten wir dein Buch nicht in unserer
-                      Datenbank finden. Dies ist meistens der Fall, wenn das
-                      Buch gerade erschienen ist. Probiere es in einigen Tagen
-                      nochmal.
+                      {texts.library.isbn_check_error}
                     </p>
                   </>
                 )}
@@ -344,7 +351,7 @@ export const Library = ({ ...props }) => {
                   loading={checkIsbnRequest.isLoading}
                   onClick={handleCheckIsbn}
                 >
-                  Überprüfe ISBN
+                  {texts.library.button_check_isbn}
                 </Button>
               </div>
             )}
@@ -363,15 +370,15 @@ export const Library = ({ ...props }) => {
                 />
 
                 <p className="font-bold text-center">
-                  Angeboten in {metadata.zip}, {metadata.city}
+                  {texts.library.offered_in} {metadata.zip}, {metadata.city}
                 </p>
 
                 <Button size="xl" onClick={createOfferHandler}>
-                  erstellen
+                  {texts.library.create}
                 </Button>
 
                 <Button variant="secondary" onClick={backToIsbnCheckHandler}>
-                  zurück
+                  {texts.library.back}
                 </Button>
               </div>
             )}
@@ -382,7 +389,7 @@ export const Library = ({ ...props }) => {
                 disabled={checkIsbnRequest.isLoading}
                 onClick={handleCancelOfferCreation}
               >
-                abbrechen
+                {texts.library.cancel}
               </Button>
             )}
 
@@ -390,11 +397,10 @@ export const Library = ({ ...props }) => {
               <div className="library-view__message">
                 <img src={happyPerson} alt="Happy person with a coffe cup" />
                 <p className="text-center">
-                  Dein Buch 📖 wurde erfolgreich inseriert und ist nun für
-                  andere Nutzer und Nutzerinnen sichtbar 🎉.
+                  {texts.library.creation_successfull}
                 </p>
                 <Button onClick={handleBackToOffers}>
-                  zurück zu meinen Inseraten
+                  {texts.library.back_to_offers}
                 </Button>
               </div>
             )}

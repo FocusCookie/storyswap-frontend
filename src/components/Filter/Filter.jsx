@@ -5,12 +5,25 @@ import { Card } from "../Card/Card";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 import { isValideIsbnOrIsbn13, isValidZip } from "../../utils/utils";
+import { useLanguage } from "../../contexts/language.context";
+import GERMAN_TEXTS from "../../translations/german";
+import ENGLISH_TEXTS from "../../translations/english";
 
 export const Filter = ({ onFilter, initFilters, ...props }) => {
+  const { languageState, languageDispatch } = useLanguage();
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState({});
   const [filterErrors, setFilterErrors] = useState({});
   const [filtersInitialized, setFiltersInitialized] = useState(false);
+  const [texts, setTexts] = useState(ENGLISH_TEXTS);
+
+  useEffect(() => {
+    if (languageState === "de-DE") {
+      setTexts(GERMAN_TEXTS);
+    } else {
+      setTexts(ENGLISH_TEXTS);
+    }
+  }, [languageState]);
 
   useEffect(() => {
     if (!filtersInitialized && initFilters) {
@@ -56,14 +69,17 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
 
     if (isbnError) {
       setFilterErrors((currentErrors) => {
-        return { ...currentErrors, ...{ isbn: "Ungültige ISBN" } };
+        return {
+          ...currentErrors,
+          ...{ isbn: texts.components.filter.err_invalid_isbn },
+        };
       });
     }
     if (zipError) {
       setFilterErrors((currentErrors) => {
         return {
           ...currentErrors,
-          ...{ zip: "Ungültige Postleitzahl - 5 Zahlen erfordert" },
+          ...{ zip: texts.components.filter.err_invalid_zip },
         };
       });
     }
@@ -108,22 +124,24 @@ export const Filter = ({ onFilter, initFilters, ...props }) => {
           /> */}
           <Input
             onChange={(v) => handleNewFilter({ zip: v.toLowerCase() })}
-            label="Postleitzahl"
+            label={texts.components.filter.zip}
             value={filters.zip ? filters.zip : ""}
             error={filterErrors.zip ? filterErrors.zip : ""}
           />
           <Input
             onChange={(v) => handleNewFilter({ city: v.toLowerCase() })}
-            label="Stadt"
+            label={texts.components.filter.city}
             value={filters.city ? filters.city : ""}
           />
 
-          <Button onClick={handleFilter}>Filtern</Button>
+          <Button onClick={handleFilter}>
+            {texts.components.filter.filter}
+          </Button>
           <Button size="sm" variant="text" onClick={handleResetFilter}>
-            zurücksetzen
+            {texts.components.filter.reset}
           </Button>
           <Button variant="secondary" onClick={handleClose}>
-            schliessen
+            {texts.components.filter.close}
           </Button>
         </Card>
       )}
