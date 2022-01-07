@@ -5,8 +5,8 @@ import "./Icon.css";
 export const Icon = ({ className, children, size, ...props }) => {
   return (
     <div
-      className={`icon icon--${size} ${className}`}
-      style={{ fontSize: size }}
+      className={`icon icon--${size === "full" ? "base" : size} ${className}`}
+      style={{ fontSize: size === "full" ? "base" : size }}
       {...props}
     >
       {children}
@@ -18,7 +18,7 @@ Icon.propTypes = {
   /**
    * Size of the icon
    */
-  size: PropTypes.oneOf(["xs", "sm", "base", "lg", "xl"]),
+  size: PropTypes.oneOf(["xs", "sm", "base", "lg", "xl", "full"]),
   /**
    * classes
    */

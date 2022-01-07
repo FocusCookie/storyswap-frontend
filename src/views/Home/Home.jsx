@@ -11,8 +11,12 @@ import { Offer } from "../../components/Offer/Offer";
 import { offers as offersApi } from "../../services/api.servise";
 import isSearchingPerson from "../../assets/person/searching.png";
 import isSadPerson from "../../assets/person/sad.png";
+import { useLanguage } from "../../contexts/language.context";
+import GERMAN_TEXTS from "../../translations/german";
+import ENGLISH_TEXTS from "../../translations/english";
 
 export const Home = ({ ...props }) => {
+  const { languageState } = useLanguage();
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
   const { receiverDispatch } = useReceiver();
@@ -25,6 +29,7 @@ export const Home = ({ ...props }) => {
   const [hideMore, setHideMore] = useState(false);
   const [pageYOffset, setPageYOffset] = useState(0);
   const [reserveOfferDetails, setReserveOfferDetails] = useState(null);
+  const [texts, setTexts] = useState(ENGLISH_TEXTS);
 
   const offersRequest = useMutation((options) => {
     return offersApi.getOffersWithFilter(apiTokenState.value, options);
@@ -39,6 +44,14 @@ export const Home = ({ ...props }) => {
   //TODO: Fix scrollto its visible that the content moves up and fast down again
 
   //TODO: implement error handling for example if the offer is reserved already and the user tries to reserve it again.
+
+  useEffect(() => {
+    if (languageState === "de-DE") {
+      setTexts(GERMAN_TEXTS);
+    } else {
+      setTexts(ENGLISH_TEXTS);
+    }
+  }, [languageState]);
 
   useEffect(() => {
     if ((metadata && metadata.city) || (metadata && metadata.zip)) {
@@ -155,7 +168,7 @@ export const Home = ({ ...props }) => {
             src={isSearchingPerson}
             alt="Person seraches for offers on a Laptop"
           />
-          <p>Suche nach Inseraten</p>
+          <p>{texts.home.loading_offer_message}</p>
         </div>
       )}
 
@@ -164,11 +177,10 @@ export const Home = ({ ...props }) => {
         !offersRequest.isLoading && (
           <div className="home-view__loading">
             <img src={isSadPerson} alt="Sad person" />
-            <p>
-              Wir konnten leider keine Inserate finden. Du kannst die Suchfilter
-              ändern, um mehr Angebote zu finden oder erstelle ein Inserat.
-            </p>
-            <Button onClick={handleCreateOffer}>Erstelle ein Inserat</Button>
+            <p>{texts.home.no_offers_message}</p>
+            <Button onClick={handleCreateOffer}>
+              {texts.home.create_button_label}
+            </Button>
           </div>
         )}
 
@@ -187,7 +199,7 @@ export const Home = ({ ...props }) => {
 
       {!offersRequest.isLoading && offers.length > 0 && !hideMore && (
         <Button loading={isLoadingMoreOffers} onClick={handleLoadMoreOffers}>
-          Weitere laden
+          {texts.home.load_more_button_label}
         </Button>
       )}
     </div>
