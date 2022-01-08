@@ -5,25 +5,23 @@ import { Card } from "../Card/Card";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 import { isValideIsbnOrIsbn13, isValidZip } from "../../utils/utils";
-import { useLanguage } from "../../contexts/language.context";
 import GERMAN_TEXTS from "../../translations/german";
 import ENGLISH_TEXTS from "../../translations/english";
 
-export const Filter = ({ onFilter, initFilters, ...props }) => {
-  const { languageState, languageDispatch } = useLanguage();
+export const Filter = ({ onFilter, initFilters, english, ...props }) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState({});
   const [filterErrors, setFilterErrors] = useState({});
   const [filtersInitialized, setFiltersInitialized] = useState(false);
-  const [texts, setTexts] = useState(ENGLISH_TEXTS);
+  const [texts, setTexts] = useState(GERMAN_TEXTS);
 
   useEffect(() => {
-    if (languageState === "de-DE") {
-      setTexts(GERMAN_TEXTS);
-    } else {
+    if (english) {
       setTexts(ENGLISH_TEXTS);
+    } else {
+      setTexts(GERMAN_TEXTS);
     }
-  }, [languageState]);
+  }, [english]);
 
   useEffect(() => {
     if (!filtersInitialized && initFilters) {
@@ -163,9 +161,14 @@ Filter.propTypes = {
     zip: PropTypes.string,
     city: PropTypes.string,
   }),
+  /**
+   * enable english texts
+   */
+  english: PropTypes.bool,
 };
 
 Filter.defaultProps = {
   onFilter: undefined,
   initFilters: {},
+  english: false,
 };

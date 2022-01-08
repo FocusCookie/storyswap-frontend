@@ -89,6 +89,10 @@ module.exports = {
     logout: "abmelden",
     save: "speichern",
     cancel: "abbruch",
+    day: "Tag",
+    days: "Tage",
+    contact_verb: "kontaktieren",
+    close: "schließen",
   },
   components: {
     filter: {
@@ -99,6 +103,14 @@ module.exports = {
       filter: "filtern",
       reset: "zurücksetzen",
       close: "schließen",
+    },
+    offer_card: {
+      delete_offer: "Inserat löschen",
+      pickup_at: "Abzuholen in",
+      book_was_pickedup: "Buch wurde abgeholt",
+    },
+    reservation_card: {
+      book_was_pickedup: "Buch wurde abgeholt",
     },
   },
 };

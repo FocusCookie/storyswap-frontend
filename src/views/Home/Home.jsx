@@ -148,7 +148,11 @@ export const Home = ({ ...props }) => {
   return (
     <div className="home-view">
       {initFilterValue && (
-        <Filter onFilter={handleNewFilter} initFilters={initFilterValue} />
+        <Filter
+          onFilter={handleNewFilter}
+          initFilters={initFilterValue}
+          english={languageState.active === "en-US"}
+        />
       )}
 
       {offersRequest.isLoading && offers.length === 0 && (

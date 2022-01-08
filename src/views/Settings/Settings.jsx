@@ -10,10 +10,11 @@ import sadPerson from "../../assets/person/sad.png";
 import { user as userApi } from "../../services/api.servise";
 import { isValidEmail, deletePageCookies } from "../../utils/utils";
 import { useLanguage } from "../../contexts/language.context";
+import { Select } from "../../components/Select/Select";
 
 export const Settings = ({ ...props }) => {
   const { logout, user } = useAuth0();
-  const { languageState } = useLanguage();
+  const { languageState, languageDispatch } = useLanguage();
   const { apiTokenState } = useApiToken();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,6 +32,10 @@ export const Settings = ({ ...props }) => {
   const [email, setEmail] = useState(user.email);
   const [emailError, setEmailError] = useState("");
   const [picture, setPicture] = useState(user.picture);
+  const languageItems = [
+    { label: "DE", icon: "🇩🇪" },
+    { label: "EN", icon: "🇬🇧" },
+  ];
 
   const sendPasswordMailRequest = useMutation(() => {
     return userApi.sendPasswordChangeMail(apiTokenState.value);
@@ -46,6 +51,10 @@ export const Settings = ({ ...props }) => {
     },
     { enabled: isDeleting }
   );
+
+  const changeLangaugeRequest = useMutation((language) => {
+    return userApi.setMetadata(apiTokenState.value, { language: language });
+  });
 
   useEffect(() => {
     if (
@@ -127,6 +136,18 @@ export const Settings = ({ ...props }) => {
     setEmail(value);
   }
 
+  function handleLanguageChange(language) {
+    if (language === "DE") {
+      languageDispatch({ type: "setLanguage", payload: "de-DE" });
+      window.localStorage.setItem("language", "de-DE");
+      changeLangaugeRequest.mutate("de-DE");
+    } else {
+      languageDispatch({ type: "setLanguage", payload: "en-US" });
+      window.localStorage.setItem("language", "en-US");
+      changeLangaugeRequest.mutate("en-US");
+    }
+  }
+
   return (
     <div className="settings-view">
       <h1 className="headline text-center">
@@ -137,6 +158,19 @@ export const Settings = ({ ...props }) => {
         src={user.picture}
         alt={user.name}
         className="settings-view__user__image"
+      />
+
+      <Select
+        disabled={
+          changeLangaugeRequest.isLoading || changeLangaugeRequest.isFetching
+        }
+        preselected={
+          languageState.active === "de-DE"
+            ? languageItems[0].label
+            : languageItems[1].label
+        }
+        items={languageItems}
+        onChange={handleLanguageChange}
       />
 
       <Input

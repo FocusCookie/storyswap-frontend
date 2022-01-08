@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./ReservationCard.css";
 import { Modal } from "../Modal/Modal";
@@ -6,12 +6,15 @@ import { Offer } from "../Offer/Offer";
 import { Button } from "../Button/Button";
 import { BookCard } from "../BookCard/BookCard";
 import FallBackCover from "../../assets/book_small.jpg";
+import GERMAN_TEXTS from "../../translations/german";
+import ENGLISH_TEXTS from "../../translations/english";
 
 export const ReservationCard = ({
   reservation,
   onContactProvider,
   onUnreserve,
   onPickedUp,
+  english,
 }) => {
   const today = new Date();
   const until = new Date(reservation.until);
@@ -22,10 +25,23 @@ export const ReservationCard = ({
   const [showDetails, setShowDetails] = useState(false);
   const [isUnreserving, setIsUnreserving] = useState(false);
   const [isPickingUp, setIsPickingUp] = useState(false);
+  const [texts, setTexts] = useState(GERMAN_TEXTS);
 
-  const bookCardLabel = `Noch ${daysLeftOfReservation} ${
-    daysLeftOfReservation > 1 ? "Tage" : "Tag"
-  }`;
+  const bookCardLabel = english
+    ? `${daysLeftOfReservation} ${
+        daysLeftOfReservation > 1 ? texts.words.days : texts.words.day
+      } left`
+    : `Noch ${daysLeftOfReservation} ${
+        daysLeftOfReservation > 1 ? texts.words.days : texts.words.day
+      }`;
+
+  useEffect(() => {
+    if (english) {
+      setTexts(ENGLISH_TEXTS);
+    } else {
+      setTexts(GERMAN_TEXTS);
+    }
+  }, [english]);
 
   function toggleDetails() {
     setShowDetails((lastState) => !lastState);
@@ -70,14 +86,14 @@ export const ReservationCard = ({
             />
             <div className="reservation-card__modal">
               <Button loading={isPickingUp} onClick={bookWasPickedupHandler}>
-                Buch wurde abgeholt
+                {texts.components.reservation_card.book_was_pickedup}
               </Button>
               <Button
                 variant="secondary"
                 disabled={isUnreserving || isPickingUp}
                 onClick={toggleDetails}
               >
-                schließen
+                {texts.words.close}
               </Button>
             </div>
           </Modal>
@@ -135,6 +151,10 @@ ReservationCard.propTypes = {
    * click handler when the book was picked up button is clicked
    */
   onPickedUp: PropTypes.func,
+  /**
+   * enable english texts
+   */
+  english: PropTypes.bool,
 };
 
 ReservationCard.defaultProps = {
@@ -142,4 +162,5 @@ ReservationCard.defaultProps = {
   onContactProvider: undefined,
   onUnreserve: undefined,
   onPickedUp: undefined,
+  english: false,
 };

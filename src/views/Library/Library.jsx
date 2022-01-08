@@ -22,6 +22,8 @@ import {
   books as bookApi,
 } from "../../services/api.servise";
 
+//TODO: split the reservation and offered tabs into two seperated views which will be imported here
+
 export const Library = ({ ...props }) => {
   const { languageState } = useLanguage();
   const { apiTokenState } = useApiToken();
@@ -275,6 +277,7 @@ export const Library = ({ ...props }) => {
                   reservation={reservation}
                   onUnreserve={handleUnreserveOffer}
                   onPickedUp={handleReservationWasPickedUp}
+                  english={languageState.active === "en-US" ? true : false}
                 />
               ))}
           </div>
@@ -291,6 +294,7 @@ export const Library = ({ ...props }) => {
                   onContactCollector={contactUser}
                   onPickedUp={handleOfferWasPickedUp}
                   onDelete={handleDeleteOffer}
+                  english={languageState.active === "en-US" ? true : false}
                 />
               ))}
             </div>
