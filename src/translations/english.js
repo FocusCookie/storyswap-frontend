@@ -60,6 +60,19 @@ module.exports = {
     successfull_onboarded:
       "Everything is set up 🎉! Grab a cup of coffee ☕, tea or your favorite beverage of choice and go in search 🔎 of your next favorite book 📖.",
   },
+  settings: {
+    avatar_url: "Profile Picture Url",
+    avatar_hint:
+      "Profile pictures changes will only be displayed after a new login.",
+    edit_profile: "Edit Profile",
+    change_password: "Change Password",
+    change_password_desc:
+      "You have received an email 📧 to change your password.",
+    delete_account: "Delete Account",
+    delete_account_desc:
+      "😳 Oh no! Too bad you want to leave us. Are you sure you want to delete your account?",
+    yes_delete_account: "Yes, delete my account",
+  },
   words: {
     language: "Language",
     nickname: "Nickname",
@@ -69,6 +82,12 @@ module.exports = {
     no: "No",
     nice: "Nice",
     go: "Lets Start",
+    settings: "Settings",
+    name: "Name",
+    email: "email",
+    logout: "logout",
+    save: "save",
+    cancel: "cancel",
   },
   components: {
     filter: {
