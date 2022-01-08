@@ -45,6 +45,32 @@ module.exports = {
     button_to_offers: "zu den inseraten",
     search: "suchen",
   },
+  onboarding: {
+    choose_language: "Wähle deine Sprache.",
+    your_name: "Dein Name",
+    your_name_desc:
+      "Unter welchem Namen sollen dich die anderen Nutzer und Nutzerinnen sehen 👀 können?",
+    your_searcharea: "Dein Einzugsgebiet",
+    your_searcharea_desc:
+      "In welchem Gebiet 🗺 sollen wir für dich nach Büchern suchen 🔎?",
+    rent_books: "Bücher verleiehen",
+    rent_books_desc:
+      "Wäre es für dich in Zukunft eine Option einige deiner Lieblingsstücke ♥ zu verleihen?",
+    save_and_go: "Speichern & Loslegen",
+    cancel_and_logout: "Abbrechen & Ausloggen",
+    successfull_onboarded:
+      "Alles ist eingerichtet 🎉! Schnapp  eine Tasse Kaffee ☕, Tee oder dein Lieblingsgetränk deiner Wahl und begib dich auf die Suche 🔎 nach deinem nächsten Lieblingsbuch 📖.",
+  },
+  words: {
+    language: "Sprache",
+    nickname: "Anzeigename",
+    city: "Stadt",
+    zip: "Postleitzahl",
+    yes: "Ja",
+    no: "Nein",
+    nice: "Super",
+    go: "Loslegen",
+  },
   components: {
     filter: {
       err_invalid_isbn: "Ungültige ISBN",

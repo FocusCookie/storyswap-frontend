@@ -44,6 +44,32 @@ module.exports = {
     button_to_offers: "to the offers",
     search: "search",
   },
+  onboarding: {
+    choose_language: "Choose your language.",
+    your_name: "Your Nickname",
+    your_name_desc:
+      "Under which name should the other users be able to see you 👀?",
+    your_searcharea: "Your Searcharea",
+    your_searcharea_desc:
+      "In which area 🗺 should we look for books for you 🔎?",
+    rent_books: "Rent Books",
+    rent_books_desc:
+      "Would lending some of your favorite ♥ pieces be an option for you in the future?",
+    save_and_go: "Save & Start",
+    cancel_and_logout: "Cancel & Logout",
+    successfull_onboarded:
+      "Everything is set up 🎉! Grab a cup of coffee ☕, tea or your favorite beverage of choice and go in search 🔎 of your next favorite book 📖.",
+  },
+  words: {
+    language: "Language",
+    nickname: "Nickname",
+    city: "City",
+    zip: "Zip Code",
+    yes: "Yes",
+    no: "No",
+    nice: "Nice",
+    go: "Lets Start",
+  },
   components: {
     filter: {
       err_invalid_isbn: "invalid ISBN",
