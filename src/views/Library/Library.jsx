@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Library.css";
 import { useLanguage } from "../../contexts/language.context";
-import GERMAN_TEXTS from "../../translations/german";
-import ENGLISH_TEXTS from "../../translations/english";
 import { useMetadata } from "../../contexts/metadata.context";
 import { useNavigate } from "react-router-dom";
 import { useReceiver } from "../../contexts/receiver.context";
@@ -26,7 +24,6 @@ import {
 
 export const Library = ({ ...props }) => {
   const { languageState } = useLanguage();
-  const [texts, setTexts] = useState(ENGLISH_TEXTS);
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
   const { receiverDispatch } = useReceiver();
@@ -34,8 +31,8 @@ export const Library = ({ ...props }) => {
   const { init } = useParams();
   const [showCreationModal, setShowCreationModal] = useState(false);
   const selectLabels = [
-    { label: texts.library.reserved },
-    { label: texts.library.offered },
+    { label: languageState.texts.library.reserved },
+    { label: languageState.texts.library.offered },
   ];
   const [selected, setSelected] = useState(selectLabels[0].label);
   const [unreserveOfferId, setUnreserveOfferId] = useState(null);
@@ -48,14 +45,6 @@ export const Library = ({ ...props }) => {
   const [bookForOffer, setBookForOffer] = useState(null);
   const [bookWasCreated, setBookWasCreated] = useState(false);
   const [deletedOfferId, setDeletedOfferId] = useState(null);
-
-  useEffect(() => {
-    if (languageState === "de-DE") {
-      setTexts(GERMAN_TEXTS);
-    } else {
-      setTexts(ENGLISH_TEXTS);
-    }
-  }, [languageState]);
 
   const reservationRequest = useQuery("reservations", async () => {
     return await reservationsApi.getMyReservations(apiTokenState.value);
@@ -222,7 +211,7 @@ export const Library = ({ ...props }) => {
       (isbn.length > 10 && isbn.length < 13) ||
       isbn.length > 13
     ) {
-      setIsbnError(texts.library.isbn_validation_error);
+      setIsbnError(languageState.texts.library.isbn_validation_error);
     } else {
       checkIsbnRequest.mutate(isbn);
     }
@@ -262,17 +251,17 @@ export const Library = ({ ...props }) => {
     <div className="library-view">
       <Select
         items={selectLabels}
-        preselected={texts.library.reserved}
+        preselected={languageState.texts.library.reserved}
         onChange={handleSelectChange}
       />
-      {selected === texts.library.reserved && (
+      {selected === languageState.texts.library.reserved && (
         <div className="library-view__reserved">
           {reservations.length === 0 && (
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffee cup" />
-              <p>{texts.library.no_reservations}</p>
+              <p>{languageState.texts.library.no_reservations}</p>
               <Button onClick={handleGoToHome}>
-                {texts.library.button_to_offers}
+                {languageState.texts.library.button_to_offers}
               </Button>
             </div>
           )}
@@ -291,7 +280,7 @@ export const Library = ({ ...props }) => {
           </div>
         </div>
       )}
-      {selected === texts.library.offered && (
+      {selected === languageState.texts.library.offered && (
         <div className="library-view__offers">
           {myOffers.length > 0 && (
             <div className="library-view__offers__myOffers">
@@ -310,12 +299,12 @@ export const Library = ({ ...props }) => {
           {myOffers.length === 0 && (
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffe cup" />
-              <p>{texts.library.no_offers}</p>
+              <p>{languageState.texts.library.no_offers}</p>
             </div>
           )}
 
           <Button onClick={handleOpenCreateOffer}>
-            {texts.library.button_create_offer}
+            {languageState.texts.library.button_create_offer}
           </Button>
         </div>
       )}
@@ -325,9 +314,11 @@ export const Library = ({ ...props }) => {
             {!bookForOffer && !bookWasCreated && (
               <div className="flex flex-col gap-4">
                 <h1 className="headline text-center">
-                  {texts.library.create_title}
+                  {languageState.texts.library.create_title}
                 </h1>
-                <p className="text-center">{texts.library.create_message}</p>
+                <p className="text-center">
+                  {languageState.texts.library.create_message}
+                </p>
                 <Input
                   value={isbn}
                   onChange={handleIsbnChange}
@@ -341,7 +332,7 @@ export const Library = ({ ...props }) => {
                   <>
                     <p className="animate-bounce text-center text-2xl">👻</p>
                     <p className="text-center text-red-500">
-                      {texts.library.isbn_check_error}
+                      {languageState.texts.library.isbn_check_error}
                     </p>
                   </>
                 )}
@@ -351,7 +342,7 @@ export const Library = ({ ...props }) => {
                   loading={checkIsbnRequest.isLoading}
                   onClick={handleCheckIsbn}
                 >
-                  {texts.library.button_check_isbn}
+                  {languageState.texts.library.button_check_isbn}
                 </Button>
               </div>
             )}
@@ -370,15 +361,16 @@ export const Library = ({ ...props }) => {
                 />
 
                 <p className="font-bold text-center">
-                  {texts.library.offered_in} {metadata.zip}, {metadata.city}
+                  {languageState.texts.library.offered_in} {metadata.zip},{" "}
+                  {metadata.city}
                 </p>
 
                 <Button size="xl" onClick={createOfferHandler}>
-                  {texts.library.create}
+                  {languageState.texts.library.create}
                 </Button>
 
                 <Button variant="secondary" onClick={backToIsbnCheckHandler}>
-                  {texts.library.back}
+                  {languageState.texts.library.back}
                 </Button>
               </div>
             )}
@@ -389,7 +381,7 @@ export const Library = ({ ...props }) => {
                 disabled={checkIsbnRequest.isLoading}
                 onClick={handleCancelOfferCreation}
               >
-                {texts.library.cancel}
+                {languageState.texts.library.cancel}
               </Button>
             )}
 
@@ -397,10 +389,10 @@ export const Library = ({ ...props }) => {
               <div className="library-view__message">
                 <img src={happyPerson} alt="Happy person with a coffe cup" />
                 <p className="text-center">
-                  {texts.library.creation_successfull}
+                  {languageState.texts.library.creation_successfull}
                 </p>
                 <Button onClick={handleBackToOffers}>
-                  {texts.library.back_to_offers}
+                  {languageState.texts.library.back_to_offers}
                 </Button>
               </div>
             )}

@@ -38,6 +38,12 @@ module.exports = {
       "Your book 📖 has been successfully offered and is now visible to other users 🎉.",
     back_to_offers: "back to your offers",
   },
+  chat: {
+    no_chats:
+      "Unfortunately, you haven't contacted anyone yet. Have a look if you find something that interests you. Reserve and then the provider to pick up your new favorite book 📖 can.",
+    button_to_offers: "to the offers",
+    search: "search",
+  },
   components: {
     filter: {
       err_invalid_isbn: "invalid ISBN",

@@ -12,8 +12,6 @@ import { offers as offersApi } from "../../services/api.servise";
 import isSearchingPerson from "../../assets/person/searching.png";
 import isSadPerson from "../../assets/person/sad.png";
 import { useLanguage } from "../../contexts/language.context";
-import GERMAN_TEXTS from "../../translations/german";
-import ENGLISH_TEXTS from "../../translations/english";
 
 export const Home = ({ ...props }) => {
   const { languageState } = useLanguage();
@@ -29,7 +27,6 @@ export const Home = ({ ...props }) => {
   const [hideMore, setHideMore] = useState(false);
   const [pageYOffset, setPageYOffset] = useState(0);
   const [reserveOfferDetails, setReserveOfferDetails] = useState(null);
-  const [texts, setTexts] = useState(ENGLISH_TEXTS);
 
   const offersRequest = useMutation((options) => {
     return offersApi.getOffersWithFilter(apiTokenState.value, options);
@@ -44,14 +41,6 @@ export const Home = ({ ...props }) => {
   //TODO: Fix scrollto its visible that the content moves up and fast down again
 
   //TODO: implement error handling for example if the offer is reserved already and the user tries to reserve it again.
-
-  useEffect(() => {
-    if (languageState === "de-DE") {
-      setTexts(GERMAN_TEXTS);
-    } else {
-      setTexts(ENGLISH_TEXTS);
-    }
-  }, [languageState]);
 
   useEffect(() => {
     if ((metadata && metadata.city) || (metadata && metadata.zip)) {
@@ -168,7 +157,7 @@ export const Home = ({ ...props }) => {
             src={isSearchingPerson}
             alt="Person seraches for offers on a Laptop"
           />
-          <p>{texts.home.loading_offer_message}</p>
+          <p>{languageState.texts.home.loading_offer_message}</p>
         </div>
       )}
 
@@ -177,9 +166,9 @@ export const Home = ({ ...props }) => {
         !offersRequest.isLoading && (
           <div className="home-view__loading">
             <img src={isSadPerson} alt="Sad person" />
-            <p>{texts.home.no_offers_message}</p>
+            <p>{languageState.texts.home.no_offers_message}</p>
             <Button onClick={handleCreateOffer}>
-              {texts.home.create_button_label}
+              {languageState.texts.home.create_button_label}
             </Button>
           </div>
         )}
@@ -199,7 +188,7 @@ export const Home = ({ ...props }) => {
 
       {!offersRequest.isLoading && offers.length > 0 && !hideMore && (
         <Button loading={isLoadingMoreOffers} onClick={handleLoadMoreOffers}>
-          {texts.home.load_more_button_label}
+          {languageState.texts.home.load_more_button_label}
         </Button>
       )}
     </div>

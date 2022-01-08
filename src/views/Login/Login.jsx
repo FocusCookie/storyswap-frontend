@@ -6,8 +6,6 @@ import { Button } from "../../components/Button/Button";
 import { Select } from "../../components/Select/Select";
 import person from "../../assets/person/happy.png";
 import { useLanguage } from "../../contexts/language.context";
-import GERMAN_TEXTS from "../../translations/german";
-import ENGLISH_TEXTS from "../../translations/english";
 
 export const Login = ({ ...props }) => {
   const {
@@ -22,15 +20,6 @@ export const Login = ({ ...props }) => {
     { label: "DE", icon: "🇩🇪" },
     { label: "EN", icon: "🇬🇧" },
   ];
-  const [texts, setTexts] = useState(ENGLISH_TEXTS);
-
-  useEffect(() => {
-    if (languageState === "de-DE") {
-      setTexts(GERMAN_TEXTS);
-    } else {
-      setTexts(ENGLISH_TEXTS);
-    }
-  }, [languageState]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -45,10 +34,10 @@ export const Login = ({ ...props }) => {
   function handleLanguageChange(language) {
     if (language === "DE") {
       languageDispatch({ type: "setLanguage", payload: "de-DE" });
-      setTexts(GERMAN_TEXTS);
+      window.localStorage.setItem("language", "de-DE");
     } else {
       languageDispatch({ type: "setLanguage", payload: "en-US" });
-      setTexts(ENGLISH_TEXTS);
+      window.localStorage.setItem("language", "en-US");
     }
   }
 
@@ -65,9 +54,9 @@ export const Login = ({ ...props }) => {
           <div>
             <h1 className="headline">
               <span className="animate-spin">⏳</span>
-              {texts.login.logging_in}
+              {languageState.texts.login.logging_in}
             </h1>
-            <p>{texts.login.previous_login_message}</p>
+            <p>{languageState.texts.login.previous_login_message}</p>
           </div>
         )}
 
@@ -75,21 +64,21 @@ export const Login = ({ ...props }) => {
           <div>
             <div className="login-view__title">
               <div className="animation-wink">👋</div>
-              <h1 className="headline">{texts.login.title}</h1>
+              <h1 className="headline">{languageState.texts.login.title}</h1>
             </div>
-            <p>{texts.login.message}</p>
+            <p>{languageState.texts.login.message}</p>
           </div>
         )}
       </div>
       {!isLoading && !isAuthenticated && (
         <div className="login-view__actions">
           <Button size="xl" onClick={handleLogin}>
-            {texts.login.button_label}
+            {languageState.texts.login.button_label}
           </Button>
 
           <Select
             preselected={
-              languageState === "de-DE"
+              languageState.active === "de-DE"
                 ? languageItems[0].label
                 : languageItems[1].label
             }

@@ -39,6 +39,12 @@ module.exports = {
       "Dein Buch 📖 wurde erfolgreich inseriert und ist nun für andere Nutzer und Nutzerinnen sichtbar 🎉.",
     back_to_offers: "zurück zu meinen Inseraten",
   },
+  chat: {
+    no_chats:
+      "Du hast leider noch niemanden kontaktiert. Schau doch mal in die ob du etwas findest was dich interessiert. Reserviere und dann den Anbieter, um dein neues Lieblingsbuch 📖 abholen können.",
+    button_to_offers: "zu den inseraten",
+    search: "suchen",
+  },
   components: {
     filter: {
       err_invalid_isbn: "Ungültige ISBN",

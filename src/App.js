@@ -30,7 +30,19 @@ function App() {
   useEffect(() => {
     const browserLanguage =
       window.navigator.userLanguage || window.navigator.language;
-    languageDispatch({ type: "setLanguage", payload: browserLanguage });
+    const userSelectedLanguageInLogin = window.localStorage.getItem("language");
+
+    if (userSelectedLanguageInLogin !== "") {
+      languageDispatch({
+        type: "setLanguage",
+        payload: userSelectedLanguageInLogin,
+      });
+    } else {
+      languageDispatch({
+        type: "setLanguage",
+        payload: browserLanguage,
+      });
+    }
   }, []);
 
   const {
@@ -58,6 +70,13 @@ function App() {
 
       if (metadata && !metadata.isOnboarded) {
         navigate("/onboarding");
+      }
+
+      if (metadata?.language) {
+        languageDispatch({
+          type: "setLanguage",
+          payload: metadata.language,
+        });
       }
     }
   }, [metadataIsLoading, metadata]);

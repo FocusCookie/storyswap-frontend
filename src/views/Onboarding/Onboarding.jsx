@@ -11,8 +11,10 @@ import { useApiToken } from "../../contexts/apiToken.context";
 import { useAuth0 } from "@auth0/auth0-react";
 import person from "../../assets/person/smilling.png";
 import { useMetadata } from "../../contexts/metadata.context";
+import { useLanguage } from "../../contexts/language.context";
 
 export const Onboarding = ({ ...props }) => {
+  const { languageState, languageDispatch } = useLanguage();
   const navigate = useNavigate();
   const { logout } = useAuth0();
   const { apiTokenState } = useApiToken();
@@ -25,6 +27,10 @@ export const Onboarding = ({ ...props }) => {
   const [userWouldRentBooks, setUserWouldRentBooks] = useState(false);
   const selectItems = [{ label: "Ja" }, { label: "Nein" }];
   const [onboardingFinished, setOnboardingFinished] = useState(false);
+  const languageItems = [
+    { label: "DE", icon: "🇩🇪" },
+    { label: "EN", icon: "🇬🇧" },
+  ];
 
   const [postMetadataData, setPostMetadataData] = useState(null);
   const [postMetadata, setPostMetadata] = useState(false);
@@ -152,10 +158,34 @@ export const Onboarding = ({ ...props }) => {
     navigate("/home");
   }
 
+  function handleLanguageChange(language) {
+    if (language === "DE") {
+      languageDispatch({ type: "setLanguage", payload: "de-DE" });
+      window.localStorage.setItem("language", "de-DE");
+    } else {
+      languageDispatch({ type: "setLanguage", payload: "en-US" });
+      window.localStorage.setItem("language", "en-US");
+    }
+  }
+
   return (
     <div className="onboarding-view">
       {!onboardingFinished && (
         <>
+          <section className="onboarding-view__section">
+            <h1 className="headline">Sprache</h1>
+            <p>Wähle deine Sprache.</p>
+            <Select
+              preselected={
+                languageState.active === "de-DE"
+                  ? languageItems[0].label
+                  : languageItems[1].label
+              }
+              items={languageItems}
+              onChange={handleLanguageChange}
+            />
+          </section>
+
           <section className="onboarding-view__section">
             <h1 className="headline">Dein Name</h1>
             <p>
