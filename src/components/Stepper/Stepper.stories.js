@@ -21,3 +21,8 @@ MaxToSix.args = { max: 6 };
 
 export const CustomUnit = Template.bind({});
 CustomUnit.args = { unit: "liter" };
+
+export const English = Template.bind({});
+English.args = {
+  english: true,
+};

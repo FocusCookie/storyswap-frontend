@@ -72,3 +72,9 @@ export const ReservedOffer = Template.bind({});
 ReservedOffer.args = {
   offer: reservedOffer,
 };
+
+export const English = Template.bind({});
+English.args = {
+  offer: reservedOffer,
+  english: true,
+};

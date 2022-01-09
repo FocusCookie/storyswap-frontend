@@ -80,3 +80,9 @@ export const OneDayLeft = Template.bind({});
 OneDayLeft.args = {
   reservation: oneDayLeftReservation,
 };
+
+export const English = Template.bind({});
+English.args = {
+  reservation: reservation,
+  english: true,
+};
