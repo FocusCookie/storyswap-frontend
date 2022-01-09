@@ -87,11 +87,16 @@ module.exports = {
     email: "email",
     logout: "logout",
     save: "save",
-    cancel: "abbruch",
+    cancel: "cancel",
     day: "day",
     days: "days",
     contact_verb: "contact",
     close: "close",
+    reserve: "reserve",
+    back: "back",
+    reservation: "Reservation",
+    by: "by",
+    reserved: "reserved",
   },
   components: {
     filter: {
@@ -110,6 +115,10 @@ module.exports = {
     },
     reservation_card: {
       book_was_pickedup: "Book was pickedup",
+    },
+    offer: {
+      revoke_reservation: "Revoke Reservation",
+      contact_provider: "Contact Provider",
     },
   },
 };

@@ -83,6 +83,7 @@ export const ReservationCard = ({
               clean
               onUnreserve={handleUnreserve}
               onContactProvider={handleContactProvider}
+              english={english}
             />
             <div className="reservation-card__modal">
               <Button loading={isPickingUp} onClick={bookWasPickedupHandler}>

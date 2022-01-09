@@ -187,6 +187,7 @@ export const Home = ({ ...props }) => {
             onReserveUntil={handleReserveOffer}
             onUnreserve={handleUnreserveOffer}
             reserved={offer.reserved}
+            english={languageState.active === "en-US" ? true : false}
           />
         ))}
 

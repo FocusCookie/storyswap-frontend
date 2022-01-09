@@ -118,13 +118,16 @@ export const OfferCard = ({
               </>
             )}
             {offer?.reservation && (
-              <Button loading={isPickingUp} onClick={bookWasPickedupHandler}>
+              <Button
+                variant="white"
+                loading={isPickingUp}
+                onClick={bookWasPickedupHandler}
+              >
                 {texts.components.offer_card.book_was_pickedup}
               </Button>
             )}
             <Button
               disabled={isPickingUp || isDeleting}
-              variant="secondary"
               onClick={toggleDetails}
             >
               {texts.words.close}

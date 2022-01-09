@@ -93,6 +93,11 @@ module.exports = {
     days: "Tage",
     contact_verb: "kontaktieren",
     close: "schließen",
+    reserve: "reservieren",
+    back: "zurück",
+    reservation: "Reservierung",
+    by: "von",
+    reserved: "reserviert",
   },
   components: {
     filter: {
@@ -111,6 +116,10 @@ module.exports = {
     },
     reservation_card: {
       book_was_pickedup: "Buch wurde abgeholt",
+    },
+    offer: {
+      revoke_reservation: "Reservierung storniern",
+      contact_provider: "Anbieter kontaktieren",
     },
   },
 };
