@@ -11,8 +11,10 @@ import { useApiToken } from "../../contexts/apiToken.context";
 import { useAuth0 } from "@auth0/auth0-react";
 import person from "../../assets/person/smilling.png";
 import { useMetadata } from "../../contexts/metadata.context";
+import { useLanguage } from "../../contexts/language.context";
 
 export const Onboarding = ({ ...props }) => {
+  const { languageState, languageDispatch } = useLanguage();
   const navigate = useNavigate();
   const { logout } = useAuth0();
   const { apiTokenState } = useApiToken();
@@ -23,8 +25,15 @@ export const Onboarding = ({ ...props }) => {
   const [zip, setZip] = useState("");
   const [zipError, setZipError] = useState("");
   const [userWouldRentBooks, setUserWouldRentBooks] = useState(false);
-  const selectItems = [{ label: "Ja" }, { label: "Nein" }];
+  const selectItems = [
+    { label: languageState.texts.words.yes },
+    { label: languageState.texts.words.no },
+  ];
   const [onboardingFinished, setOnboardingFinished] = useState(false);
+  const languageItems = [
+    { label: "DE", icon: "🇩🇪" },
+    { label: "EN", icon: "🇬🇧" },
+  ];
 
   const [postMetadataData, setPostMetadataData] = useState(null);
   const [postMetadata, setPostMetadata] = useState(false);
@@ -108,7 +117,7 @@ export const Onboarding = ({ ...props }) => {
   }
 
   function handleRentelSelect(value) {
-    if (value === "Ja") {
+    if (value.toLowerCase() === "ja" || value.toLowerCase() === "yes") {
       setUserWouldRentBooks(true);
     } else {
       setUserWouldRentBooks(false);
@@ -137,6 +146,7 @@ export const Onboarding = ({ ...props }) => {
       zip,
       rental: userWouldRentBooks,
       isOnboarded: true,
+      language: languageState.active,
     });
 
     setPostMetadata(true);
@@ -152,19 +162,42 @@ export const Onboarding = ({ ...props }) => {
     navigate("/home");
   }
 
+  function handleLanguageChange(language) {
+    if (language === "DE") {
+      languageDispatch({ type: "setLanguage", payload: "de-DE" });
+      window.localStorage.setItem("language", "de-DE");
+    } else {
+      languageDispatch({ type: "setLanguage", payload: "en-US" });
+      window.localStorage.setItem("language", "en-US");
+    }
+  }
+
   return (
     <div className="onboarding-view">
       {!onboardingFinished && (
         <>
           <section className="onboarding-view__section">
-            <h1 className="headline">Dein Name</h1>
-            <p>
-              Unter welchem Namen sollen dich die anderen Nutzer und Nutzerinnen
-              sehen 👀 können?
-            </p>
+            <h1 className="headline">{languageState.texts.words.language}</h1>
+            <p>{languageState.texts.onboarding.choose_language}</p>
+            <Select
+              preselected={
+                languageState.active === "de-DE"
+                  ? languageItems[0].label
+                  : languageItems[1].label
+              }
+              items={languageItems}
+              onChange={handleLanguageChange}
+            />
+          </section>
+
+          <section className="onboarding-view__section">
+            <h1 className="headline">
+              {languageState.texts.onboarding.your_name}
+            </h1>
+            <p>{languageState.texts.onboarding.your_name_desc}</p>
             <Input
-              label="Anzeigename"
-              placeholder="Anzeigename"
+              label={languageState.texts.words.nickname}
+              placeholder={languageState.texts.words.nickname}
               value={nickname}
               onChange={handleNicknameChange}
               error={nicknameError}
@@ -174,14 +207,14 @@ export const Onboarding = ({ ...props }) => {
           </section>
 
           <section className="onboarding-view__section">
-            <h1 className="headline">Dein Einzugsgebiet</h1>
-            <p>
-              In welchem Gebiet 🗺 sollen wir für dich nach Büchern suchen 🔎?
-            </p>
+            <h1 className="headline">
+              {languageState.texts.onboarding.your_searcharea}
+            </h1>
+            <p>{languageState.texts.onboarding.your_searcharea_desc}</p>
             <Input
               disabled={postMetadata || postNickname}
-              label="Stadt"
-              placeholder="Stadt"
+              label={languageState.texts.words.city}
+              placeholder={languageState.texts.words.city}
               value={city}
               onChange={handleCityChange}
               error={cityError}
@@ -190,8 +223,8 @@ export const Onboarding = ({ ...props }) => {
 
             <Input
               disabled={postMetadata || postNickname}
-              label="Postleitzahl"
-              placeholder="Postleitzahl"
+              label={languageState.texts.words.zip}
+              placeholder={languageState.texts.words.zip}
               value={zip}
               onChange={handleZipChange}
               error={zipError}
@@ -200,11 +233,10 @@ export const Onboarding = ({ ...props }) => {
           </section>
 
           <section className="onboarding-view__section">
-            <h1 className="headline">Bücher verleihen</h1>
-            <p>
-              Wäre es für dich in Zukunft eine Option einige deiner
-              Lieblingsstücke ♥ zu verleihen?
-            </p>
+            <h1 className="headline">
+              {languageState.texts.onboarding.rent_books}
+            </h1>
+            <p>{languageState.texts.onboarding.rent_books_desc}</p>
             <Select
               disabled={postMetadata || postNickname}
               items={selectItems}
@@ -220,14 +252,14 @@ export const Onboarding = ({ ...props }) => {
               size="xl"
               onClick={handleSaveMetadata}
             >
-              Speichern & Loslegen
+              {languageState.texts.onboarding.save_and_go}
             </Button>
             <Button
               disabled={postMetadata || postNickname}
               variant="secondary"
               onClick={handleCancel}
             >
-              Abbrechen & Ausloggen
+              {languageState.texts.onboarding.cancel_and_logout}
             </Button>
           </section>
         </>
@@ -240,14 +272,12 @@ export const Onboarding = ({ ...props }) => {
             alt="Happy person with a cup"
             className="onboarding-view__person"
           />
-          <h1 className="headline">Super {nickname}!</h1>
-          <p>
-            Alles ist eingerichtet 🎉! Schnapp dir eine Tasse Kaffee ☕, Tee
-            oder dein Lieblingsgetränk deiner Wahl und begib dich auf die Suche
-            🔎 nach deinem nächsten Lieblingsbuch 📖.
-          </p>
+          <h1 className="headline">
+            {languageState.texts.words.nice} {nickname}!
+          </h1>
+          <p>{languageState.texts.onboarding.successfull_onboarded}</p>
           <Button size="xl" onClick={handleFinished}>
-            Loslegen
+            {languageState.texts.words.go}
           </Button>
         </section>
       )}

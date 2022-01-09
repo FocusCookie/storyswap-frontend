@@ -9,6 +9,8 @@ import { Badge } from "../Badge/Badge";
 import { Map } from "../Map/Map";
 import { addDaysToToday } from "../../utils/utils";
 import FallBackCover from "../../assets/book_small.jpg";
+import GERMAN_TEXTS from "../../translations/german";
+import ENGLISH_TEXTS from "../../translations/english";
 
 //TODO: Implement fall back cover if no image is provided with the book
 
@@ -19,13 +21,23 @@ export const Offer = ({
   onContactProvider,
   reserved,
   clean,
+  english,
   ...props
 }) => {
+  const [texts, setTexts] = useState(GERMAN_TEXTS);
   const [showOfferDetails, setShowOfferDetails] = useState(false);
   const [showReservationModal, setShowReservationModal] = useState(false);
   const [daysToReserve, setDaysToReserve] = useState(1);
   const [isReserving, setIsReserving] = useState(false);
   const [isUnreserving, setIsUnreserving] = useState(false);
+
+  useEffect(() => {
+    if (english) {
+      setTexts(ENGLISH_TEXTS);
+    } else {
+      setTexts(GERMAN_TEXTS);
+    }
+  }, [english]);
 
   useEffect(() => {
     if (reserved) {
@@ -96,17 +108,23 @@ export const Offer = ({
       {showReservationModal && !reserved && (
         <Modal>
           <div className="offer__reservation-modal">
-            <h1 className="offer__reservation__title">Reservierung</h1>
-            <Stepper onChange={handleStepper} disabled={isReserving} />
+            <h1 className="offer__reservation__title">
+              {texts.words.reservation}
+            </h1>
+            <Stepper
+              onChange={handleStepper}
+              disabled={isReserving}
+              english={english}
+            />
             <Button onClick={reserveHandler} loading={isReserving}>
-              reservieren
+              {texts.words.reserve}
             </Button>
             <Button
               variant="secondary"
               onClick={toggleReservationModal}
               disabled={isReserving}
             >
-              zurück
+              {texts.words.back}
             </Button>
           </div>
         </Modal>
@@ -119,7 +137,7 @@ export const Offer = ({
         <div className="offer__header">
           <div className="offer__title">{offer.book.title}</div>
           <div className="offer__author">
-            VON {offer.book.authors.join(" & ")}
+            {texts.words.by} {offer.book.authors.join(" & ")}
           </div>
         </div>
 
@@ -144,7 +162,7 @@ export const Offer = ({
 
             {!reserved && (
               <Button size="xl" onClick={toggleReservationModal}>
-                reservieren
+                {texts.words.reserve}
               </Button>
             )}
             {reserved && (
@@ -154,7 +172,7 @@ export const Offer = ({
                 loading={isUnreserving}
                 onClick={unreserveHandler}
               >
-                reservierung stornieren
+                {texts.components.offer.revoke_reservation}
               </Button>
             )}
             <Button
@@ -162,14 +180,14 @@ export const Offer = ({
               onClick={contactProviderHandler}
               disabled={isUnreserving}
             >
-              anbieter kontaktieren
+              {texts.components.offer.contact_provider}
             </Button>
             <Button
               variant="secondary"
               onClick={toggleOfferDetails}
               disabled={isUnreserving}
             >
-              zurück
+              {texts.words.back}
             </Button>
           </div>
         )}
@@ -177,7 +195,7 @@ export const Offer = ({
         {reserved && !showOfferDetails && (
           <div className="offer__reserved-badge">
             <Badge variant="primary" fullwidth>
-              Reserviert
+              {texts.words.reserved}
             </Badge>
           </div>
         )}
@@ -246,6 +264,10 @@ Offer.propTypes = {
    * no shadow, border and background
    */
   clean: PropTypes.bool,
+  /**
+   * enable english texts
+   */
+  english: PropTypes.bool,
 };
 
 Offer.defaultProps = {
@@ -255,4 +277,5 @@ Offer.defaultProps = {
   reserved: false,
   onUnreserve: undefined,
   clean: false,
+  english: false,
 };

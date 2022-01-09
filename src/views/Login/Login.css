@@ -15,6 +15,14 @@
   width: 157px;
 }
 
+.login-view__actions {
+  @apply w-full flex flex-col items-center gap-4;
+}
+
+.login-view__languages {
+  @apply flex flex-row gap-4;
+}
+
 .animation-wink {
   animation: wink 500ms infinite ease-in-out;
 }

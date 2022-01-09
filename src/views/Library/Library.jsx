@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Library.css";
+import { useLanguage } from "../../contexts/language.context";
 import { useMetadata } from "../../contexts/metadata.context";
 import { useNavigate } from "react-router-dom";
 import { useReceiver } from "../../contexts/receiver.context";
@@ -21,14 +22,20 @@ import {
   books as bookApi,
 } from "../../services/api.servise";
 
+//TODO: split the reservation and offered tabs into two seperated views which will be imported here
+
 export const Library = ({ ...props }) => {
+  const { languageState } = useLanguage();
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
   const { receiverDispatch } = useReceiver();
   const navigate = useNavigate();
   const { init } = useParams();
   const [showCreationModal, setShowCreationModal] = useState(false);
-  const selectLabels = [{ label: "reserviert" }, { label: "inseriert" }];
+  const selectLabels = [
+    { label: languageState.texts.library.reserved },
+    { label: languageState.texts.library.offered },
+  ];
   const [selected, setSelected] = useState(selectLabels[0].label);
   const [unreserveOfferId, setUnreserveOfferId] = useState(null);
   const [reservations, setReservations] = useState([]);
@@ -206,7 +213,7 @@ export const Library = ({ ...props }) => {
       (isbn.length > 10 && isbn.length < 13) ||
       isbn.length > 13
     ) {
-      setIsbnError("Die ISBN muss 9,10 oder 13 stellig sein.");
+      setIsbnError(languageState.texts.library.isbn_validation_error);
     } else {
       checkIsbnRequest.mutate(isbn);
     }
@@ -246,19 +253,18 @@ export const Library = ({ ...props }) => {
     <div className="library-view">
       <Select
         items={selectLabels}
-        preselected={selectLabels[0].label}
+        preselected={languageState.texts.library.reserved}
         onChange={handleSelectChange}
       />
-      {selected === "reserviert" && (
+      {selected === languageState.texts.library.reserved && (
         <div className="library-view__reserved">
           {reservations.length === 0 && (
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffee cup" />
-              <p>
-                Du hast aktuell keine Reservierungen. Schau gerne in den
-                Inseraten 🕵️‍♂️, ob du nicht dein neues Lieblingsbuch endeckst!
-              </p>
-              <Button onClick={handleGoToHome}>Zu den Inseraten</Button>
+              <p>{languageState.texts.library.no_reservations}</p>
+              <Button onClick={handleGoToHome}>
+                {languageState.texts.library.button_to_offers}
+              </Button>
             </div>
           )}
 
@@ -271,12 +277,13 @@ export const Library = ({ ...props }) => {
                   reservation={reservation}
                   onUnreserve={handleUnreserveOffer}
                   onPickedUp={handleReservationWasPickedUp}
+                  english={languageState.active === "en-US" ? true : false}
                 />
               ))}
           </div>
         </div>
       )}
-      {selected === "inseriert" && (
+      {selected === languageState.texts.library.offered && (
         <div className="library-view__offers">
           {myOffers.length > 0 && (
             <div className="library-view__offers__myOffers">
@@ -287,6 +294,7 @@ export const Library = ({ ...props }) => {
                   onContactCollector={contactUser}
                   onPickedUp={handleOfferWasPickedUp}
                   onDelete={handleDeleteOffer}
+                  english={languageState.active === "en-US" ? true : false}
                 />
               ))}
             </div>
@@ -295,15 +303,13 @@ export const Library = ({ ...props }) => {
           {myOffers.length === 0 && (
             <div className="library-view__message">
               <img src={calmPerson} alt="Calm person with a coffe cup" />
-              <p>
-                Du hast noch kein Inserat eingestellt. Erstelle eins, um anderen
-                Nutzern und Nutzerinnen die Möglichkeit zu geben ihr neues
-                Lieblingsbuch ❤️ zu finden.
-              </p>
+              <p>{languageState.texts.library.no_offers}</p>
             </div>
           )}
 
-          <Button onClick={handleOpenCreateOffer}>Inserat erstellen</Button>
+          <Button onClick={handleOpenCreateOffer}>
+            {languageState.texts.library.button_create_offer}
+          </Button>
         </div>
       )}
       {showCreationModal && (
@@ -311,17 +317,16 @@ export const Library = ({ ...props }) => {
           <div className="library-view__create-offer-modal">
             {!bookForOffer && !bookWasCreated && (
               <div className="flex flex-col gap-4">
-                <h1 className="headline text-center">Neues Inserat 📚 </h1>
+                <h1 className="headline text-center">
+                  {languageState.texts.library.create_title}
+                </h1>
                 <p className="text-center">
-                  Um ein neues Inserat anzulegen, gib einfach die ISBN oder
-                  ISBN13 des Buches ein. Wir werden anschließend alle
-                  notwendigen Informationen zusammentragen und automatisch 🤖
-                  für dich ergänzen.
+                  {languageState.texts.library.create_message}
                 </p>
                 <Input
                   value={isbn}
                   onChange={handleIsbnChange}
-                  label="ISBN oder ISBN13"
+                  label="ISBN / ISBN13"
                   type="text"
                   disabled={false}
                   error={isbnError}
@@ -331,10 +336,7 @@ export const Library = ({ ...props }) => {
                   <>
                     <p className="animate-bounce text-center text-2xl">👻</p>
                     <p className="text-center text-red-500">
-                      Ups! Leider konnten wir dein Buch nicht in unserer
-                      Datenbank finden. Dies ist meistens der Fall, wenn das
-                      Buch gerade erschienen ist. Probiere es in einigen Tagen
-                      nochmal.
+                      {languageState.texts.library.isbn_check_error}
                     </p>
                   </>
                 )}
@@ -344,7 +346,7 @@ export const Library = ({ ...props }) => {
                   loading={checkIsbnRequest.isLoading}
                   onClick={handleCheckIsbn}
                 >
-                  Überprüfe ISBN
+                  {languageState.texts.library.button_check_isbn}
                 </Button>
               </div>
             )}
@@ -363,15 +365,16 @@ export const Library = ({ ...props }) => {
                 />
 
                 <p className="font-bold text-center">
-                  Angeboten in {metadata.zip}, {metadata.city}
+                  {languageState.texts.library.offered_in} {metadata.zip},{" "}
+                  {metadata.city}
                 </p>
 
                 <Button size="xl" onClick={createOfferHandler}>
-                  erstellen
+                  {languageState.texts.library.create}
                 </Button>
 
                 <Button variant="secondary" onClick={backToIsbnCheckHandler}>
-                  zurück
+                  {languageState.texts.library.back}
                 </Button>
               </div>
             )}
@@ -382,7 +385,7 @@ export const Library = ({ ...props }) => {
                 disabled={checkIsbnRequest.isLoading}
                 onClick={handleCancelOfferCreation}
               >
-                abbrechen
+                {languageState.texts.library.cancel}
               </Button>
             )}
 
@@ -390,11 +393,10 @@ export const Library = ({ ...props }) => {
               <div className="library-view__message">
                 <img src={happyPerson} alt="Happy person with a coffe cup" />
                 <p className="text-center">
-                  Dein Buch 📖 wurde erfolgreich inseriert und ist nun für
-                  andere Nutzer und Nutzerinnen sichtbar 🎉.
+                  {languageState.texts.library.creation_successfull}
                 </p>
                 <Button onClick={handleBackToOffers}>
-                  zurück zu meinen Inseraten
+                  {languageState.texts.library.back_to_offers}
                 </Button>
               </div>
             )}

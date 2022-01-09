@@ -11,8 +11,10 @@ import { Offer } from "../../components/Offer/Offer";
 import { offers as offersApi } from "../../services/api.servise";
 import isSearchingPerson from "../../assets/person/searching.png";
 import isSadPerson from "../../assets/person/sad.png";
+import { useLanguage } from "../../contexts/language.context";
 
 export const Home = ({ ...props }) => {
+  const { languageState } = useLanguage();
   const { apiTokenState } = useApiToken();
   const { metadataState: metadata } = useMetadata();
   const { receiverDispatch } = useReceiver();
@@ -146,7 +148,11 @@ export const Home = ({ ...props }) => {
   return (
     <div className="home-view">
       {initFilterValue && (
-        <Filter onFilter={handleNewFilter} initFilters={initFilterValue} />
+        <Filter
+          onFilter={handleNewFilter}
+          initFilters={initFilterValue}
+          english={languageState.active === "en-US"}
+        />
       )}
 
       {offersRequest.isLoading && offers.length === 0 && (
@@ -155,7 +161,7 @@ export const Home = ({ ...props }) => {
             src={isSearchingPerson}
             alt="Person seraches for offers on a Laptop"
           />
-          <p>Suche nach Inseraten</p>
+          <p>{languageState.texts.home.loading_offer_message}</p>
         </div>
       )}
 
@@ -164,11 +170,10 @@ export const Home = ({ ...props }) => {
         !offersRequest.isLoading && (
           <div className="home-view__loading">
             <img src={isSadPerson} alt="Sad person" />
-            <p>
-              Wir konnten leider keine Inserate finden. Du kannst die Suchfilter
-              ändern, um mehr Angebote zu finden oder erstelle ein Inserat.
-            </p>
-            <Button onClick={handleCreateOffer}>Erstelle ein Inserat</Button>
+            <p>{languageState.texts.home.no_offers_message}</p>
+            <Button onClick={handleCreateOffer}>
+              {languageState.texts.home.create_button_label}
+            </Button>
           </div>
         )}
 
@@ -182,12 +187,13 @@ export const Home = ({ ...props }) => {
             onReserveUntil={handleReserveOffer}
             onUnreserve={handleUnreserveOffer}
             reserved={offer.reserved}
+            english={languageState.active === "en-US" ? true : false}
           />
         ))}
 
       {!offersRequest.isLoading && offers.length > 0 && !hideMore && (
         <Button loading={isLoadingMoreOffers} onClick={handleLoadMoreOffers}>
-          Weitere laden
+          {languageState.texts.home.load_more_button_label}
         </Button>
       )}
     </div>

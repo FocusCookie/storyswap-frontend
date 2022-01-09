@@ -10,8 +10,10 @@ import { Button } from "../../components/Button/Button";
 import { chats as chatApi } from "../../services/api.servise";
 import unhappyPerson from "../../assets/person/unhappy.png";
 import { useReceiver } from "../../contexts/receiver.context";
+import { useLanguage } from "../../contexts/language.context";
 
 export const Messages = ({ ...props }) => {
+  const { languageState } = useLanguage();
   const { user } = useAuth0();
   const { apiTokenState } = useApiToken();
   const [search, setSearch] = useState("");
@@ -53,20 +55,17 @@ export const Messages = ({ ...props }) => {
           value={search}
           onChange={handleSearchInput}
           type="text"
-          placeholder="Suchen"
+          placeholder={languageState.texts.chat.search}
         />
       )}
 
       {!chatsRequest.isLoading && chats.length === 0 && (
         <div className="messages-view__no-chats">
           <img src={unhappyPerson} alt="Unhappy person" />
-          <p>
-            Du hast leider noch niemanden kontaktiert. Schau doch mal in die
-            Inserate, ob du etwas findest was dich interessiert. Reserviere und
-            kontaktiere dann den Anbieter, um dein neus Lieblingsbuch 📖 abholen
-            zu können.
-          </p>
-          <Button onClick={handleGoToOffers}>zu den inseraten</Button>
+          <p>{languageState.texts.chat.no_chats}</p>
+          <Button onClick={handleGoToOffers}>
+            {languageState.texts.chat.button_to_offers}
+          </Button>
         </div>
       )}
 

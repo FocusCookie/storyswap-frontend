@@ -35,3 +35,9 @@ export const Default = Template.bind({});
 Default.args = {
   offer: offer,
 };
+
+export const English = Template.bind({});
+English.args = {
+  offer: offer,
+  english: true,
+};

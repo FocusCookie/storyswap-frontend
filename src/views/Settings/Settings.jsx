@@ -9,9 +9,12 @@ import { Modal } from "../../components/Modal/Modal";
 import sadPerson from "../../assets/person/sad.png";
 import { user as userApi } from "../../services/api.servise";
 import { isValidEmail, deletePageCookies } from "../../utils/utils";
+import { useLanguage } from "../../contexts/language.context";
+import { Select } from "../../components/Select/Select";
 
 export const Settings = ({ ...props }) => {
   const { logout, user } = useAuth0();
+  const { languageState, languageDispatch } = useLanguage();
   const { apiTokenState } = useApiToken();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -29,6 +32,10 @@ export const Settings = ({ ...props }) => {
   const [email, setEmail] = useState(user.email);
   const [emailError, setEmailError] = useState("");
   const [picture, setPicture] = useState(user.picture);
+  const languageItems = [
+    { label: "DE", icon: "🇩🇪" },
+    { label: "EN", icon: "🇬🇧" },
+  ];
 
   const sendPasswordMailRequest = useMutation(() => {
     return userApi.sendPasswordChangeMail(apiTokenState.value);
@@ -44,6 +51,10 @@ export const Settings = ({ ...props }) => {
     },
     { enabled: isDeleting }
   );
+
+  const changeLangaugeRequest = useMutation((language) => {
+    return userApi.setMetadata(apiTokenState.value, { language: language });
+  });
 
   useEffect(() => {
     if (
@@ -125,9 +136,23 @@ export const Settings = ({ ...props }) => {
     setEmail(value);
   }
 
+  function handleLanguageChange(language) {
+    if (language === "DE") {
+      languageDispatch({ type: "setLanguage", payload: "de-DE" });
+      window.localStorage.setItem("language", "de-DE");
+      changeLangaugeRequest.mutate("de-DE");
+    } else {
+      languageDispatch({ type: "setLanguage", payload: "en-US" });
+      window.localStorage.setItem("language", "en-US");
+      changeLangaugeRequest.mutate("en-US");
+    }
+  }
+
   return (
     <div className="settings-view">
-      <h1 className="headline text-center">Einstellungen</h1>
+      <h1 className="headline text-center">
+        {languageState.texts.words.settings}
+      </h1>
 
       <img
         src={user.picture}
@@ -135,22 +160,35 @@ export const Settings = ({ ...props }) => {
         className="settings-view__user__image"
       />
 
+      <Select
+        disabled={
+          changeLangaugeRequest.isLoading || changeLangaugeRequest.isFetching
+        }
+        preselected={
+          languageState.active === "de-DE"
+            ? languageItems[0].label
+            : languageItems[1].label
+        }
+        items={languageItems}
+        onChange={handleLanguageChange}
+      />
+
       <Input
-        label="Name"
+        label={languageState.texts.words.name}
         type="text"
         value={name}
         disabled={!editUser}
         onChange={handleNameChange}
       />
       <Input
-        label="Benutzername"
+        label={languageState.texts.words.nickname}
         type="text"
         value={nickname}
         disabled={!editUser}
         onChange={handleNicknameChange}
       />
       <Input
-        label="e-mail"
+        label={languageState.texts.words.email}
         type="mail"
         value={email}
         disabled={!editUser}
@@ -158,7 +196,7 @@ export const Settings = ({ ...props }) => {
         error={emailError}
       />
       <Input
-        label="Profilbild Link"
+        label={languageState.texts.settings.avatar_url}
         type="text"
         value={picture}
         disabled={!editUser}
@@ -166,13 +204,13 @@ export const Settings = ({ ...props }) => {
       />
 
       <Button size="lg" onClick={handleLogout}>
-        ausloggen
+        {languageState.texts.words.logout}
       </Button>
 
       {editUser && (
         <>
           <p className="text-xs text-medium-900 text-center">
-            Profilbilder werden erst nach einer erneuten Anmeldung angezeigt.
+            {languageState.texts.settings.avatar_hint}
           </p>
           <Button
             size="lg"
@@ -182,7 +220,7 @@ export const Settings = ({ ...props }) => {
               updateUserRequest.isLoading || updateUserRequest.isFetching
             }
           >
-            speichern
+            {languageState.texts.words.save}
           </Button>
           <Button
             size="lg"
@@ -192,14 +230,14 @@ export const Settings = ({ ...props }) => {
               updateUserRequest.isLoading || updateUserRequest.isFetching
             }
           >
-            abbruch
+            {languageState.texts.words.cancel}
           </Button>
         </>
       )}
 
       {!editUser && (
         <Button size="lg" variant="secondary" onClick={handleEditUser}>
-          Profil editieren
+          {languageState.texts.settings.edit_profile}
         </Button>
       )}
 
@@ -209,28 +247,27 @@ export const Settings = ({ ...props }) => {
         onClick={handlePassword}
         loading={isSendingPasswordMail}
       >
-        passwort ändern
+        {languageState.texts.settings.change_password}
       </Button>
 
       {passwordMailIsSent && !isSendingPasswordMail && (
         <p className="text-center">
-          Du hast eine e-Mail erhalten, mit der du dein Passwort ändern kannst.
+          {languageState.texts.settings.change_password_desc}
         </p>
       )}
 
       <Button size="xs" variant="text" onClick={toggleDeleteModal}>
-        Account löschen
+        {languageState.texts.settings.delete_account}
       </Button>
 
       {showDeleteModal && (
         <Modal>
           <div className="settings-view__delte-modal ">
-            <h1 className="headline">Konto löschen</h1>
+            <h1 className="headline">
+              {languageState.texts.settings.delete_account}
+            </h1>
             <img src={sadPerson} alt="Sad Person" />
-            <p>
-              😳 Oh nein! Schade, dass du uns verlassen möchtest. Bist du dir
-              sicher, dass du dein Konto löschen möchtest?
-            </p>
+            <p>{languageState.texts.settings.delete_account_desc}</p>
 
             <div className="py-4">
               <Button
@@ -239,12 +276,12 @@ export const Settings = ({ ...props }) => {
                 variant="text"
                 onClick={handleDeleteAccount}
               >
-                Ja, mein Konto löschen
+                {languageState.texts.settings.yes_delete_account}
               </Button>
             </div>
 
             <Button disabled={isDeleting} size="xl" onClick={toggleDeleteModal}>
-              abbrechen
+              {languageState.texts.words.cancel}
             </Button>
           </div>
         </Modal>

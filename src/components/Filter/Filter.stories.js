@@ -14,3 +14,8 @@ export const InitializedFilters = Template.bind({});
 InitializedFilters.args = {
   initFilters: { city: "Berlin", zip: "10409" },
 };
+
+export const English = Template.bind({});
+English.args = {
+  english: true,
+};

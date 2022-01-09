@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./OfferCard.css";
 import { BookCard } from "../BookCard/BookCard";
@@ -7,12 +7,15 @@ import { Button } from "../Button/Button";
 import { Badge } from "../Badge/Badge";
 import { User } from "../User/User";
 import FallBackCover from "../../assets/book_small.jpg";
+import GERMAN_TEXTS from "../../translations/german";
+import ENGLISH_TEXTS from "../../translations/english";
 
 export const OfferCard = ({
   offer,
   onContactCollector,
   onDelete,
   onPickedUp,
+  english,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isPickingUp, setIsPickingUp] = useState(false);
@@ -25,6 +28,16 @@ export const OfferCard = ({
     timeDifferenceBetweenTodayAndUntil / (1000 * 60 * 60 * 24)
   );
 
+  const [texts, setTexts] = useState(GERMAN_TEXTS);
+
+  useEffect(() => {
+    if (english) {
+      setTexts(ENGLISH_TEXTS);
+    } else {
+      setTexts(GERMAN_TEXTS);
+    }
+  }, [english]);
+
   function toggleDetails() {
     setShowDetails((lastState) => !lastState);
   }
@@ -34,9 +47,13 @@ export const OfferCard = ({
     return "accent";
   }
   function labelFromOfferState(state) {
-    if (state === "pending") return "offen";
-    if (state === "pickedup") return "abgeholt";
-    return "reserviert";
+    if (english) {
+      return state;
+    } else {
+      if (state === "pending") return "offen";
+      if (state === "pickedup") return "abgeholt";
+      return "reserviert";
+    }
   }
   function contactCollectorHandler() {
     onContactCollector(offer.reservation.collector);
@@ -69,12 +86,12 @@ export const OfferCard = ({
             </div>
             <div>
               <p className="offer-card__zip-city">
-                Abzuholen in {offer.zip} {offer.city}
+                {texts.components.offer_card.pickup_at} {offer.zip} {offer.city}
               </p>
             </div>
 
             <Button variant="text" onClick={handleDelete} loading={isDeleting}>
-              Inserat löschen
+              {texts.components.offer_card.delete_offer}
             </Button>
 
             {offer?.reservation && offer.state === "reserved" && (
@@ -83,7 +100,9 @@ export const OfferCard = ({
                 <User user={offer.reservation.collector} />
                 <Badge fullwidth>
                   {`${daysLeftOfReservation} ${
-                    daysLeftOfReservation > 1 ? "Tage" : "Tag"
+                    daysLeftOfReservation > 1
+                      ? texts.words.days
+                      : texts.words.day
                   } ${labelFromOfferState(offer.state)} `}
                 </Badge>
                 <Button
@@ -91,22 +110,27 @@ export const OfferCard = ({
                   variant="secondary"
                   onClick={contactCollectorHandler}
                 >
-                  {offer.reservation.collector.nickname} kontaktieren
+                  {english
+                    ? `${texts.words.contact_verb} ${offer.reservation.collector.nickname}`
+                    : `${offer.reservation.collector.nickname} ${texts.words.contact_verb}`}
                 </Button>
                 <div className="offer-card__divider"></div>
               </>
             )}
             {offer?.reservation && (
-              <Button loading={isPickingUp} onClick={bookWasPickedupHandler}>
-                Buch wurde abgeholt
+              <Button
+                variant="white"
+                loading={isPickingUp}
+                onClick={bookWasPickedupHandler}
+              >
+                {texts.components.offer_card.book_was_pickedup}
               </Button>
             )}
             <Button
               disabled={isPickingUp || isDeleting}
-              variant="secondary"
               onClick={toggleDetails}
             >
-              schließen
+              {texts.words.close}
             </Button>
           </div>
         </Modal>
@@ -164,9 +188,14 @@ OfferCard.propTypes = {
    * click handler when the offer is deleted
    */
   onDelete: PropTypes.func,
+  /**
+   * enable english texts
+   */
+  english: PropTypes.bool,
 };
 OfferCard.defaultProps = {
   onContactCollector: undefined,
   onPickedUp: undefined,
   onDelete: undefined,
+  english: false,
 };

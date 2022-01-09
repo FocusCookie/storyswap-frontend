@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { MetadataProvider } from "./contexts/metadata.context";
 import { ReceiverProvider } from "./contexts/receiver.context";
 import { ApiTokenProvider } from "./contexts/apiToken.context";
+import { LanguageProvider } from "./contexts/language.context";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
@@ -24,11 +25,13 @@ ReactDOM.render(
       <ApiTokenProvider>
         <QueryClientProvider client={queryClient}>
           <MetadataProvider>
-            <ReceiverProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </ReceiverProvider>
+            <LanguageProvider>
+              <ReceiverProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </ReceiverProvider>
+            </LanguageProvider>
           </MetadataProvider>
         </QueryClientProvider>
       </ApiTokenProvider>
